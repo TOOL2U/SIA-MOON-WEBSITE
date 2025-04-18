@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Arioso';
+  src: url('/fonts/Arioso Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ela Sans';
+  src: url('/fonts/Ela Sans Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Additional weights of Ela Sans would need their respective font files */

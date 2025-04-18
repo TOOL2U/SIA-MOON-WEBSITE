@@ -1,0 +1,66 @@
+/* css-side-effects-plugin-ns:app/tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "Arioso";
+  src: url(/fonts/Arioso.woff2) format("woff2"), url(/fonts/Arioso.woff) format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ela Sans";
+  src: url(/fonts/ElaSans-Regular.woff2) format("woff2"), url(/fonts/ElaSans-Regular.woff) format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ela Sans";
+  src: url(/fonts/ElaSans-Bold.woff2) format("woff2"), url(/fonts/ElaSans-Bold.woff) format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+html,
+body {
+  @apply bg-off-white text-custom-black font-elaSans;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-arioso;
+}
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+.slick-dots li button:before {
+  @apply text-deep-green opacity-50;
+}
+.slick-dots li.slick-active button:before {
+  @apply text-deep-green opacity-100;
+}
+.react-datepicker {
+  @apply font-elaSans border-deep-green;
+}
+.react-datepicker__header {
+  @apply bg-deep-green text-off-white;
+}
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+  @apply text-off-white;
+}
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+  @apply bg-deep-green text-off-white;
+}
+.react-datepicker__day:hover {
+  @apply bg-terracotta text-off-white;
+}
+/*# sourceMappingURL=/build/root-TOI4F43L.css.map */
