@@ -7,6 +7,11 @@ import Hero from "~/components/Hero";
 import PropertyCard from "~/components/PropertyCard";
 import { getProperties } from "~/models/property";
 
+export const fonts = {
+  elaSans: "/fonts/Ela Sans Regular.ttf",
+  arioso: "/fonts/Arioso Regular.ttf"
+};
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Luxury Estates - Exceptional Vacation Rentals" },
@@ -303,6 +308,67 @@ export default function Index() {
           </div>
         </div>
         </section>
+       
+          {/* Four-container Section */}
+      <section className="py-0 mx-auto bg-deep-green">
+        <div className="flex flex-wrap w-[2500px] h-[2500px] mx-auto">
+     {/* 1 container - Image */}
+     <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden"
+               data-aos="fade-left"
+               data-aos-duration="1000">
+            <img 
+              src="https://i.imgur.com/2wf7eDP.jpeg" 
+              alt="Luxury Villa Exterior" 
+              className="w-full h-full object-cover transition duration-300 transform brightness-80 hover:brightness-110 hover:scale-105"></img>
+          
+            <p className="text-2xl text-off-custom-black mb-100 z-50"
+               data-aos="fade-left"
+               data-aos-delay="600"
+               data-aos-anchor-placement="top-bottom">
+              From private chefs and spa treatments to exclusive excursions and personal guides, we transform ordinary vacations into extraordinary journeys.
+            </p>
+         
+          </Link>
+          
+          {/* 2 container - Image */}
+          <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden"
+               data-aos="fade-left"
+               data-aos-duration="1000">
+            <img 
+              src="https://i.imgur.com/Rbk9Y2P.jpeg" 
+              alt="Luxury Villa Exterior" 
+              className="w-full h-full object-cover transition duration-300 transform brightness-80 hover:brightness-110 hover:scale-105"
+            />
+         
+          </Link>
+          
+          {/* 3 container - Image */}
+          <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden "
+               data-aos="fade-right"
+               data-aos-duration="1000">
+            <img 
+              src="https://i.imgur.com/0r9AezF.jpeg" 
+              alt="Oceanfront Property View" 
+              className="w-full h-full object-cover transition duration-300 transform brightness-80 hover:brightness-110 hover:scale-105"
+            />
+          </Link>
+          
+          {/* 4 container - Image */}
+          <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden"
+               data-aos="fade-left"
+               data-aos-duration="1000">
+            <img 
+              src="https://i.imgur.com/TzrqOm8.png" 
+              alt="Luxury Villa Exterior" 
+              className="w-full h-full object-cover transition duration-300 transform brightness-80 hover:brightness-110 hover:scale-105"
+            />
+         
+          </Link>
+          
+  
+          </div>
+         </section>
+  
       {/* Testimonials */}
       <section className="py-16 bg-deep-green text-white">
         <div className="container mx-auto px-4">

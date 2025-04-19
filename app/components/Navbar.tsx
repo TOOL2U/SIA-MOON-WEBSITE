@@ -3,6 +3,11 @@ import { Link } from "@remix-run/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import clsx from "clsx";
 
+export const fonts = {
+  elaSans: "/fonts/Ela Sans Regular.ttf",
+  arioso: "/fonts/Arioso Regular.ttf"
+};
+export const logo = "/images/1.png";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);

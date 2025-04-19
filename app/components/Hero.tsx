@@ -1,5 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 
+export const fonts = {
+  elaSans: "/fonts/Ela Sans Regular.ttf",
+  arioso: "/fonts/Arioso Regular.ttf"
+};
+export const heroImageWebp = "/images/IMG_8545 (1).webp";
 export default function Hero() {
   const [animationState, setAnimationState] = useState({
     imageLoaded: false,
@@ -36,8 +41,8 @@ export default function Hero() {
       <div className="relative w-[2500px] h-full mt-[-80px]">
         <img 
           ref={imageRef}
-          src="public/images/IMG_8545 (1).webp" 
-          alt="Glowing image" 
+          src="https://i.ibb.co/kVLh9RYc/IMG-8545-1.webp" 
+          alt="Hero background" 
           loading="lazy"
           className={`w-full h-full object-cover transition-transform duration-3000 ease-out border-2 border-off-white ${
             animationState.imageLoaded ? 'scale-100' : 'scale-75'
