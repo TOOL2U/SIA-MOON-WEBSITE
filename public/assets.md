@@ -1,8 +1,7 @@
 ### Fonts
-- Ela Sans Regular: used for all body text
-- Arioso Regular: used for all headings
+- Arioso Regular (Headings): https://cdn.example.com/Arioso.woff2
+- Ela Sans (Body): https://cdn.example.com/ElaSans.woff2
 
 ### Images
-- IMG_8545.webp: hero background image for homepage
-- IMG_8545.png: fallback hero image
-- 1.png: company logo
+- Logo: https://i.imgur.com/abc123.png
+- Hero: https://i.imgur.com/xyz987.webp

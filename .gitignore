@@ -1,5 +1,34 @@
-node_modules
+# Node modules
+node_modules/
+
+# Build output
 build/
 public/build/
 .cache/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS-specific
 .DS_Store
+Thumbs.db
+
+# Editor config
+.vscode/
+.idea/
+
+# ESLint config (optional — ignore if not shared)
+.eslintrc.*
+.prettierrc.*
+.stylelintrc.*
+
+# Env variables
+.env
+.env.*
+
+# Misc
+*.local
+*.log
