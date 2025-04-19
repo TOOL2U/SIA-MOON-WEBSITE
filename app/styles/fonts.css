@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Arioso';
-  src: url('/fonts/Arioso Regular.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/TOOL2U/SIA-MOON-WEBSITE/main/public/fonts/woff2/Arioso-Regular.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -8,10 +8,8 @@
 
 @font-face {
   font-family: 'Ela Sans';
-  src: url('/fonts/Ela Sans Regular.ttf') format('truetype');
-  font-weight: 400;
+  src: url('https://raw.githubusercontent.com/TOOL2U/SIA-MOON-WEBSITE/main/public/fonts/woff2/ElaSans-Regular.woff2') format('woff2');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
-
-/* Additional weights of Ela Sans would need their respective font files */
