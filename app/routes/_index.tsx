@@ -74,7 +74,7 @@ export default function Index() {
             // Remove previous animation classes
             el.classList.remove('animation-complete');
             // Force a reflow to restart the animation
-            void el.offsetWidth; // Trigger reflow
+            void (el as HTMLElement).offsetWidth; // Trigger reflow
             // Add animation classes with current direction info
             el.setAttribute('data-scroll-direction', scrollDirection || 'down');
           });

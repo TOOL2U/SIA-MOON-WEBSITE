@@ -1,12 +1,12 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        arioso: ["Arioso", "serif"],
-        elaSans: ["Ela Sans", "ui-sans-serif", "system-ui", "sans-serif"],
+        'ela-sans': ['"Ela Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'arioso': ['"Arioso"', 'serif'],
       },
       colors: {
         'deep-green': '#5B6E5F',
@@ -63,5 +63,6 @@ export default {
     },
   },
   plugins: [],
-} satisfies Config;
+};
 
+export default config;

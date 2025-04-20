@@ -40,14 +40,14 @@ export default function Navbar() {
             className={`flex flex-col gap-1.5 p-2 focus:outline-none transition-opacity duration-3000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
             aria-label="Toggle dropdown menu"
           >
-            <span className="w-10 h-[3px] bg-white"></span>
+            <span className="w-10 h-[3px] hover:animate-bounce bg-white"></span>
             <span className="w-10 h-[3px] bg-white"></span>
             <span className="w-10 h-[3px] bg-white"></span>
           </button>
           
           {/* Dropdown menu */}
           {isDropdownOpen && (
-            <div className="mt-2 w-48 bg-white shadow-xl rounded-md p-6">
+            <div className="mt-2 w-48 shadow-xl rounded-md p-6">
               <ul className="flex flex-col text-lg gap-6 text-black">
                 <li><Link to="/" onClick={toggleDropdown}>Home</Link></li>
                 <li><Link to="/properties" onClick={toggleDropdown}>Properties</Link></li>
@@ -135,7 +135,7 @@ function NavLink({
       }}
     >
       {children}
-      <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-terracotta transition-all duration-300 group-hover:w-full"></span>
+      <span className="absolute left-0 bottom-3 w-0 h-0.5 bg-terracotta transition-all duration-300 group-hover:w-full"></span>
     </Link>
   );
 }
