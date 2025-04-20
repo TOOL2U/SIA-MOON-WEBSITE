@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Fonts */
 @font-face {
   font-family: 'Arioso';
   src: url('/fonts/woff2/Arioso Regular.woff2') format('woff2'),
@@ -22,30 +23,37 @@
 
 @font-face {
   font-family: 'Ela Sans';
-  src: url('/fonts/ElaSans-Bold.woff2') format('woff2'),
-       url('/fonts/ElaSans-Bold.woff') format('woff');
+  src: url('/fonts/woff2/ElaSans Bold.woff2') format('woff2'),
+       url('/fonts/ElaSans Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 
+/* Custom Font Utilities */
 @layer utilities {
   .font-elaSans {
     font-family: 'Ela Sans', ui-sans-serif, system-ui, sans-serif;
   }
+  .font-arioso {
+    font-family: 'Arioso', serif;
+  }
 }
 
-html,
-body {
-  @apply bg-off-white text-custom-black font-elaSans;
-}
+/* Base Styles */
+@layer base {
+  html,
+  body {
+    @apply bg-off-white text-custom-black font-elaSans;
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  @apply font-arioso;
-}
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-arioso;
+  }
 
-.container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
 }
 
 /* Slick carousel custom styles */
