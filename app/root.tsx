@@ -25,6 +25,10 @@ export const links: LinksFunction = () => [
   },
   {
     rel: "stylesheet",
+    href: "https://db.onlinewebfonts.com/c/d414e85093c9a428dbde5f2b4c39f187?family=Berling+Nova+Sans+W04+Regular",
+  },
+  {
+    rel: "stylesheet",
     href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css",
   },
   {

@@ -21,7 +21,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const properties = getProperties();
-  
+
   // Refs for sections that will be animated on scroll
   const topSectionRef = useRef<HTMLDivElement>(null);
   const firstContainerRef = useRef<HTMLDivElement>(null);
@@ -30,45 +30,45 @@ export default function Index() {
   const fourthContainerRef = useRef<HTMLDivElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  
+
   // Track scroll direction
   const [lastScrollY, setLastScrollY] = useState(0);
   const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | null>(null);
-  
+
   useEffect(() => {
     // Function to handle scroll events
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       if (currentScrollY > lastScrollY) {
         setScrollDirection('down');
       } else if (currentScrollY < lastScrollY) {
         setScrollDirection('up');
       }
-      
+
       setLastScrollY(currentScrollY);
     };
-    
+
     // Attach scroll event listener
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     // Intersection Observer configuration
     const options = {
       root: null, // using the viewport
       rootMargin: '0px',
       threshold: 0.1 // trigger when 10% of the element is visible
     };
-    
+
     // Callback function when elements intersect viewport
     const handleIntersect = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
       entries.forEach(entry => {
         // Get all elements with data-animation attributes inside the target
         const animatedElements = entry.target.querySelectorAll('[data-animation]');
-        
+
         if (entry.isIntersecting) {
           // Add animation class to the container
           entry.target.classList.add('animate-in');
-          
+
           // Reset animation state for all animated elements
           animatedElements.forEach(el => {
             // Remove previous animation classes
@@ -81,7 +81,7 @@ export default function Index() {
         } else {
           // When element leaves viewport, prepare it for the next animation
           entry.target.classList.remove('animate-in');
-          
+
           // Mark animations as complete but ready for next scroll
           animatedElements.forEach(el => {
             el.classList.add('animation-complete');
@@ -89,25 +89,25 @@ export default function Index() {
         }
       });
     };
-    
+
     // Create observer
     const observer = new IntersectionObserver(handleIntersect, options);
-    
+
     // Observe all section refs
     const elements = [
       topSectionRef.current,
-      firstContainerRef.current, 
+      firstContainerRef.current,
       secondContainerRef.current,
       thirdContainerRef.current,
       fourthContainerRef.current,
       testimonialsRef.current,
       ctaRef.current
     ];
-    
+
     elements.forEach(el => {
       if (el) observer.observe(el);
     });
-    
+
     // Cleanup observer and scroll event on component unmount
     return () => {
       elements.forEach(el => {
@@ -124,9 +124,9 @@ export default function Index() {
       <section className="py-0 bg-deep-green mt-[-80px]">
       <div className="flex flex-wrap items-center justify-center w-[2500px] h-[1500px] mx-auto bg-off-white overflow-hidden">
       <div className="flex flex-col items-center gap-8 relative top-[-90px]">
-      <img 
-          src="https://i.imgur.com/fabpVdt.png" 
-          alt="Luxury Estate Villa Paradiso" 
+      <img
+          src="https://i.imgur.com/fabpVdt.png"
+          alt="Luxury Estate Villa Paradiso"
           className="w-[200px]"
           data-aos="fade-down"
           data-aos-delay="100"
@@ -141,9 +141,9 @@ export default function Index() {
              data-aos-delay="500">
           Sia Moon is a serene brand rooted in traditional Thai elegance, blending heritage, nature, and feminine energy into a sanctuary of calm. Inspired by slow living and the cycles of the moon, it honors family, memory, and wellness through hand-built spaces that nurture connection and reflection. With a deep respect for Thai wood architecture and a name born from legacy, Sia Moon is a sacred place — a heritage sanctuary under the moonlight.
             </p>
-            <a 
-        href="https://www.instagram.com/" 
-        target="_blank" 
+            <a
+        href="https://www.instagram.com/"
+        target="_blank"
         rel="noopener noreferrer"
         className="min-w-[20] px-10 py-3 flex items-centre justify-center text-xl bg-black border 2 hover:text-custom-black border-custom-black text-white rounded-lg hover:bg-off-white transition "
         data-aos="fade-up"
@@ -159,7 +159,7 @@ export default function Index() {
       <section className="py-0 mx-auto bg-deep-green">
         <div className="flex flex-wrap w-[2500px] h-[3200px] mx-auto">
           {/* First container - Text */}
-          <div className="w-1/2 h-1/2 bg-[#FFA07A] p-16 flex flex-col justify-center items-start" 
+          <div className="w-1/2 h-1/2 bg-[#FFA07A] p-16 flex flex-col justify-center items-start"
                data-aos="fade-right"
                data-aos-duration="1000">
            <h2 className="text-7xl font-arioso text-custom-black mb-8"
@@ -185,45 +185,45 @@ export default function Index() {
        data-aos="fade-right"
        data-aos-delay="800"
        data-aos-anchor-placement="left to right">
-    <Link 
+    <Link
       to="/contact"
       className="inline-flex items-center gap-2 bg-deep-green text-off-white hover:bg-terracotta border-2 border-deep-green hover:text-custom-black font-medium px-8 py-4 rounded-md transition-colors duration-300 text-xl"
     >
-      Contact Us
+      Enquire Now
     </Link>
-    
-    <Link 
-      to="/properties"
+
+    <Link
+      to="/properties/villa-paradiso"
       className="inline-flex items-center gap-2 bg-deep-green text-off-white border-2 border-deep-green hover:bg-terracotta hover:text-custom-black font-medium px-8 py-4 rounded-md transition-colors duration-300 text-xl"
     >
       Explore Our Collection
     </Link>
   </div>
           </div>
-          
+
           {/* Second container - Image */}
           <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden"
                data-aos="fade-left"
                data-aos-duration="1000">
-            <img 
-              src="https://i.imgur.com/fTdUmnD.jpeg" 
-              alt="Luxury Villa Exterior" 
+            <img
+              src="https://i.imgur.com/fTdUmnD.jpeg"
+              alt="Luxury Villa Exterior"
               className="w-full h-full object-cover transition duration-300 transform brightness-100 hover:brightness-110 hover:scale-105"
             />
-         
+
           </Link>
-          
+
           {/* Third container - Image */}
           <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden "
                data-aos="fade-right"
                data-aos-duration="1000">
-            <img 
-              src="https://i.imgur.com/c5bs0s2.jpeg" 
-              alt="Oceanfront Property View" 
+            <img
+              src="https://i.imgur.com/c5bs0s2.jpeg"
+              alt="Oceanfront Property View"
               className="w-full h-full object-cover transition duration-300 transform brightness-100 hover:brightness-110 hover:scale-105"
             />
           </Link>
-          
+
           {/* Fourth container - Text */}
           <div className="w-1/2 h-1/2 bg-terracotta p-16 flex flex-col justify-center items-start"
                data-aos="fade-left"
@@ -251,21 +251,20 @@ export default function Index() {
        data-aos="top-bottom"
        data-aos-delay="800"
        data-aos-anchor-placement="left-right">
-    <Link 
+    <Link
       to="/contact"
       className="inline-flex items-center gap-2 bg-deep-green text-off-white hover:bg-terracotta border-2 border-deep-green hover:text-custom-black font-medium px-8 py-4 rounded-md transition-colors duration-300 text-xl"
     >
-      Contact Us
+      Enquire Now
     </Link>
-    
-    <Link 
-      to="/properties"
+
+    <Link
+      to="/properties/villa-paradiso"
       className="inline-flex items-center gap-2 bg-deep-green text-off-white border-2 border-deep-green hover:bg-terracotta hover:text-custom-black font-medium px-8 py-4 rounded-md transition-colors duration-300 text-xl"
     >
       Explore Our Collection
- 
     </Link>
-  </div> 
+  </div>
           </div>
         </div>
       </section>
@@ -273,9 +272,9 @@ export default function Index() {
        <section className="py-0 bg-deep-green">
       <div className="flex flex-wrap items-center justify-cente w-[2500px] h-[1000px] mx-auto bg-off-white overflow-hidden">
       <div className="flex flex-col items-center gap-8 relative top-[-90px]" >
-      <img 
-          src="https://i.imgur.com/PQOqGPw.jpeg" 
-          alt="Luxury Estate Villa Paradiso" 
+      <img
+          src="https://i.imgur.com/PQOqGPw.jpeg"
+          alt="Luxury Estate Villa Paradiso"
           className="w-[2500px] h-[1500px] object-cover transition duration-300 transform brightness-50 hover:brightness-100 mt-[-150px] flex flex-wrap items-center justify-cente"
           data-aos="fade-down"
           data-aos-delay="100"
@@ -287,9 +286,9 @@ export default function Index() {
 <section className="py-0 bg-deep-green">
       <div className="flex flex-wrap items-center justify-center w-[2500px] h-[1500px] mx-auto bg-off-white overflow-hidden">
       <div className="flex flex-col items-center gap-8 relative top-[-90px]">
-      <img 
-          src="https://i.imgur.com/PLsqx6Q.png" 
-          alt="Luxury Estate Villa Paradiso" 
+      <img
+          src="https://i.imgur.com/PLsqx6Q.png"
+          alt="Luxury Estate Villa Paradiso"
           className="w-[200px]"
           data-aos="fade-down"
           data-aos-delay="100"
@@ -304,71 +303,71 @@ export default function Index() {
              data-aos-delay="500">
           At the heart of our philosophy is a commitment to holistic wellness and sustainable living. We believe true luxury is found in harmony — with nature, with self, and with community. Through mindful design, natural materials, and eco-conscious practices, we create spaces that nurture well-being while honoring and preserving the beauty of the environment.
             </p>
-       
+
           </div>
         </div>
         </section>
-       
+
           {/* Four-container Section */}
       <section className="py-0 mx-auto bg-deep-green">
         <div className="flex flex-wrap w-[2500px] h-[2500px] mx-auto">
      {/* 1 container - Image */}
-     <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden"
+     <Link to="/properties/villa-paradiso" className="w-1/2 h-1/2 overflow-hidden"
                data-aos="fade-left"
                data-aos-duration="1000">
-            <img 
-              src="https://i.imgur.com/2wf7eDP.jpeg" 
-              alt="Luxury Villa Exterior" 
+            <img
+              src="https://i.imgur.com/2wf7eDP.jpeg"
+              alt="Luxury Villa Exterior"
               className="w-full h-full object-cover transition duration-300 transform brightness-80 hover:brightness-110 hover:scale-105"></img>
-          
+
             <p className="text-2xl text-off-custom-black mb-100 z-50"
                data-aos="fade-left"
                data-aos-delay="600"
                data-aos-anchor-placement="top-bottom">
               From private chefs and spa treatments to exclusive excursions and personal guides, we transform ordinary vacations into extraordinary journeys.
             </p>
-         
+
           </Link>
-          
+
           {/* 2 container - Image */}
-          <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden"
+          <Link to="/properties/villa-paradiso" className="w-1/2 h-1/2 overflow-hidden"
                data-aos="fade-left"
                data-aos-duration="1000">
-            <img 
-              src="https://i.imgur.com/Rbk9Y2P.jpeg" 
-              alt="Luxury Villa Exterior" 
+            <img
+              src="https://i.imgur.com/Rbk9Y2P.jpeg"
+              alt="Luxury Villa Exterior"
               className="w-full h-full object-cover transition duration-300 transform brightness-80 hover:brightness-110 hover:scale-105"
             />
-         
+
           </Link>
-          
+
           {/* 3 container - Image */}
-          <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden "
+          <Link to="/properties/villa-paradiso" className="w-1/2 h-1/2 overflow-hidden "
                data-aos="fade-right"
                data-aos-duration="1000">
-            <img 
-              src="https://i.imgur.com/0r9AezF.jpeg" 
-              alt="Oceanfront Property View" 
+            <img
+              src="https://i.imgur.com/0r9AezF.jpeg"
+              alt="Oceanfront Property View"
               className="w-full h-full object-cover transition duration-300 transform brightness-80 hover:brightness-110 hover:scale-105"
             />
           </Link>
-          
+
           {/* 4 container - Image */}
-          <Link to="/contact" className="w-1/2 h-1/2 overflow-hidden"
+          <Link to="/properties/villa-paradiso" className="w-1/2 h-1/2 overflow-hidden"
                data-aos="fade-left"
                data-aos-duration="1000">
-            <img 
-              src="https://i.imgur.com/TzrqOm8.png" 
-              alt="Luxury Villa Exterior" 
+            <img
+              src="https://i.imgur.com/TzrqOm8.png"
+              alt="Luxury Villa Exterior"
               className="w-full h-full object-cover transition duration-300 transform brightness-80 hover:brightness-110 hover:scale-105"
             />
-         
+
           </Link>
-          
-  
+
+
           </div>
          </section>
-  
+
       {/* Testimonials */}
       <section className="py-16 bg-deep-green text-white">
         <div className="container mx-auto px-4">
@@ -380,7 +379,7 @@ export default function Index() {
               Hear from guests who have experienced the exceptional service and luxury of our properties
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm"
                  data-aos="fade-up"
@@ -401,7 +400,7 @@ export default function Index() {
                 <p className="text-sm text-off-white/70">New York, NY</p>
               </div>
             </div>
-            
+
             <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm"
                  data-aos="fade-up"
                  data-aos-delay="300"
@@ -421,7 +420,7 @@ export default function Index() {
                 <p className="text-sm text-off-white/70">Chicago, IL</p>
               </div>
             </div>
-            
+
             <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm"
                  data-aos="fade-up"
                  data-aos-delay="500"
@@ -444,7 +443,7 @@ export default function Index() {
           </div>
         </div>
       </section>
-      
+
       {/* CTA Section */}
       <section className="py-16 bg-off-white">
         <div className="container mx-auto px-4">
@@ -455,8 +454,8 @@ export default function Index() {
             <p className="max-w-3xl mx-auto mb-8 text-black">
               Book your dream vacation today and discover why our guests return year after year
             </p>
-            <Link 
-              to="/properties"
+            <Link
+              to="/properties/villa-paradiso"
               className="inline-block bg-white text-[1.1rem] text-deep-green hover:bg-terracotta hover:text-black hover:border-white border-2 font-medium px-10 py-3 rounded-md transition-colors duration-300"
             >
               Browse Properties

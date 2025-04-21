@@ -9,7 +9,7 @@ export const meta: MetaFunction = () => {
 
 export default function About() {
   return (
-    <div className="bg-off-white py-16">
+    <div className="bg-off-white py-[100px]">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-arioso text-deep-green mb-8 text-center">About Luxury Estates</h1>

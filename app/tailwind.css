@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 /* Custom Fonts */
+@import url("https://db.onlinewebfonts.com/c/d414e85093c9a428dbde5f2b4c39f187?family=Berling+Nova+Sans+W04+Regular");
+
 @font-face {
   font-family: 'Arioso';
   src: url('/fonts/woff2/Arioso Regular.woff2') format('woff2'),
@@ -38,13 +40,16 @@
   .font-arioso {
     font-family: 'Arioso', serif;
   }
+  .font-berling-nova {
+    font-family: 'Berling Nova Sans W04 Regular', ui-sans-serif, system-ui, sans-serif;
+  }
 }
 
 /* Base Styles */
 @layer base {
   html,
   body {
-    @apply bg-off-white text-custom-black font-elaSans;
+    @apply bg-deep-green text-custom-black font-elaSans;
   }
 
   h1, h2, h3, h4, h5, h6 {

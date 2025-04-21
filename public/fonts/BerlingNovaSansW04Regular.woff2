@@ -1,0 +1,26 @@
+/*
+      www.OnlineWebFonts.Com 
+      You must credit the author Copy this link on your web 
+      <div>Font made from <a href="http://www.onlinewebfonts.com/fonts">Web Fonts</a>is licensed by CC BY 4.0</div>
+      OR
+      <a href="http://www.onlinewebfonts.com/fonts">Web Fonts</a>
+
+      CSS rules to specify fonts
+
+      font-family: "Berling Nova Sans W04 Regular";;
+
+*/
+
+@font-face{
+    font-family: "Berling Nova Sans W04 Regular";
+    src: url("https://db.onlinewebfonts.com/t/d414e85093c9a428dbde5f2b4c39f187.eot");
+    src: url("https://db.onlinewebfonts.com/t/d414e85093c9a428dbde5f2b4c39f187.eot?#iefix")format("embedded-opentype"),
+        url("https://db.onlinewebfonts.com/t/d414e85093c9a428dbde5f2b4c39f187.woff")format("woff"),
+        url("https://db.onlinewebfonts.com/t/d414e85093c9a428dbde5f2b4c39f187.woff2")format("woff2"),
+        url("https://db.onlinewebfonts.com/t/d414e85093c9a428dbde5f2b4c39f187.ttf")format("truetype"),
+        url("https://db.onlinewebfonts.com/t/d414e85093c9a428dbde5f2b4c39f187.svg#Berling Nova Sans W04 Regular")format("svg");
+    font-weight:normal;
+    font-style:normal;
+    font-display:swap;
+}
+ 

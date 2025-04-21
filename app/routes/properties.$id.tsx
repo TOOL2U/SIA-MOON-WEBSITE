@@ -2,10 +2,9 @@ import { useLoaderData } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { FaBed, FaBath, FaRulerCombined, FaUsers, FaMapMarkerAlt } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 import { getProperty } from "~/models/property";
-import PropertyGallery from "~/components/PropertyGallery";
-import BookingForm from "~/components/BookingForm";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const propertyId = params.id;
@@ -39,9 +38,22 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export default function PropertyDetail() {
   const { property } = useLoaderData<typeof loader>();
+  const [PropertyGallery, setPropertyGallery] = useState<any>(null);
+  const [BookingForm, setBookingForm] = useState<any>(null);
+
+  useEffect(() => {
+    // Dynamically import components only on client
+    import("~/components/PropertyGallery").then(mod => setPropertyGallery(() => mod.default));
+    import("~/components/BookingForm").then(mod => setBookingForm(() => mod.default));
+  }, []);
+
+  if (!PropertyGallery || !BookingForm) {
+    // Optionally show a loading spinner or skeleton
+    return <div className="min-h-screen flex items-center justify-center text-deep-green">Loading...</div>;
+  }
 
   return (
-    <div className="bg-off-white pb-16">
+    <div className="bg-deep-green pb-16">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl md:text-5xl font-arioso text-deep-green mb-2">{property.name}</h1>

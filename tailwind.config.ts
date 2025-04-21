@@ -7,6 +7,7 @@ const config: Config = {
       fontFamily: {
         'ela-sans': ['"Ela Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         'arioso': ['"Arioso"', 'serif'],
+        'berling-nova': ['"Berling Nova Sans W04 Regular"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
         'deep-green': '#5B6E5F',

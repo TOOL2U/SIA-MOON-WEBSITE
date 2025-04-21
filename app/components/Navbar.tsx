@@ -18,7 +18,7 @@ export default function Navbar() {
     const timer = setTimeout(() => {
       setLoaded(true);
     }, 100);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -40,45 +40,33 @@ export default function Navbar() {
             className={`flex flex-col gap-1.5 p-2 focus:outline-none transition-opacity duration-3000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
             aria-label="Toggle dropdown menu"
           >
-            <span className="w-10 h-[3px] hover:animate-bounce bg-white"></span>
-            <span className="w-10 h-[3px] bg-white"></span>
-            <span className="w-10 h-[3px] bg-white"></span>
+            <span className="w-10 h-[3px] hover:animate-bounce bg-off-white"></span>
+            <span className="w-10 h-[3px] hover:animate-bounce bg-off-white"></span>
+            <span className="w-10 h-[3px] hover:animate-bounce bg-off-white"></span>
           </button>
-          
-          {/* Dropdown menu */}
-          {isDropdownOpen && (
-            <div className="mt-2 w-48 shadow-xl rounded-md p-6">
-              <ul className="flex flex-col text-lg gap-6 text-black">
-                <li><Link to="/" onClick={toggleDropdown}>Home</Link></li>
-                <li><Link to="/properties" onClick={toggleDropdown}>Properties</Link></li>
-                <li><Link to="/about" onClick={toggleDropdown}>About</Link></li>
-                <li><Link to="/contact" onClick={toggleDropdown}>Contact</Link></li>
-              </ul>
-            </div>
-          )}
         </div>
 
         {/* Logo with reveal animation */}
         <div className="flex items-center overflow-hidden">
           <Link to="/" className="flex items-center">
-            <img 
-              src="https://i.imgur.com/9obrP60.png" 
-              alt="Luxury Estates Logo" 
-              className={`absolute top-[-3rem] left-[5rem] w-[12rem] h-auto object-contain z-50 transition-transform duration-3000 ease-in-out ${loaded ? 'translate-y-[-0px] rotate-[-360deg]' : 'translate-y-20 rotate-0'}`}
+            <img
+              src="https://i.imgur.com/9obrP60.png"
+              alt="Luxury Estates Logo"
+              className={`absolute top-[-3rem] left-[5rem] w-[12rem] h-auto object-contain z-50 transition-opacity duration-3000 ease-in ${loaded ? 'opacity-100' : 'opacity-0'}`}
             />
           </Link>
         </div>
-        
+
         {/* Navigation links with staggered reveal */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 flex space-x-20 font-arioso text-4xl text-custom-black z-50">
-          <NavLink to="/" delay={3} loaded={loaded}>Home</NavLink>
-          <NavLink to="/properties" delay={100} loaded={loaded}>Properties</NavLink>
-          <NavLink to="/about" delay={200} loaded={loaded}>About</NavLink>
-          <NavLink to="/contact" delay={300} loaded={loaded}>Contact</NavLink>
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex space-x-20 font-berling-nova text-1xl text-custom-black z-50">
+          <NavLink to="/" delay={3} loaded={loaded}>HOME</NavLink>
+          <NavLink to="/properties" delay={100} loaded={loaded}>PROPERTIES</NavLink>
+          <NavLink to="/about" delay={200} loaded={loaded}>ABOUT</NavLink>
+          <NavLink to="/contact" delay={300} loaded={loaded}>ENQUIRE NOW</NavLink>
         </div>
-        
+
         {/* Mobile Menu Button */}
-        <button 
+        <button
           className={`md:hidden text-white focus:outline-none transition-opacity duration-3000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
           onClick={toggleMenu}
           aria-label="Toggle menu"
@@ -87,14 +75,83 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* Dropdown menu with fade-in animation - centered vertically */}
+      <div
+        className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-700 ease-in-out ${
+          isDropdownOpen
+            ? 'opacity-100 visible'
+            : 'opacity-0 invisible'
+        }`}
+        onClick={toggleDropdown} // Close when clicking outside
+      >
+        {/* Semi-transparent backdrop */}
+        <div className="absolute inset-0 bg-black/90 backdrop-blur-sm"></div>
+
+        {/* Menu container */}
+        <div
+          className={`relative w-[600px] h-[500px] shadow-xl rounded-md p-10 border-2 border-transparent  flex items-center justify-center bg-black transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform ${
+            isDropdownOpen ? 'translate-y-0 scale-100' : 'translate-y-10 scale-95'
+          }`}
+          onClick={(e) => e.stopPropagation()} // Prevent closing when clicking menu
+        >
+          {/* Close button */}
+          <button
+            onClick={toggleDropdown}
+            className="absolute top-4 right-4 text-off-white hover:text-terracotta transition-colors duration-300"
+            aria-label="Close menu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
+          <div className="text-center">
+            <span className="font-berling-nova text-off-white text-2xl group-hover:text-terracotta transition-colors duration-300 block mb-12">
+            THE SIA MOON COLLECTION
+            </span>
+            <ul className="space-y-12">
+              <li>
+                <Link
+                  to="/properties/villa-paradiso"
+                  onClick={toggleDropdown}
+                  className="text-off-white text-2xl hover:text-terracotta transition-colors duration-300 flex items-center justify-center font-berling-nova"
+                >
+                  <span className="inline-block w-0 h-0.5 bg-terracotta mr-0 group-hover:w-3 group-hover:mr-3 transition-all duration-300"></span>
+                  ALESIA HOUSE
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/properties/alpine-retreat"
+                  onClick={toggleDropdown}
+                  className="text-off-white text-2xl hover:text-terracotta transition-colors duration-300 flex items-center justify-center font-berling-nova"
+                >
+                  <span className="inline-block w-0 h-0.5 bg-terracotta mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></span>
+                  PARENTS HOUSE
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/properties/tropical-haven"
+                  onClick={toggleDropdown}
+                  className="text-off-white text-2xl hover:text-terracotta transition-colors duration-300 flex items-center justify-center font-berling-nova"
+                >
+                  <span className="inline-block w-0 h-0.5 bg-terracotta mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></span>
+                  LANNA HOUSE
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       {/* Mobile Menu */}
-      <div 
+      <div
         className={clsx(
           "fixed inset-0 bg-deep-green bg-opacity-95 z-50 flex flex-col items-center justify-center transition-all duration-3000 md:hidden",
           isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
       >
-        <button 
+        <button
           className="absolute top-5 right-5 text-off-white focus:outline-none"
           onClick={toggleMenu}
           aria-label="Close menu"
@@ -106,53 +163,59 @@ export default function Navbar() {
           <MobileNavLink to="/properties" onClick={toggleMenu}>Properties</MobileNavLink>
           <MobileNavLink to="/about" onClick={toggleMenu}>About</MobileNavLink>
           <MobileNavLink to="/contact" onClick={toggleMenu}>Contact</MobileNavLink>
+          <div className="pt-4 border-t border-white/20 mt-4">
+            <h3 className="text-white text-xl mb-4 font-berling-nova">Our Properties</h3>
+            <MobileNavLink to="/properties/villa-paradiso" onClick={toggleMenu}>Villa Paradiso</MobileNavLink>
+            <MobileNavLink to="/properties/alpine-retreat" onClick={toggleMenu}>Alpine Retreat</MobileNavLink>
+            <MobileNavLink to="/properties/tropical-haven" onClick={toggleMenu}>Tropical Haven</MobileNavLink>
+          </div>
         </div>
       </div>
     </nav>
   );
 }
 
-function NavLink({ 
-  to, 
-  children, 
-  delay, 
-  loaded 
-}: { 
-  to: string; 
-  children: React.ReactNode; 
+function NavLink({
+  to,
+  children,
+  delay,
+  loaded
+}: {
+  to: string;
+  children: React.ReactNode;
   delay: number;
   loaded: boolean;
 }) {
   return (
-    <Link 
-      to={to} 
-      className="relative text-white hover:text-terracotta transition-colors duration-200 font-arioso group overflow-hidden"
-      style={{ 
+    <Link
+      to={to}
+      className="relative text-white hover:text-terracotta transition-colors duration-200 font-berling-nova group overflow-hidden"
+      style={{
         transform: loaded ? 'translateY(0)' : 'translateY(100%)',
         opacity: loaded ? 1 : 0,
         transition: `transform 800ms cubic-bezier(0.25, 1, 0.5, 1), opacity 800ms ease-out`,
-        transitionDelay: `${delay}ms` 
+        transitionDelay: `${delay}ms`
       }}
     >
       {children}
-      <span className="absolute left-0 bottom-3 w-0 h-0.5 bg-terracotta transition-all duration-300 group-hover:w-full"></span>
+      <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-terracotta transition-all duration-300 group-hover:w-full"></span>
     </Link>
   );
 }
 
-function MobileNavLink({ 
-  to, 
-  children, 
-  onClick 
-}: { 
-  to: string; 
+function MobileNavLink({
+  to,
+  children,
+  onClick
+}: {
+  to: string;
   children: React.ReactNode;
   onClick: () => void;
 }) {
   return (
-    <Link 
-      to={to} 
-      className="text-off-white text-2xl font-elaSans hover:text-terracotta transition-colors duration-200"
+    <Link
+      to={to}
+      className="text-off-white text-2xl font-berling-nova hover:text-terracotta transition-colors duration-200"
       onClick={onClick}
     >
       {children}
