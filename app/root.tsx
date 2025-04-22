@@ -29,6 +29,18 @@ export const links: LinksFunction = () => [
   },
   {
     rel: "stylesheet",
+    href: "https://db.onlinewebfonts.com/c/21b2809e6e69b9e96ed194863cd472a5?family=Calluna",
+  },
+  {
+    rel: "stylesheet",
+    href: "https://db.onlinewebfonts.com/c/f4ccc6647d1ac4e3f399f420fcfe93dd?family=Ela+Sans+W01+Regular",
+  },
+  {
+    rel: "stylesheet",
+    href: "https://db.onlinewebfonts.com/c/baff705f6501235566092e28f1be0afc?family=Arioso",
+  },
+  {
+    rel: "stylesheet",
     href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css",
   },
   {

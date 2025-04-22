@@ -1,6 +1,12 @@
+/* Import fonts from onlinewebfonts.com */
+@import url("https://db.onlinewebfonts.com/c/21b2809e6e69b9e96ed194863cd472a5?family=Calluna");
+@import url("https://db.onlinewebfonts.com/c/f4ccc6647d1ac4e3f399f420fcfe93dd?family=Ela+Sans+W01+Regular");
+@import url("https://db.onlinewebfonts.com/c/baff705f6501235566092e28f1be0afc?family=Arioso");
+
+/* Font definitions */
 @font-face {
   font-family: 'Arioso';
-  src: url('https://raw.githubusercontent.com/TOOL2U/SIA-MOON-WEBSITE/main/public/fonts/woff2/Arioso-Regular.woff2') format('woff2');
+  src: url('https://db.onlinewebfonts.com/c/baff705f6501235566092e28f1be0afc?family=Arioso') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -8,7 +14,23 @@
 
 @font-face {
   font-family: 'Ela Sans';
-  src: url('https://raw.githubusercontent.com/TOOL2U/SIA-MOON-WEBSITE/main/public/fonts/woff2/ElaSans-Regular.woff2') format('woff2');
+  src: url('https://db.onlinewebfonts.com/c/f4ccc6647d1ac4e3f399f420fcfe93dd?family=Ela+Sans+W01+Regular') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ela Sans';
+  src: url('https://db.onlinewebfonts.com/c/f4ccc6647d1ac4e3f399f420fcfe93dd?family=Ela+Sans+W01+Regular') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Berling Nova Sans W04 Regular';
+  src: url('https://db.onlinewebfonts.com/c/d414e85093c9a428dbde5f2b4c39f187?family=Berling+Nova+Sans+W04+Regular') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

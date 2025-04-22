@@ -8,6 +8,7 @@ const config: Config = {
         'ela-sans': ['"Ela Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         'arioso': ['"Arioso"', 'serif'],
         'berling-nova': ['"Berling Nova Sans W04 Regular"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'calluna': ['"Calluna"', 'serif'],
       },
       colors: {
         'deep-green': '#5B6E5F',
@@ -19,9 +20,11 @@ const config: Config = {
         'gentle-float': 'float 8s ease-in-out infinite',
         'fade-up': 'fadeUp 0.8s ease-out forwards',
         'fade-in': 'fadeIn 0.8s ease-out forwards',
+        'fade-out': 'fadeOut 5s ease-out forwards',
         'slide-in-left': 'slideInLeft 0.8s ease-out forwards',
         'slide-in-right': 'slideInRight 0.8s ease-out forwards',
         'scale-in': 'scaleIn 0.8s ease-out forwards',
+        'pulse': 'pulse 1s ease-in-out',
       },
       keyframes: {
         float: {
@@ -35,6 +38,15 @@ const config: Config = {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '80%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+        pulse: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.7' },
         },
         slideInLeft: {
           '0%': { opacity: '0', transform: 'translateX(-50px)' },

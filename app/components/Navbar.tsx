@@ -2,16 +2,21 @@ import { useState, useEffect } from "react";
 import { Link } from "@remix-run/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import clsx from "clsx";
+import CloudinaryGallery from "~/components/CloudinaryGallery"; 
+import { getCloudinaryUrl } from "~/utils/cloudinary";
+
 
 export const fonts = {
   elaSans: "/fonts/Ela Sans Regular.ttf",
   arioso: "/fonts/Arioso Regular.ttf"
 };
-export const logo = "/images/1.png";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
+
 
   useEffect(() => {
     // Slight delay to ensure animation is visible
@@ -50,7 +55,7 @@ export default function Navbar() {
         <div className="flex items-center overflow-hidden">
           <Link to="/" className="flex items-center">
             <img
-              src="https://i.imgur.com/9obrP60.png"
+              src={logo}
               alt="Luxury Estates Logo"
               className={`absolute top-[-3rem] left-[5rem] w-[12rem] h-auto object-contain z-50 transition-opacity duration-3000 ease-in ${loaded ? 'opacity-100' : 'opacity-0'}`}
             />
@@ -111,7 +116,7 @@ export default function Navbar() {
             <ul className="space-y-12">
               <li>
                 <Link
-                  to="/properties/villa-paradiso"
+                  to="/properties/alesia-house"
                   onClick={toggleDropdown}
                   className="text-off-white text-2xl hover:text-terracotta transition-colors duration-300 flex items-center justify-center font-berling-nova"
                 >
@@ -165,7 +170,7 @@ export default function Navbar() {
           <MobileNavLink to="/contact" onClick={toggleMenu}>Contact</MobileNavLink>
           <div className="pt-4 border-t border-white/20 mt-4">
             <h3 className="text-white text-xl mb-4 font-berling-nova">Our Properties</h3>
-            <MobileNavLink to="/properties/villa-paradiso" onClick={toggleMenu}>Villa Paradiso</MobileNavLink>
+            <MobileNavLink to="/properties/alesia-house" onClick={toggleMenu}>Alesia House</MobileNavLink>
             <MobileNavLink to="/properties/alpine-retreat" onClick={toggleMenu}>Alpine Retreat</MobileNavLink>
             <MobileNavLink to="/properties/tropical-haven" onClick={toggleMenu}>Tropical Haven</MobileNavLink>
           </div>

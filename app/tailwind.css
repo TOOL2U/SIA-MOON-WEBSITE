@@ -1,47 +1,28 @@
+/* Custom Fonts */
+@import url("https://db.onlinewebfonts.com/c/d414e85093c9a428dbde5f2b4c39f187?family=Berling+Nova+Sans+W04+Regular");
+@import url("https://db.onlinewebfonts.com/c/21b2809e6e69b9e96ed194863cd472a5?family=Calluna");
+@import url("https://db.onlinewebfonts.com/c/f4ccc6647d1ac4e3f399f420fcfe93dd?family=Ela+Sans+W01+Regular");
+@import url("https://db.onlinewebfonts.com/c/baff705f6501235566092e28f1be0afc?family=Arioso");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Fonts */
-@import url("https://db.onlinewebfonts.com/c/d414e85093c9a428dbde5f2b4c39f187?family=Berling+Nova+Sans+W04+Regular");
-
-@font-face {
-  font-family: 'Arioso';
-  src: url('/fonts/woff2/Arioso Regular.woff2') format('woff2'),
-       url('/fonts/Arioso Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Ela Sans';
-  src: url('/fonts/woff2/Ela Sans Regular.woff2') format('woff2'),
-       url('/fonts/Ela Sans Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Ela Sans';
-  src: url('/fonts/woff2/ElaSans Bold.woff2') format('woff2'),
-       url('/fonts/ElaSans Bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
+/* Font declarations moved to fonts.css */
 
 /* Custom Font Utilities */
 @layer utilities {
   .font-elaSans {
-    font-family: 'Ela Sans', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Ela Sans W01 Regular', 'Ela Sans', ui-sans-serif, system-ui, sans-serif;
   }
   .font-arioso {
     font-family: 'Arioso', serif;
   }
   .font-berling-nova {
     font-family: 'Berling Nova Sans W04 Regular', ui-sans-serif, system-ui, sans-serif;
+  }
+  .font-calluna {
+    font-family: 'Calluna', serif;
   }
 }
 

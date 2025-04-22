@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { addDays, differenceInDays } from "date-fns";
 import { FaCalendarAlt, FaUsers } from "react-icons/fa";
@@ -22,6 +22,61 @@ export default function BookingForm({ property }: BookingFormProps) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // State to track if booking details were auto-filled
+  const [detailsAutoFilled, setDetailsAutoFilled] = useState(false);
+
+  // Load booking details from localStorage when component mounts
+  useEffect(() => {
+    // Only run on client-side
+    if (typeof window !== 'undefined') {
+      try {
+        const savedBookingDetails = localStorage.getItem('bookingDetails');
+
+        if (savedBookingDetails) {
+          const bookingDetails = JSON.parse(savedBookingDetails);
+
+          // Only apply if the property ID matches
+          if (bookingDetails.propertyId === property.id) {
+            let wasAutoFilled = false;
+
+            // Set start date if available
+            if (bookingDetails.startDate) {
+              setStartDate(new Date(bookingDetails.startDate));
+              wasAutoFilled = true;
+            }
+
+            // Set end date if available
+            if (bookingDetails.endDate) {
+              setEndDate(new Date(bookingDetails.endDate));
+              wasAutoFilled = true;
+            }
+
+            // Set number of guests if available
+            if (bookingDetails.adults && bookingDetails.adults <= property.maxGuests) {
+              setGuests(bookingDetails.adults);
+              wasAutoFilled = true;
+            }
+
+            // Set the auto-filled flag if any data was applied
+            if (wasAutoFilled) {
+              setDetailsAutoFilled(true);
+
+              // Hide the auto-filled notification after 5 seconds
+              setTimeout(() => {
+                setDetailsAutoFilled(false);
+              }, 5000);
+            }
+
+            // Clear localStorage after using the data
+            localStorage.removeItem('bookingDetails');
+          }
+        }
+      } catch (error) {
+        console.error('Error loading booking details:', error);
+      }
+    }
+  }, [property.id, property.maxGuests]);
+
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);
     if (date && endDate && date > endDate) {
@@ -35,32 +90,42 @@ export default function BookingForm({ property }: BookingFormProps) {
 
   const calculateTotal = () => {
     if (!startDate || !endDate) return 0;
-    
+
     const nights = differenceInDays(endDate, startDate);
     return nights * property.price;
   };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!startDate) newErrors.startDate = "Check-in date is required";
     if (!endDate) newErrors.endDate = "Check-out date is required";
     if (!name.trim()) newErrors.name = "Name is required";
     if (!email.trim()) newErrors.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "Email is invalid";
     if (!phone.trim()) newErrors.phone = "Phone number is required";
-    
+
+    // Validate that check-in date is before check-out date
+    if (startDate && endDate && startDate >= endDate) {
+      newErrors.endDate = "Check-out date must be after check-in date";
+    }
+
+    // Validate that check-in date is not in the past
+    if (startDate && startDate < new Date(new Date().setHours(0, 0, 0, 0))) {
+      newErrors.startDate = "Check-in date cannot be in the past";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsSubmitting(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       console.log({
@@ -74,10 +139,10 @@ export default function BookingForm({ property }: BookingFormProps) {
         specialRequests,
         total: calculateTotal()
       });
-      
+
       setIsSubmitting(false);
       setIsSuccess(true);
-      
+
       // Reset form after 3 seconds
       setTimeout(() => {
         setIsSuccess(false);
@@ -93,11 +158,18 @@ export default function BookingForm({ property }: BookingFormProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
-      <h3 className="text-2xl font-arioso text-deep-green mb-4">Book Your Stay</h3>
-      
+    <div className="bg-white rounded-lg shadow-md p-8 sticky top-24">
+      <h3 className="text-3xl font-arioso text-deep-green mb-6 text-center">Book Your Stay</h3>
+
+      {detailsAutoFilled && (
+        <div className="bg-blue-50 border border-blue-200 text-blue-700 p-4 rounded-md mb-6 animate-fade-out text-center">
+          <p className="font-medium">Your booking details have been auto-filled!</p>
+          <p className="text-sm mt-1">We've applied the dates and guest count you selected.</p>
+        </div>
+      )}
+
       {isSuccess ? (
-        <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-md mb-4">
+        <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-md mb-6 text-center">
           <p className="font-medium">Booking request submitted successfully!</p>
           <p className="text-sm mt-1">We'll contact you shortly to confirm your reservation.</p>
         </div>
@@ -109,7 +181,7 @@ export default function BookingForm({ property }: BookingFormProps) {
               <span className="text-deep-green font-bold">${property.price} / night</span>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <label htmlFor="check-in" className="block text-gray-700 font-medium mb-1">Check-in</label>
@@ -129,7 +201,7 @@ export default function BookingForm({ property }: BookingFormProps) {
               </div>
               {errors.startDate && <p className="text-red-500 text-sm mt-1">{errors.startDate}</p>}
             </div>
-            
+
             <div>
               <label htmlFor="check-out" className="block text-gray-700 font-medium mb-1">Check-out</label>
               <div className="relative">
@@ -149,7 +221,7 @@ export default function BookingForm({ property }: BookingFormProps) {
               {errors.endDate && <p className="text-red-500 text-sm mt-1">{errors.endDate}</p>}
             </div>
           </div>
-          
+
           <div className="mb-4">
             <label htmlFor="guests" className="block text-gray-700 font-medium mb-1">Guests</label>
             <div className="relative">
@@ -168,7 +240,7 @@ export default function BookingForm({ property }: BookingFormProps) {
               <FaUsers className="absolute right-3 top-3 text-gray-400" />
             </div>
           </div>
-          
+
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 font-medium mb-1">Full Name</label>
             <input
@@ -181,7 +253,7 @@ export default function BookingForm({ property }: BookingFormProps) {
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
-          
+
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-medium mb-1">Email</label>
             <input
@@ -194,7 +266,7 @@ export default function BookingForm({ property }: BookingFormProps) {
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
-          
+
           <div className="mb-4">
             <label htmlFor="phone" className="block text-gray-700 font-medium mb-1">Phone</label>
             <input
@@ -207,7 +279,7 @@ export default function BookingForm({ property }: BookingFormProps) {
             />
             {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
           </div>
-          
+
           <div className="mb-6">
             <label htmlFor="special-requests" className="block text-gray-700 font-medium mb-1">Special Requests</label>
             <textarea
@@ -219,7 +291,7 @@ export default function BookingForm({ property }: BookingFormProps) {
               placeholder="Any special requests or questions?"
             ></textarea>
           </div>
-          
+
           {startDate && endDate && (
             <div className="mb-6 bg-gray-50 p-4 rounded-md">
               <div className="flex justify-between mb-2">
@@ -234,10 +306,10 @@ export default function BookingForm({ property }: BookingFormProps) {
               </div>
             </div>
           )}
-          
+
           <button
             type="submit"
-            className="w-full bg-deep-green hover:bg-terracotta text-white font-medium py-3 px-4 rounded-md transition-colors duration-300 flex justify-center items-center"
+            className="w-full bg-deep-green hover:bg-terracotta text-white font-medium py-4 px-6 rounded-md transition-colors duration-300 flex justify-center items-center text-lg"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
