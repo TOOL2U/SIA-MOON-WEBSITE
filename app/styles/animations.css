@@ -128,3 +128,32 @@
     transform: scale(1);
   }
 }
+/* 🔥 White glow text */
+.glow-text {
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.6),
+    0 0 8px rgba(255, 255, 255, 0.7),
+    0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+/* 🔷 Cyan glow text */
+.glow-cyan {
+  text-shadow:
+    0 0 4px #0ff,
+    0 0 8px #0ff,
+    0 0 16px #0ff;
+}
+
+/* 🌟 Animated pulsing glow */
+@keyframes glow-pulse {
+  0%, 100% {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+  }
+  50% {
+    text-shadow: 0 0 20px #fff, 0 0 40px #fff;
+  }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 1.5s ease-in-out infinite;
+}

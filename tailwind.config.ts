@@ -17,16 +17,31 @@ const config: Config = {
         'custom-black': '#000000',
       },
       animation: {
+        'bounce': 'bounce 1s infinite',
+        'glow': 'glow 2s ease-in-out infinite',
         'gentle-float': 'float 8s ease-in-out infinite',
         'fade-up': 'fadeUp 0.8s ease-out forwards',
-        'fade-in': 'fadeIn 0.8s ease-out forwards',
+        'fade-in': 'fadeIn 1.2s ease-out forwards',
         'fade-out': 'fadeOut 5s ease-out forwards',
         'slide-in-left': 'slideInLeft 0.8s ease-out forwards',
         'slide-in-right': 'slideInRight 0.8s ease-out forwards',
         'scale-in': 'scaleIn 0.8s ease-out forwards',
         'pulse': 'pulse 1s ease-in-out',
       },
+      
       keyframes: {
+        fadeInBounce: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '20%': { opacity: '1', transform: 'translateY(0)' },
+          '40%': { transform: 'translateY(0)' },
+          '60%': { transform: 'translateY(-20px)' },
+          '80%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        glow: {
+          '0%, 100%': { boxShadow: '0 0 10px rgba(0,255,255,0.5)' },
+          '50%': { boxShadow: '0 0 20px rgba(0,255,255,0.9)' },
+        },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
@@ -36,8 +51,8 @@ const config: Config = {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         fadeOut: {
           '0%': { opacity: '1' },

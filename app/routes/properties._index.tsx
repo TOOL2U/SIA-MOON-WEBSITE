@@ -7,7 +7,7 @@ import { getProperties } from "~/models/property";
 import { FaArrowRight } from "react-icons/fa";
 import { getCloudinaryUrl } from "~/utils/cloudinary";
 import CloudinaryGallery from "~/components/CloudinaryGallery"; 
-
+import '~/styles/animations.css';
 
 export const loader = async () => {
   const properties = getProperties();
@@ -42,9 +42,14 @@ export default function Properties() {
 
   return (
      <div>
-      <div className="w-screen min-h-screen bg-deep-green">
-  {/* Page content here */}
-
+  <div className="w-screen min-h-screen bg-deep-green">
+    {/* Centered Section */}
+    <section className="relative top-[380px] left-[1400px] w-[300px] h-[50px] animate-fade-in z-50 bg-terracotta/20  rounded-lg text-white border-2 border-terracotta shadow-[0_0_25px_1px_theme('colors.terracotta')] hover:shadow-[0_0_25px_10px_theme('colors.terracotta')] hover:scale-110 transition-all duration-500 flex items-center justify-center">
+  <h2 className="text-off-white text-xl glow-text animate-glow-text font-berling-nova ">COMING SOON</h2>
+</section>
+<section className="relative top-[330px] left-[2400px] w-[300px] h-[50px] z-50 animate-fade-in bg-terracotta/20 rounded-lg text-white border-2 border-terracotta shadow-[0_0_25px_1px_theme('colors.terracotta')] hover:shadow-[0_0_25px_10px_theme('colors.terracotta')] hover:scale-110 transition-all duration-500 flex items-center justify-center">
+  <h2 className="text-off-white glow-text animate-glow-text/50 text-xl font-berling-nova ">COMING SOON</h2>
+</section>
       {/* Three-container Section */}
       <section className="py-0 mx-auto bg-deep-green mt-[100px]">
         <div className="flex flex-wrap w-[3000px] h-[1300px] mx-auto">

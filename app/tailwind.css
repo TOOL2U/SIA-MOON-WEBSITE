@@ -75,3 +75,17 @@
 .react-datepicker__day:hover {
   @apply bg-terracotta text-off-white;
 }
+/* styles/glow.css or globals.css */
+.glow-text {
+  text-shadow: 
+    0 0 4px rgba(255, 255, 255, 0.6),
+    0 0 8px rgba(255, 255, 255, 0.7),
+    0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+.glow-cyan {
+  text-shadow: 
+    0 0 6px rgba(0, 255, 255, 0.7),
+    0 0 12px rgba(0, 255, 255, 0.8),
+    0 0 18px rgba(0, 255, 255, 0.9);
+}
