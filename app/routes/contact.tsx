@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { sendContactFormToWebhook } from "~/utils/webhooks";
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,35 +24,6 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Animation states
-  const [animationStates, setAnimationStates] = useState({
-    title: false,
-    contactCards: false,
-    form: false
-  });
-
-  // Staggered animation effect
-  useEffect(() => {
-    // Start animations with staggered timing
-    const titleTimer = setTimeout(() => {
-      setAnimationStates(prev => ({ ...prev, title: true }));
-    }, 300);
-
-    const cardsTimer = setTimeout(() => {
-      setAnimationStates(prev => ({ ...prev, contactCards: true }));
-    }, 600);
-
-    const formTimer = setTimeout(() => {
-      setAnimationStates(prev => ({ ...prev, form: true }));
-    }, 900);
-
-    return () => {
-      clearTimeout(titleTimer);
-      clearTimeout(cardsTimer);
-      clearTimeout(formTimer);
-    };
-  }, []);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -70,16 +42,25 @@ export default function Contact() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log(formData);
+    try {
+      // Send the form data to the webhook
+      const response = await sendContactFormToWebhook(formData);
+
+      if (response instanceof Error) {
+        console.error('Error sending contact form:', response);
+        alert('There was an error sending your message. Please try again later.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log('Contact form sent successfully');
       setIsSubmitting(false);
       setIsSuccess(true);
 
@@ -96,7 +77,11 @@ export default function Contact() {
       setTimeout(() => {
         setIsSuccess(false);
       }, 5000);
-    }, 1500);
+    } catch (error) {
+      console.error('Error in contact form submission:', error);
+      alert('There was an error sending your message. Please try again later.');
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -104,34 +89,23 @@ export default function Contact() {
       <div className="bg-off-white min-h-screen">
         {/* Hero Section */}
         <div className="relative h-[100vh] overflow-hidden">
-          <div
-            className="absolute inset-0 bg-black/30 z-10 flex items-center justify-center"
-            style={{
-              opacity: animationStates.title ? 1 : 0,
-              transition: 'opacity 1500ms ease-out'
-            }}
-          >
-            <h1 className="text-5xl md:text-7xl font-berling-nova text-white text-center px-4 transform transition-all duration-1000 ease-out"
-              style={{
-                opacity: animationStates.title ? 1 : 0,
-                transform: animationStates.title ? 'translateY(0)' : 'translateY(30px)'
-              }}
-            >
+          <div className="absolute inset-0 bg-black/30 z-10 flex items-center justify-center">
+            <h1 className="text-5xl md:text-7xl font-berling-nova text-white text-center px-4"
+               data-aos="fade-up"
+               data-aos-duration="1000"
+               data-aos-delay="300">
               ENQUIRE NOW
             </h1>
           </div>
           <img
             src="https://i.imgur.com/PQOqGPw.jpeg"
             alt="Luxury Estate Contact"
-            className="w-full h-full object-cover transition-all duration-3000 ease-in"
-            style={{
-              opacity: animationStates.title ? 1 : 0,
-              transform: 'scale(1.05)',
-              transformOrigin: 'center'
-            }}
+            className="w-full h-full object-cover"
+            data-aos="fade-in"
+            data-aos-duration="1500"
           />
-<div className="absolute inset-0 bg-black bg-opacity-30 z-10" />
-</div>
+          <div className="absolute inset-0 bg-black bg-opacity-30 z-10" />
+        </div>
 
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-5xl mx-auto -mt-30 relative z-20">
@@ -174,12 +148,13 @@ export default function Contact() {
                   </div>
 
                   <p className="font-berling-nova uppercase text-white text-2xl text-center mb-4">THANK YOU FOR YOUR MESSAGE!</p>
-                  <p className="font-berling-nova uppercase text-white/80 text-center">WE'VE RECEIVED YOUR INQUIRY AND WILL GET BACK TO YOU SHORTLY.</p>
+                  <p className="font-berling-nova uppercase text-white/80 text-center mb-2">WE'VE RECEIVED YOUR INQUIRY AND WILL GET BACK TO YOU SHORTLY.</p>
+                  <p className="font-berling-nova uppercase text-white/70 text-center text-sm">YOUR MESSAGE HAS BEEN SENT TO: SHAUN@SIAMOON.COM</p>
                 </div>
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} data-aos="fade-up" data-aos-delay="300">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="name" className="block text-gray-700 font-berling-nova mb-1 uppercase">YOUR NAME*</label>

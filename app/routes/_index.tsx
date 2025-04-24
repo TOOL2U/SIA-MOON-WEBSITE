@@ -148,7 +148,7 @@ export default function Index() {
           data-aos="fade-down"
           data-aos-delay="100"
           />
-          <h2 className="text-5xl font-arioso text-custom-black"
+          <h2 className="text-4xl font-calluna text-custom-black"
              data-aos="fade-up"
              data-aos-delay="300">
             Unparalleled Luxury
@@ -221,6 +221,7 @@ export default function Index() {
     >
       BOOK NOW
     </Link>
+  
   </div>
           </div>
 
@@ -324,7 +325,7 @@ export default function Index() {
           data-aos="fade-down"
           data-aos-delay="100"
           />
-          <h2 className="text-6xl font-arioso text-custom-black"
+          <h2 className="text-4xl font-calluna text-custom-black"
              data-aos="fade-up"
              data-aos-delay="300">
             Sustainability & Wellness
@@ -405,7 +406,7 @@ export default function Index() {
           <div className="bg-off-white rounded-xl p-8 md:p-12 text-black text-center"
                data-aos="zoom-in"
                data-aos-duration="1000">
-            <h2 className="text-5xl md:text-5xl font-arioso mb-4">Ready to experience the Sia Moon Properties? </h2>
+            <h2 className="text-5xl md:text-3xl font-calluna mb-4">Ready to experience the Sia Moon Properties? </h2>
             <p className="text-xl mx-auto mb-8 text-black font-calluna">
               Book your dream vacation today and discover why our guests return year after year
             </p>

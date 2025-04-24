@@ -15,6 +15,7 @@ const config: Config = {
         'off-white': '#F0EDE9',
         'terracotta': '#FFA07A',
         'custom-black': '#000000',
+        'baby-blue': '#7A9EAB',
       },
       animation: {
         'bounce': 'bounce 1s infinite',

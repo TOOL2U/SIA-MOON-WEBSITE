@@ -11,6 +11,12 @@ const publicIds = [
   "9b5fe0cc-ae65-4225-b90b-a7d563e925db_2_ts54t8",
   "2f31ecd7-f736-4473-9b74-0293ed14faa6_lxs0gm",
   "best-island-in-Thailand_yknta2",
+  "Phangan_sunset_zxawtu",
+  "IMG_2039_-_Edited_kcklsd",
+  "PHOTO-2024-09-07-20-50-18_baystd",
+  "IMG_2297_mm1evg",
+  "fc19657d-11a7-414b-b045-0e21a47f02c7_amm4ig",
+
   //Sia Moon Logos
 "Logo-black-vector_n9te6g",
 "logo-white-vector-3svg_dmz2pf",
@@ -23,6 +29,8 @@ const publicIds = [
 const bed1 = getCloudinaryUrl('bedroom1_mtpspt');
 //Phangan Image
 const phangan = getCloudinaryUrl('best-island-in-Thailand_yknta2');
+const phangansun = getCloudinaryUrl('Phangan_sunset_zxawtu');
+const about = getCloudinaryUrl('IMG_2039_-_Edited_kcklsd');
 //Index Images
 const con1 = getCloudinaryUrl(  "9b5fe0cc-ae65-4225-b90b-a7d563e925db_2_ts54t8",);
 const hero = getCloudinaryUrl(  "8453f772-29b5-45bd-9292-f8e20501f735_ewzhvd",);

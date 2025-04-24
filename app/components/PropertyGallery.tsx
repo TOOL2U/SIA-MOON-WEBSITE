@@ -62,8 +62,8 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
     infinite: true,
     fade: true,
     autoplay: true,
-    autoplaySpeed: 5000,
-    speed: 1500, // Slightly faster for better user experience
+    autoplaySpeed: 700,
+    speed: 700, // Slightly faster for better user experience
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
@@ -185,7 +185,7 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
   {images.map((image, index) => (
     <div
       key={index}
-      className="w-screen h-screen flex items-center justify-center bg-deep-green"
+      className="w-screen h-screen flex items-center justify-center bg-black/50"
     >
       <div className="relative w-full h-full flex items-center justify-center">
         <img

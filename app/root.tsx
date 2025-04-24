@@ -10,13 +10,15 @@ import type { LinksFunction } from "@remix-run/node";
 import { useEffect } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
+import "./styles/global.css";
 import "./tailwind.css";
 import "./styles/fonts.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Lenis from '@studio-freight/lenis';
 
 export const links: LinksFunction = () => [
+
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -60,6 +62,32 @@ export function Layout({ children }: { children: React.ReactNode }) {
       offset: 100,
       easing: 'ease-in-out'
     });
+  }, []);
+
+  // Initialize Lenis for smooth scrolling
+  useEffect(() => {
+    // Using type assertion to handle newer Lenis options that might not be in the type definitions
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      touchMultiplier: 2,
+      autoResize: true, // Automatically resize on window resize
+      syncTouch: false, // Better performance on touch devices
+    } as any);
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
   }, []);
 
   // Scroll to top on route change

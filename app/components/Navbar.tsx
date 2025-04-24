@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "@remix-run/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import clsx from "clsx";
-import CloudinaryGallery from "~/components/CloudinaryGallery"; 
+import CloudinaryGallery from "~/components/CloudinaryGallery";
 import { getCloudinaryUrl } from "~/utils/cloudinary";
 
 
@@ -63,10 +63,11 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
         </div>
 
         {/* Navigation links with staggered reveal */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 flex space-x-20 font-berling-nova text-1xl text-custom-black z-50">
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex space-x-16 font-berling-nova text-1xl text-custom-black pt-4 z-50">
           <NavLink to="/" delay={3} loaded={loaded}>HOME</NavLink>
           <NavLink to="/properties" delay={100} loaded={loaded}>PROPERTIES</NavLink>
           <NavLink to="/about" delay={200} loaded={loaded}>ABOUT</NavLink>
+          <NavLink to="/my-bookings" delay={250} loaded={loaded}>MY BOOKINGS</NavLink>
           <NavLink to="/contact" delay={300} loaded={loaded}>ENQUIRE NOW</NavLink>
         </div>
 
@@ -94,7 +95,7 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
 
         {/* Menu container */}
         <div
-          className={`relative w-[600px] h-[500px] shadow-xl rounded-md p-10 border-2 border-transparent  flex items-center justify-center bg-black transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform ${
+          className={`relative w-[600px] h-[500px] shadow-xl rounded-md p-10 border-2 border-transparent fixed flex items-center justify-center bg-black transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform ${
             isDropdownOpen ? 'translate-y-0 scale-100' : 'translate-y-10 scale-95'
           }`}
           onClick={(e) => e.stopPropagation()} // Prevent closing when clicking menu
@@ -167,6 +168,7 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
           <MobileNavLink to="/" onClick={toggleMenu}>Home</MobileNavLink>
           <MobileNavLink to="/properties" onClick={toggleMenu}>Properties</MobileNavLink>
           <MobileNavLink to="/about" onClick={toggleMenu}>About</MobileNavLink>
+          <MobileNavLink to="/my-bookings" onClick={toggleMenu}>My Bookings</MobileNavLink>
           <MobileNavLink to="/contact" onClick={toggleMenu}>Contact</MobileNavLink>
           <div className="pt-4 border-t border-white/20 mt-4">
             <h3 className="text-white text-xl mb-4 font-berling-nova">Our Properties</h3>

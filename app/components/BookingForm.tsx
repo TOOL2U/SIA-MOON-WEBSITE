@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { addDays, differenceInDays } from "date-fns";
-import { FaCalendarAlt, FaUsers } from "react-icons/fa";
+import { FaCalendarAlt, FaUsers, FaGlobe, FaCheck } from "react-icons/fa";
+import { Link } from "@remix-run/react";
 import type { Property } from "~/models/property";
+import { getCountries } from "~/data/countries";
+import { createBooking } from "~/data/bookings";
+import { sendBookingToMakeWebhook } from "~/utils/webhooks";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -17,9 +21,11 @@ export default function BookingForm({ property }: BookingFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
   const [specialRequests, setSpecialRequests] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [bookingNumber, setBookingNumber] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // State to track if booking details were auto-filled
@@ -104,6 +110,7 @@ export default function BookingForm({ property }: BookingFormProps) {
     if (!email.trim()) newErrors.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "Email is invalid";
     if (!phone.trim()) newErrors.phone = "Phone number is required";
+    if (!country) newErrors.country = "Country is required";
 
     // Validate that check-in date is before check-out date
     if (startDate && endDate && startDate >= endDate) {
@@ -126,65 +133,145 @@ export default function BookingForm({ property }: BookingFormProps) {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log({
-        property: property.id,
-        startDate,
-        endDate,
-        guests,
-        name,
-        email,
-        phone,
-        specialRequests,
-        total: calculateTotal()
-      });
+    // Create a new booking with a slight delay to simulate API call
+    setTimeout(async () => {
+      try {
+        const total = calculateTotal();
+        const newBooking = createBooking({
+          propertyId: property.id,
+          checkIn: startDate!.toISOString(),
+          checkOut: endDate!.toISOString(),
+          guests,
+          name,
+          email,
+          phone,
+          country,
+          specialRequests,
+          total
+        });
 
-      setIsSubmitting(false);
-      setIsSuccess(true);
+        setBookingNumber(newBooking.bookingNumber);
+        setIsSubmitting(false);
+        setIsSuccess(true);
 
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setIsSuccess(false);
-        setStartDate(null);
-        setEndDate(null);
-        setGuests(1);
-        setName("");
-        setEmail("");
-        setPhone("");
-        setSpecialRequests("");
-      }, 3000);
+        // Store booking in localStorage for persistence between page refreshes
+        // In a real app, this would be stored in a database
+        try {
+          const savedBookings = localStorage.getItem('userBookings') || '[]';
+          const bookings = JSON.parse(savedBookings);
+          bookings.push(newBooking);
+          localStorage.setItem('userBookings', JSON.stringify(bookings));
+
+          // Also store the individual booking by its booking number for easy lookup
+          localStorage.setItem(`booking_${newBooking.bookingNumber}`, JSON.stringify(newBooking));
+
+          // Store a mapping of email to booking numbers for this user
+          const userBookingsKey = `user_${email.toLowerCase()}`;
+          const userBookings = JSON.parse(localStorage.getItem(userBookingsKey) || '[]');
+          userBookings.push(newBooking.bookingNumber);
+          localStorage.setItem(userBookingsKey, JSON.stringify(userBookings));
+
+          console.log('Booking stored successfully:', newBooking.bookingNumber);
+
+          // Send booking data to Make.com webhook
+          try {
+            await sendBookingToMakeWebhook({
+              id: newBooking.id,
+              propertyId: newBooking.propertyId,
+              propertyName: property.name,
+              customerName: newBooking.name,
+              checkInDate: newBooking.checkIn,
+              checkOutDate: newBooking.checkOut,
+              guestCount: newBooking.guests,
+              totalPrice: newBooking.total,
+              customerEmail: newBooking.email,
+              customerPhone: newBooking.phone
+            });
+            console.log('Booking data sent to webhook successfully');
+          } catch (webhookError) {
+            // Log the error but don't affect the user experience
+            console.error('Error sending booking to webhook:', webhookError);
+          }
+        } catch (error) {
+          console.error('Error storing booking:', error);
+        }
+
+        // Don't reset the form immediately so user can see their booking number
+      } catch (error) {
+        console.error('Error creating booking:', error);
+        setIsSubmitting(false);
+      }
     }, 1500);
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-8 sticky top-24">
-      <h3 className="text-3xl font-arioso text-deep-green mb-6 text-center">Book Your Stay</h3>
+    <div className="pb-10 relative top-0 left-[-300px]  w-[1000px] h-[1200px]">
+      <h3 className="text-3xl font-calluna text-deep-green mb-14 text-center">Book Your Stay</h3>
 
       {detailsAutoFilled && (
-        <div className="bg-blue-50 border border-blue-200 text-blue-700 p-4 rounded-md mb-6 animate-fade-out text-center">
+        <div className="bg-off-white border border-deep-green text-deep-green p-4 mb-6 animate-fade-out text-center">
           <p className="font-medium">Your booking details have been auto-filled!</p>
           <p className="text-sm mt-1">We've applied the dates and guest count you selected.</p>
         </div>
       )}
 
       {isSuccess ? (
-        <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-md mb-6 text-center">
-          <p className="font-medium">Booking request submitted successfully!</p>
-          <p className="text-sm mt-1">We'll contact you shortly to confirm your reservation.</p>
+        <div className="bg-green-50 border border-green-200 text-green-700 p-8 rounded-md mb-6 text-center">
+          <div className="flex justify-center mb-4">
+            <div className="bg-green-100 rounded-full p-3">
+              <FaCheck className="text-green-600 text-3xl" />
+            </div>
+          </div>
+          <h4 className="text-xl font-calluna mb-2">Booking Confirmed!</h4>
+          <p className="font-medium mb-2">Your booking has been successfully submitted.</p>
+          <p className="text-sm text-gray-600 mb-4">A confirmation email has been sent to your email address.</p>
+
+          {bookingNumber && (
+            <div className="mb-4 p-4 bg-white border border-green-200 rounded-md">
+              <p className="text-sm text-gray-600 mb-1">Your Booking Number</p>
+              <p className="text-xl font-bold font-calluna text-deep-green">{bookingNumber}</p>
+              <p className="text-sm mt-2 text-gray-600">Please save this number for your records.</p>
+            </div>
+          )}
+
+          <div className="flex flex-col space-y-3 mt-6">
+            <Link
+              to="/my-bookings"
+              className="bg-deep-green text-white py-2 px-4 rounded hover:bg-terracotta transition-colors duration-300"
+            >
+              View My Booking
+            </Link>
+            <button
+              onClick={() => {
+                setIsSuccess(false);
+                setStartDate(null);
+                setEndDate(null);
+                setGuests(1);
+                setName("");
+                setEmail("");
+                setPhone("");
+                setCountry("");
+                setSpecialRequests("");
+                setBookingNumber(null);
+              }}
+              className="text-deep-green underline hover:text-terracotta transition-colors duration-300"
+            >
+              Make Another Booking
+            </button>
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <div className="flex justify-between mb-2">
-              <label htmlFor="price" className="block text-gray-700 font-medium">Price</label>
-              <span className="text-deep-green font-bold">${property.price} / night</span>
+              <label htmlFor="price" className="block text-deep-green text-xl font-calluna">Price</label>
+              <span className="text-deep-green text-xl font-calluna">${property.price} / night</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-2 gap-0 mb-4 w-[1050px] h-full">
             <div>
-              <label htmlFor="check-in" className="block text-gray-700 font-medium mb-1">Check-in</label>
+              <label htmlFor="check-in" className="block text-deep-green font-calluna mb-1">Check-in</label>
               <div className="relative">
                 <DatePicker
                   id="check-in"
@@ -195,15 +282,15 @@ export default function BookingForm({ property }: BookingFormProps) {
                   endDate={endDate}
                   minDate={new Date()}
                   placeholderText="Select date"
-                  className={`w-full p-2 border rounded-md ${errors.startDate ? 'border-red-500' : 'border-gray-300'}`}
+                  className={`w-[430px] h-full p-2 border ${errors.startDate ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                <FaCalendarAlt className="absolute right-3 top-3 text-gray-400" />
+                <FaCalendarAlt className="absolute right-16 top-3 text-deep-green" />
               </div>
               {errors.startDate && <p className="text-red-500 text-sm mt-1">{errors.startDate}</p>}
             </div>
 
             <div>
-              <label htmlFor="check-out" className="block text-gray-700 font-medium mb-1">Check-out</label>
+              <label htmlFor="check-out" className="block text-deep-green font-calluna mb-1">Check-out</label>
               <div className="relative">
                 <DatePicker
                   id="check-out"
@@ -214,9 +301,9 @@ export default function BookingForm({ property }: BookingFormProps) {
                   endDate={endDate}
                   minDate={startDate ? addDays(startDate, 1) : new Date()}
                   placeholderText="Select date"
-                  className={`w-full p-2 border rounded-md ${errors.endDate ? 'border-red-500' : 'border-gray-300'}`}
+                  className={`w-[430px] h-full p-2 border ${errors.endDate ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                <FaCalendarAlt className="absolute right-3 top-3 text-gray-400" />
+                <FaCalendarAlt className="absolute right-16 top-3 text-deep-green" />
               </div>
               {errors.endDate && <p className="text-red-500 text-sm mt-1">{errors.endDate}</p>}
             </div>
@@ -229,7 +316,7 @@ export default function BookingForm({ property }: BookingFormProps) {
                 id="guests"
                 value={guests}
                 onChange={(e) => setGuests(Number(e.target.value))}
-                className="w-full p-2 border border-gray-300 rounded-md appearance-none"
+                className="w-full p-2 border border-gray-300 appearance-none"
               >
                 {[...Array(property.maxGuests)].map((_, i) => (
                   <option key={i} value={i + 1}>
@@ -248,7 +335,7 @@ export default function BookingForm({ property }: BookingFormProps) {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className={`w-full p-2 border rounded-md ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full p-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="John Doe"
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
@@ -261,7 +348,7 @@ export default function BookingForm({ property }: BookingFormProps) {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full p-2 border rounded-md ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full p-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="john@example.com"
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
@@ -274,10 +361,31 @@ export default function BookingForm({ property }: BookingFormProps) {
               id="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className={`w-full p-2 border rounded-md ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full p-2 border ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="(123) 456-7890"
             />
             {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="country" className="block text-gray-700 font-medium mb-1">Country</label>
+            <div className="relative">
+              <select
+                id="country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                className={`w-full p-2 border appearance-none ${errors.country ? 'border-red-500' : 'border-gray-300'}`}
+              >
+                <option value="">Select your country</option>
+                {getCountries().map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+              <FaGlobe className="absolute right-3 top-3 text-gray-400" />
+            </div>
+            {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country}</p>}
           </div>
 
           <div className="mb-6">
@@ -286,21 +394,21 @@ export default function BookingForm({ property }: BookingFormProps) {
               id="special-requests"
               value={specialRequests}
               onChange={(e) => setSpecialRequests(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300"
               rows={3}
               placeholder="Any special requests or questions?"
             ></textarea>
           </div>
 
           {startDate && endDate && (
-            <div className="mb-6 bg-gray-50 p-4 rounded-md">
+            <div className="mb-6 bg-gray-50 p-4">
               <div className="flex justify-between mb-2">
                 <span>
                   ${property.price} x {differenceInDays(endDate, startDate)} nights
                 </span>
                 <span>${calculateTotal()}</span>
               </div>
-              <div className="border-t border-gray-200 pt-2 mt-2 font-bold flex justify-between">
+              <div className="border-t border-deep-green pt-2 mt-2 font-bold flex justify-between">
                 <span>Total</span>
                 <span>${calculateTotal()}</span>
               </div>
@@ -309,7 +417,7 @@ export default function BookingForm({ property }: BookingFormProps) {
 
           <button
             type="submit"
-            className="w-full bg-deep-green hover:bg-terracotta text-white font-medium py-4 px-6 rounded-md transition-colors duration-300 flex justify-center items-center text-lg"
+            className="w-full bg-deep-green hover:bg-terracotta text-white font-calluna py-4 px-6 transition-colors duration-300 flex justify-center items-center text-xl"
             disabled={isSubmitting}
           >
             {isSubmitting ? (

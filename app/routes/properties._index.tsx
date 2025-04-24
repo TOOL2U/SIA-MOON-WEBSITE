@@ -44,11 +44,11 @@ export default function Properties() {
      <div>
   <div className="w-screen min-h-screen bg-deep-green">
     {/* Centered Section */}
-    <section className="relative top-[380px] left-[1400px] w-[300px] h-[50px] animate-fade-in z-50 bg-terracotta/20  rounded-lg text-white border-2 border-terracotta shadow-[0_0_25px_1px_theme('colors.terracotta')] hover:shadow-[0_0_25px_10px_theme('colors.terracotta')] hover:scale-110 transition-all duration-500 flex items-center justify-center">
-  <h2 className="text-off-white text-xl glow-text animate-glow-text font-berling-nova ">COMING SOON</h2>
+    <section className="relative top-[380px] left-[1400px] w-[300px] h-[50px] animate-fade-in z-50 bg-terracotta/20  text-white border-2  border-terracotta/50 transition-all duration-500 flex items-center justify-center">
+  <h2 className="text-off-white text-xl font-berling-nova ">COMING SOON</h2>
 </section>
-<section className="relative top-[330px] left-[2400px] w-[300px] h-[50px] z-50 animate-fade-in bg-terracotta/20 rounded-lg text-white border-2 border-terracotta shadow-[0_0_25px_1px_theme('colors.terracotta')] hover:shadow-[0_0_25px_10px_theme('colors.terracotta')] hover:scale-110 transition-all duration-500 flex items-center justify-center">
-  <h2 className="text-off-white glow-text animate-glow-text/50 text-xl font-berling-nova ">COMING SOON</h2>
+<section className="relative top-[330px] left-[2400px] w-[300px] h-[50px] z-50 animate-fade-in bg-terracotta/20 text-white border-2 border-terracotta/50  transition-all duration-500 flex items-center justify-center">
+  <h2 className="text-off-white text-xl font-berling-nova ">COMING SOON</h2>
 </section>
       {/* Three-container Section */}
       <section className="py-0 mx-auto bg-deep-green mt-[100px]">
@@ -79,7 +79,7 @@ export default function Properties() {
 
 </Link>
           {/* 2 container - Image */}
-          <Link to="/contact"
+          <Link to="/properties/alesia-house"
           className="w-1/3 h-[1000px] overflow-hidden mt-[250px]"
                 data-aos="fade-up"
                 data-aos-duration="2000">
@@ -97,7 +97,7 @@ export default function Properties() {
   </div>
           </Link>
           {/* 3 container - Image */}
-          <Link to="/contact"
+          <Link to="/properties/alesia-house"
           className="w-1/3 h-[1000px] overflow-hidden mt-[250px]"
                 data-aos="fade-left"
                 data-aos-duration="2000">

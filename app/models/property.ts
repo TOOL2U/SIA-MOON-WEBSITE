@@ -29,7 +29,7 @@ export const properties: Property[] = [
   {
     id: "alesia-house",
     name: "Alesia House",
-    location: "Koh Phangan, Thailand",
+    location: "Alesia House, 50, 2, Koh Phangna Subdistrict, Koh Phangan, Surat Thani 84280",
     price: 1200,
     description:
       "Perched on the cliffs of Malibu with breathtaking ocean views, Alesia House is the epitome of coastal luxury. This stunning 5-bedroom villa features floor-to-ceiling windows that frame the Pacific Ocean, creating a seamless indoor-outdoor living experience. The infinity pool appears to merge with the horizon, while the spacious terrace provides the perfect setting for al fresco dining under the stars. Inside, the open-concept living space is adorned with designer furnishings and curated artwork. The gourmet kitchen boasts top-of-the-line appliances and a marble island, ideal for preparing meals or having a private chef create culinary masterpieces. Each bedroom offers a private sanctuary with plush bedding and ocean views. The primary suite includes a spa-like bathroom with a soaking tub positioned to take in the coastal panorama. Additional amenities include a home theater, wine cellar, and direct beach access via a private path.",
