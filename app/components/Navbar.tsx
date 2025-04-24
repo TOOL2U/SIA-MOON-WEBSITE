@@ -15,7 +15,23 @@ export default function Navbar() {
   const [loaded, setLoaded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
+  // Add this effect to handle body scroll
+  useEffect(() => {
+    if (isDropdownOpen) {
+      // Prevent scrolling on body when menu is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Re-enable scrolling when menu is closed
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      // Cleanup: re-enable scrolling when component unmounts
+      document.body.style.overflow = '';
+    };
+  }, [isDropdownOpen]);
+
+  const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
 
 
   useEffect(() => {
@@ -69,6 +85,7 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
           <NavLink to="/about" delay={200} loaded={loaded}>ABOUT</NavLink>
           <NavLink to="/my-bookings" delay={250} loaded={loaded}>MY BOOKINGS</NavLink>
           <NavLink to="/contact" delay={300} loaded={loaded}>ENQUIRE NOW</NavLink>
+          <NavLink to="/admin/dashboard" delay={350} loaded={loaded}>ADMIN</NavLink>
         </div>
 
         {/* Mobile Menu Button */}
@@ -81,29 +98,35 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
         </button>
       </div>
 
-      {/* Dropdown menu with fade-in animation - centered vertically */}
+      {/* Dropdown menu with fade-in animation */}
       <div
-        className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-700 ease-in-out ${
+        className={`fixed top-0 right-0 z-50 transition-all duration-700 ease-in-out ${
           isDropdownOpen
             ? 'opacity-100 visible'
             : 'opacity-0 invisible'
         }`}
-        onClick={toggleDropdown} // Close when clicking outside
+        onClick={toggleDropdown}
       >
         {/* Semi-transparent backdrop */}
-        <div className="absolute inset-0 bg-black/90 backdrop-blur-sm"></div>
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm"></div>
 
-        {/* Menu container */}
+        {/* Menu container - Add fixed positioning */}
         <div
-          className={`relative w-[600px] h-[500px] shadow-xl rounded-md p-10 border-2 border-transparent fixed flex items-center justify-center bg-black transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform ${
+          className={`fixed top-[500px] right-[1300px] /* Adjust these values */
+          w-[600px] h-[500px] shadow-xl rounded-md p-10
+          border-2 border-transparent
+          flex items-center justify-center
+          bg-black/30 transition-all duration-500
+          hover:shadow-2xl hover:bg-terracotta/5
+          hover:border-terracotta/20 group transform ${
             isDropdownOpen ? 'translate-y-0 scale-100' : 'translate-y-10 scale-95'
           }`}
-          onClick={(e) => e.stopPropagation()} // Prevent closing when clicking menu
+          onClick={(e) => e.stopPropagation()}
         >
           {/* Close button */}
           <button
             onClick={toggleDropdown}
-            className="absolute top-4 right-4 text-off-white hover:text-terracotta transition-colors duration-1000"
+            className="absolute top-4 right-4 text-off-white hover:text-terracotta transition-colors duration-300"
             aria-label="Close menu"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
@@ -111,7 +134,7 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
             </svg>
           </button>
           <div className="text-center">
-            <span className="font-berling-nova text-off-white text-2xl group-hover:text-terracotta transition-colors duration-1000 block mb-12">
+            <span className="font-berling-nova text-off-white text-2xl group-hover:text-terracotta transition-colors duration-300 block mb-12">
             THE SIA MOON COLLECTION
             </span>
             <ul className="space-y-12">
@@ -139,9 +162,9 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
                 <Link
                   to="/properties/tropical-haven"
                   onClick={toggleDropdown}
-                  className="text-off-white text-2xl hover:text-terracotta transition-colors duration-1000 flex items-center justify-center font-berling-nova"
+                  className="text-off-white text-2xl hover:text-terracotta transition-colors duration-300 flex items-center justify-center font-berling-nova"
                 >
-                  <span className="inline-block w-0 h-0.5 bg-terracotta mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-1000"></span>
+                  <span className="inline-block w-0 h-0.5 bg-terracotta mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></span>
                   LANNA HOUSE
                 </Link>
               </li>
@@ -196,7 +219,7 @@ function NavLink({
   return (
     <Link
       to={to}
-      className="relative text-white hover:text-terracotta transition-colors duration-1000 font-berling-nova group overflow-hidden"
+      className="relative text-white hover:text-terracotta transition-colors duration-200 font-berling-nova group overflow-hidden"
       style={{
         transform: loaded ? 'translateY(0)' : 'translateY(100%)',
         opacity: loaded ? 1 : 0,
@@ -205,7 +228,7 @@ function NavLink({
       }}
     >
       {children}
-      <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-terracotta transition-all duration-1000 group-hover:w-full"></span>
+      <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-terracotta transition-all duration-300 group-hover:w-full"></span>
     </Link>
   );
 }
@@ -222,7 +245,7 @@ function MobileNavLink({
   return (
     <Link
       to={to}
-      className="text-off-white text-2xl font-berling-nova hover:text-terracotta transition-colors duration-1000"
+      className="text-off-white text-2xl font-berling-nova hover:text-terracotta transition-colors duration-200"
       onClick={onClick}
     >
       {children}

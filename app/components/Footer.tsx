@@ -20,7 +20,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="flex flex-col items-center md:items-start">
-            <h3 className="text-xl mb-4 font-arioso">Quick Links</h3>
+            <h3 className="text-xl mb-4 font-calluna">Quick Links</h3>
             <ul className="space-y-2 text-center md:text-left">
               <li><Link to="/" className="hover:text-terracotta transition-colors">Home</Link></li>
               <li><Link to="/properties" className="hover:text-terracotta transition-colors">Properties</Link></li>
@@ -33,7 +33,7 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div className="flex flex-col items-center md:items-start">
-            <h3 className="text-xl mb-4 font-arioso">Contact Us</h3>
+            <h3 className="text-xl mb-4 font-calluna">Contact Us</h3>
             <address className="not-italic text-center md:text-left">
               <p>50/2 Moo 6</p>
               <p>Koh Phangan, Thailan</p>

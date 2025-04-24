@@ -92,6 +92,7 @@ export async function sendBookingToMakeWebhook(booking: {
   totalPrice: number;
   customerEmail: string;
   customerPhone: string;
+  specialRequests?: string;
 }): Promise<Response | Error> {
   try {
     // Format dates to be more readable
@@ -114,7 +115,10 @@ export async function sendBookingToMakeWebhook(booking: {
 
 📧 Email: ${booking.customerEmail}
 📱 Phone: ${booking.customerPhone}
-🆔 Booking ID: ${booking.id}`;
+🆔 Booking ID: ${booking.id}
+
+${booking.specialRequests ? `✨ Special Requests:
+${booking.specialRequests}` : '✨ No special requests'}`;
 
     // Create the webhook data object
     const webhookData = {
@@ -129,6 +133,7 @@ export async function sendBookingToMakeWebhook(booking: {
       totalPrice: booking.totalPrice,
       email: booking.customerEmail,
       phone: booking.customerPhone,
+      specialRequests: booking.specialRequests || 'None',
       formType: 'booking',
       // Specify the recipient email address
       recipientEmail: 'shaun@siamoon.com'
@@ -181,6 +186,7 @@ export async function sendBookingConfirmationToCustomer(
     totalPrice: number;
     customerEmail: string;
     customerPhone: string;
+    specialRequests?: string;
   },
   formattedCheckIn: string,
   formattedCheckOut: string
@@ -202,6 +208,11 @@ Your reservation at ${booking.propertyName} has been confirmed.
 💰 Total Price: $${booking.totalPrice}
 🆔 Booking ID: ${booking.id}
 
+${booking.specialRequests ? `✨ Your Special Requests:
+${booking.specialRequests}
+
+We have noted your special requests and will do our best to accommodate them.` : ''}
+
 If you have any questions or need to make changes to your reservation, please contact us at shaun@siamoon.com or call us at +66 812345678.
 
 We look forward to welcoming you!
@@ -221,6 +232,7 @@ Sia Moon Luxury Estates Team`;
       totalPrice: booking.totalPrice,
       email: booking.customerEmail,
       phone: booking.customerPhone,
+      specialRequests: booking.specialRequests || 'None',
       formType: 'booking',
       // Send to the customer's email
       recipientEmail: booking.customerEmail

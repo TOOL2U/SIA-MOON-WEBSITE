@@ -58,15 +58,34 @@ function generateBookingNumber(): string {
 }
 
 export function createBooking(booking: Omit<Booking, 'id' | 'createdAt' | 'bookingNumber' | 'status'>): Booking {
+  // Generate a unique ID that includes a timestamp component for better uniqueness
+  const timestamp = new Date().getTime();
+  const randomComponent = Math.random().toString(36).substring(2, 10);
+  const uniqueId = `${timestamp}-${randomComponent}`;
+
+  // Generate a unique booking number and ensure it doesn't already exist
+  let bookingNumber = generateBookingNumber();
+  let attempts = 0;
+  const maxAttempts = 5;
+
+  // Check if the booking number already exists in the bookings array
+  while (bookings.some(b => b.bookingNumber === bookingNumber) && attempts < maxAttempts) {
+    bookingNumber = generateBookingNumber();
+    attempts++;
+  }
+
+  // Create the new booking object with all required fields
   const newBooking: Booking = {
     ...booking,
-    id: Math.random().toString(36).substring(2, 15),
-    bookingNumber: generateBookingNumber(),
+    id: uniqueId,
+    bookingNumber: bookingNumber,
     createdAt: new Date().toISOString(),
     status: 'confirmed'
   };
 
+  // Add to the in-memory bookings array (this would be a database in a real app)
   bookings.push(newBooking);
+
   return newBooking;
 }
 

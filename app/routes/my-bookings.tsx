@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/node";
-import { FaSearch, FaTicketAlt, FaEnvelope } from "react-icons/fa";
+import { FaSearch, FaTicketAlt, FaEnvelope, FaCopy } from "react-icons/fa";
 import { getBookingByNumberAndEmail } from "~/data/bookings";
 import type { Booking } from "~/data/bookings";
 import { getProperty } from "~/models/property";
@@ -21,6 +21,22 @@ export default function MyBookings() {
   const [isSearching, setIsSearching] = useState(false);
   const [booking, setBooking] = useState<Booking | null>(null);
   const [notFound, setNotFound] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+  // Function to copy booking number to clipboard
+  const copyBookingNumber = (bookingNumber: string) => {
+    navigator.clipboard.writeText(bookingNumber)
+      .then(() => {
+        setIsCopied(true);
+        // Reset the copied state after 2 seconds
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 2000);
+      })
+      .catch(err => {
+        console.error('Failed to copy booking number: ', err);
+      });
+  };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -48,53 +64,151 @@ export default function MyBookings() {
       // First check localStorage for bookings (this is just for demo purposes)
       // In a real app, this would be a server-side check
       try {
-        // Try to find the booking directly by booking number
+        // 1. Try to find the booking directly by booking number (primary method)
         const directBooking = localStorage.getItem(`booking_${bookingNumber}`);
         if (directBooking) {
-          const parsedBooking = JSON.parse(directBooking);
-          if (parsedBooking.email.toLowerCase() === email.toLowerCase()) {
-            setBooking(parsedBooking);
-            setIsSearching(false);
-            return;
+          try {
+            const parsedBooking = JSON.parse(directBooking);
+            if (parsedBooking.email.toLowerCase() === email.toLowerCase()) {
+              setBooking(parsedBooking);
+              setIsSearching(false);
+
+              // Store this successful lookup to improve future searches
+              try {
+                const recentLookups = JSON.parse(localStorage.getItem('recentBookingLookups') || '[]');
+                if (!recentLookups.includes(bookingNumber)) {
+                  recentLookups.unshift(bookingNumber);
+                  // Keep only the 10 most recent lookups
+                  if (recentLookups.length > 10) recentLookups.pop();
+                  localStorage.setItem('recentBookingLookups', JSON.stringify(recentLookups));
+                }
+              } catch (e) {
+                console.error("Error storing recent lookup:", e);
+              }
+
+              return;
+            }
+          } catch (parseError) {
+            console.error("Error parsing booking data:", parseError);
+            // Continue to other methods if parsing fails
           }
         }
 
-        // Check if this email has any associated bookings
+        // 2. Check if this email has any associated bookings
         const userBookingsKey = `user_${email.toLowerCase()}`;
         const userBookings = localStorage.getItem(userBookingsKey);
         if (userBookings) {
-          const bookingNumbers = JSON.parse(userBookings);
-          if (bookingNumbers.includes(bookingNumber)) {
-            const bookingData = localStorage.getItem(`booking_${bookingNumber}`);
-            if (bookingData) {
-              setBooking(JSON.parse(bookingData));
+          try {
+            const bookingNumbers = JSON.parse(userBookings);
+            if (bookingNumbers.includes(bookingNumber)) {
+              const bookingData = localStorage.getItem(`booking_${bookingNumber}`);
+              if (bookingData) {
+                setBooking(JSON.parse(bookingData));
+                setIsSearching(false);
+                return;
+              }
+            }
+          } catch (parseError) {
+            console.error("Error parsing user bookings:", parseError);
+            // Continue to other methods if parsing fails
+          }
+        }
+
+        // 3. Check for emergency backup storage
+        const emergencyBooking = localStorage.getItem(`booking_emergency_${bookingNumber}`);
+        if (emergencyBooking) {
+          try {
+            const parsedBooking = JSON.parse(emergencyBooking);
+            if (parsedBooking.email.toLowerCase() === email.toLowerCase()) {
+              setBooking(parsedBooking);
+
+              // Restore the primary storage since we found it in emergency backup
+              localStorage.setItem(`booking_${bookingNumber}`, emergencyBooking);
+
               setIsSearching(false);
               return;
+            }
+          } catch (parseError) {
+            console.error("Error parsing emergency booking data:", parseError);
+          }
+        }
+
+        // 4. Check for timestamped backups
+        const allKeys = Object.keys(localStorage);
+        const backupKeys = allKeys.filter(key =>
+          key.startsWith(`booking_backup_${bookingNumber}_`)
+        );
+
+        if (backupKeys.length > 0) {
+          // Sort by timestamp (newest first)
+          backupKeys.sort().reverse();
+
+          for (const key of backupKeys) {
+            try {
+              const backupData = localStorage.getItem(key);
+              if (backupData) {
+                const parsedBooking = JSON.parse(backupData);
+                if (parsedBooking.email.toLowerCase() === email.toLowerCase()) {
+                  setBooking(parsedBooking);
+
+                  // Restore the primary storage since we found it in backup
+                  localStorage.setItem(`booking_${bookingNumber}`, backupData);
+
+                  setIsSearching(false);
+                  return;
+                }
+              }
+            } catch (parseError) {
+              console.error(`Error parsing backup booking data from ${key}:`, parseError);
+              // Try the next backup
             }
           }
         }
 
-        // Fall back to checking the full bookings list
+        // 5. Fall back to checking the full bookings list
         const savedBookings = localStorage.getItem('userBookings');
         if (savedBookings) {
-          const bookings = JSON.parse(savedBookings);
-          const foundBooking = bookings.find((b: Booking) =>
-            b.bookingNumber.toLowerCase() === bookingNumber.toLowerCase() &&
-            b.email.toLowerCase() === email.toLowerCase()
-          );
+          try {
+            const bookings = JSON.parse(savedBookings);
+            const foundBooking = bookings.find((b: Booking) =>
+              b.bookingNumber.toLowerCase() === bookingNumber.toLowerCase() &&
+              b.email.toLowerCase() === email.toLowerCase()
+            );
 
-          if (foundBooking) {
-            setBooking(foundBooking);
-            setIsSearching(false);
-            return;
+            if (foundBooking) {
+              setBooking(foundBooking);
+
+              // Restore the primary storage since we found it in the full list
+              localStorage.setItem(`booking_${bookingNumber}`, JSON.stringify(foundBooking));
+
+              setIsSearching(false);
+              return;
+            }
+          } catch (parseError) {
+            console.error("Error parsing saved bookings:", parseError);
           }
         }
 
-        // If not found in localStorage, check the server-side data
+        // 6. If not found in localStorage, check the server-side data
         // In a real app, this would all be done server-side
         const serverBooking = getBookingByNumberAndEmail(bookingNumber, email);
         if (serverBooking) {
           setBooking(serverBooking);
+
+          // Store this server booking in localStorage for future access
+          localStorage.setItem(`booking_${serverBooking.bookingNumber}`, JSON.stringify(serverBooking));
+
+          // Also update the email mapping
+          try {
+            const userBookingsKey = `user_${email.toLowerCase()}`;
+            const userBookings = JSON.parse(localStorage.getItem(userBookingsKey) || '[]');
+            if (!userBookings.includes(serverBooking.bookingNumber)) {
+              userBookings.push(serverBooking.bookingNumber);
+              localStorage.setItem(userBookingsKey, JSON.stringify(userBookings));
+            }
+          } catch (e) {
+            console.error("Error updating user bookings mapping:", e);
+          }
         } else {
           setNotFound(true);
         }
@@ -115,7 +229,13 @@ export default function MyBookings() {
 
           {!booking ? (
             <div className="bg-white rounded-lg shadow-md p-8" data-aos="fade-up" data-aos-delay="200">
-              <h2 className="text-2xl font-calluna text-deep-green mb-6 text-center">Find Your Booking</h2>
+              <h2 className="text-2xl font-calluna text-deep-green mb-4 text-center">Find Your Booking</h2>
+
+              <p className="text-gray-600 mb-6 text-center">
+                Enter your booking number and email address to access your booking details at any time.
+                <br />
+                All bookings are securely stored and will remain accessible for future reference.
+              </p>
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-6">
@@ -200,7 +320,18 @@ export default function MyBookings() {
               <div className="mb-6">
                 <div className="bg-gray-50 p-4 rounded-md mb-4">
                   <p className="text-sm text-gray-600 mb-1">Booking Number</p>
-                  <p className="text-xl font-bold font-calluna text-deep-green">{booking.bookingNumber}</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xl font-bold font-calluna text-deep-green">{booking.bookingNumber}</p>
+                    <button
+                      type="button"
+                      onClick={() => copyBookingNumber(booking.bookingNumber)}
+                      className="flex items-center gap-1 text-deep-green hover:text-terracotta transition-colors duration-300 px-3 py-1 border border-deep-green rounded-md"
+                      title="Copy booking number to clipboard"
+                    >
+                      <FaCopy />
+                      <span>{isCopied ? 'Copied!' : 'Copy'}</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

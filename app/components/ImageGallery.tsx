@@ -84,7 +84,7 @@ export default function ImageGallery({ images, propertyName }: ImageGalleryProps
 
       {/* Full screen modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', height: '100%' }}>
           <button 
             className="absolute top-4 right-4 text-white hover:text-terracotta"
             onClick={closeModal}

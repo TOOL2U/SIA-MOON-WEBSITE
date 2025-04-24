@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import "./styles/global.css";
+import "react-datepicker/dist/react-datepicker.css";
+// Make sure this comes BEFORE your custom styles
 import "./tailwind.css";
 import "./styles/fonts.css";
 import Navbar from "./components/Navbar";

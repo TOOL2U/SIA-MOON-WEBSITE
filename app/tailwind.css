@@ -57,23 +57,23 @@
 }
 
 .react-datepicker__header {
-  @apply bg-deep-green text-off-white;
+  @apply bg-deep-green text-black;
 }
 
 .react-datepicker__current-month,
 .react-datepicker-time__header,
 .react-datepicker-year-header {
-  @apply text-off-white;
+  @apply text-black;
 }
 
 .react-datepicker__day--selected,
 .react-datepicker__day--in-selecting-range,
 .react-datepicker__day--in-range {
-  @apply bg-deep-green text-off-white;
+  @apply bg-deep-green text-black;
 }
 
 .react-datepicker__day:hover {
-  @apply bg-terracotta text-off-white;
+  @apply bg-terracotta text-black;
 }
 /* styles/glow.css or globals.css */
 .glow-text {
@@ -88,4 +88,370 @@
     0 0 6px rgba(0, 255, 255, 0.7),
     0 0 12px rgba(0, 255, 255, 0.8),
     0 0 18px rgba(0, 255, 255, 0.9);
+}
+
+/* Custom styles for calendar popups */
+/* Original styles for booking form calendar */
+.calendar-popup {
+  position: fixed !important;
+  top: 30% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 9999 !important;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: #F0EDE9;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  min-width: 1000px;
+}
+
+.calendar-popup .react-datepicker {
+  font-family: 'Calluna', serif;
+  border: #F0EDE9;
+  width: 100%;
+}
+
+.calendar-popup .react-datepicker__header {
+  background-color: #F0EDE9; /* deep-green */
+  border-bottom: black;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding-top: 10px;
+}
+
+.calendar-popup .react-datepicker__month-container {
+  float: none !important;
+  width: 100% !important;
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  padding: 3rem !important;
+  margin: 0 auto !important;
+  
+  /* Size options */
+  max-width: 800px !important;
+  min-height: 400px !important;
+}
+
+/* Flex layout for better control */
+.calendar-popup .react-datepicker__month-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Animation for popup effect */
+.calendar-popup .react-datepicker__month-container {
+  animation: slideIn 2s ease-out;
+}
+
+/* Hover effects */
+.calendar-popup .react-datepicker__month-container {
+  transition: all 0.5s ease;
+}
+
+/* Popup animation */
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Hover state */
+.calendar-popup .react-datepicker__month-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Month grid layout */
+.calendar-popup .react-datepicker__month {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Individual day cells */
+.calendar-popup .react-datepicker__day {
+  height: 40px !important;
+  width: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0.2rem !important;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Custom color scheme */
+.calendar-popup .react-datepicker__day--selected {
+  background-color: #264241; /* deep-green */
+  color: white;
+}
+
+.calendar-popup .react-datepicker__day--in-range {
+  background-color: rgba(38, 66, 65, 0.2); /* deep-green with opacity */
+}
+
+.calendar-popup .react-datepicker__day--in-selecting-range {
+  background-color: #FFA07A; /* terracotta with opacity */
+}
+
+/* Hover effect on days */
+.calendar-popup .react-datepicker__day:hover:not(.react-datepicker__day--selected) {
+  background-color: #FFA07A; /* terracotta */
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Today's date highlight */
+.calendar-popup .react-datepicker__day--today {
+  border: 2px solid #264241;
+  font-weight: bold;
+}
+
+/* Disabled dates */
+.calendar-popup .react-datepicker__day--disabled {
+  color: black;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Month navigation */
+.calendar-popup .react-datepicker__navigation {
+  top: 4rem;
+  border: none;
+  padding: 0.5rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .calendar-popup .react-datepicker__month-container {
+    max-width: 100%;
+    padding: 1rem;
+  }
+  
+  .calendar-popup .react-datepicker__day {
+    height: 35px;
+    width: 35px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Glass morphism effect - optional */
+.calendar-popup .react-datepicker__month-container.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Dark mode - optional */
+.dark .calendar-popup .react-datepicker__month-container {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+/* Custom themes - optional */
+.calendar-popup.theme-elegant .react-datepicker__month-container {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-popup.theme-minimal .react-datepicker__month-container {
+  background-color: white;
+  border: block;
+  box-shadow: none;
+}
+/* New styles for availability calendar */
+.availability-calendar-popup {
+   position: fixed !important;
+  top: 50% !important;
+  left: 40% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 9999 !important;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: #F0EDE9;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  min-width: 1000px;
+}
+
+.availability-calendar-popup .react-datepicker {
+  font-family: 'Calluna', serif;
+  border: none;
+  width: 100%;
+}
+
+.availability-calendar-popup .react-datepicker__header {
+  background-color: #F0EDE9; /* deep-green */
+  border-bottom: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding-top: 10px;
+}
+
+.availability-calendar-popup .react-datepicker__month-container {
+  float: none !important;
+  width: 100% !important;
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  padding: 3rem !important;
+  margin: 0 auto !important;
+  
+  /* Size options */
+  max-width: 800px !important;
+  min-height: 400px !important;
+}
+
+/* Flex layout for better control */
+.availability-calendar-popup .react-datepicker__month-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Animation for popup effect */
+.availability-calendar-popup .react-datepicker__month-container {
+  animation: slideIn 2s ease-out;
+}
+
+/* Hover effects */
+.availability-calendar-popup .react-datepicker__month-container {
+  transition: all 0.5s ease;
+}
+
+/* Popup animation */
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Hover state */
+.availability-calendar-popup .react-datepicker__month-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Month grid layout */
+.availability-calendar-popup .react-datepicker__month {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Individual day cells */
+.availability-calendar-popup .react-datepicker__day {
+  height: 40px !important;
+  width: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0.2rem !important;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Custom color scheme */
+.availability-calendar-popup .react-datepicker__day--selected {
+  background-color: #264241; /* deep-green */
+  color: white;
+}
+
+.availability-calendar-popup .react-datepicker__day--in-range {
+  background-color: rgba(38, 66, 65, 0.2); /* deep-green with opacity */
+}
+
+.availability-calendar-popup .react-datepicker__day--in-selecting-range {
+  background-color: #FFA07A; /* terracotta with opacity */
+}
+
+/* Hover effect on days */
+.availability-calendar-popup .react-datepicker__day:hover:not(.react-datepicker__day--selected) {
+  background-color: #FFA07A; /* terracotta */
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Today's date highlight */
+.availability-calendar-popup .react-datepicker__day--today {
+  border: 2px solid #264241;
+  font-weight: bold;
+}
+
+/* Disabled dates */
+.availability-calendar-popup .react-datepicker__day--disabled {
+  color: black;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Month navigation */
+.availability-calendar-popup .react-datepicker__navigation {
+  top: 4rem;
+  border: none;
+  padding: 0.5rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .availability-calendar-popup .react-datepicker__month-container {
+    max-width: 100%;
+    padding: 1rem;
+  }
+  
+  .availability-calendar-popup .react-datepicker__day {
+    height: 35px;
+    width: 35px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Glass morphism effect - optional */
+.availability-calendar-popup .react-datepicker__month-container.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Dark mode - optional */
+.dark .availability-calendar-popup .react-datepicker__month-container {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+/* Custom themes - optional */
+.availability-calendar-popup.theme-elegant .react-datepicker__month-container {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.availability-calendar-popup.theme-minimal .react-datepicker__month-container {
+  background-color: white;
+  border: none;
+  box-shadow: none;
 }

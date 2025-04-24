@@ -205,6 +205,7 @@ export default function FullScreenGallery({
       onClick={handleClick}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', height: '100%' }}
     >
       {/* Images Container */}
       <div className="absolute inset-0">

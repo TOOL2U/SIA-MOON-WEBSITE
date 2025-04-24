@@ -1,0 +1,85 @@
+/* Custom styles for the DatePicker calendar */
+
+/* Style for blocked dates */
+.react-datepicker__day--excluded {
+  text-decoration: line-through !important;
+  color: #9ca3af !important; /* gray-400 */
+  background-color: #fecaca !important; /* red-200 */
+  position: relative;
+}
+
+/* Add a diagonal line through blocked dates */
+.react-datepicker__day--excluded::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #6b7280; /* gray-500 */
+  transform: rotate(45deg);
+}
+
+/* Hover effect for blocked dates */
+.react-datepicker__day--excluded:hover {
+  background-color: #fca5a5 !important; /* red-300 */
+  cursor: not-allowed !important;
+}
+
+/* Style for the selected date */
+.react-datepicker__day--selected {
+  background-color: #064e3b !important; /* deep-green */
+  color: white !important;
+}
+
+/* Style for the day in range */
+.react-datepicker__day--in-range {
+  background-color: rgba(6, 78, 59, 0.2) !important; /* deep-green with opacity */
+  color: #064e3b !important;
+}
+
+/* Style for the day in selecting range */
+.react-datepicker__day--in-selecting-range {
+  background-color: rgba(6, 78, 59, 0.1) !important;
+  color: #064e3b !important;
+}
+
+/* Style for the calendar container */
+.react-datepicker {
+  font-family: 'Calluna', sans-serif !important;
+  border: 2px solid #064e3b !important;
+  border-radius: 0.5rem !important;
+}
+
+/* Style for the calendar header */
+.react-datepicker__header {
+  background-color: #F0EDE9 !important;
+  color: black !important;
+  border-bottom: none !important;
+}
+
+/* Style for the month text */
+.react-datepicker__current-month {
+  color: black !important;
+  font-weight: bold !important;
+}
+
+/* Style for the day names */
+.react-datepicker__day-name {
+  color: black !important;
+}
+
+/* Style for the navigation buttons */
+.react-datepicker__navigation {
+  top: 1rem !important;
+}
+
+/* Style for the navigation button icons */
+.react-datepicker__navigation-icon::before {
+  border-color: black !important;
+}
+
+/* Style for the navigation button hover */
+.react-datepicker__navigation:hover *::before {
+  border-color: #e4a16f !important; /* terracotta */
+}

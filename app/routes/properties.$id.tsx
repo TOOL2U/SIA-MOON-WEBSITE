@@ -44,6 +44,14 @@ export default function PropertyDetail() {
   const [showLocationMap, setShowLocationMap] = useState(false);
   const [showAvailabilityCalendar, setShowAvailabilityCalendar] = useState(false);
 
+  // Function to smoothly scroll to the booking section
+  const scrollToBookingSection = () => {
+    const bookingSection = document.getElementById('booking-form-section');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   useEffect(() => {
     // Dynamically import components only on client
     import("~/components/PropertyGallery").then(mod => setPropertyGallery(() => mod.default));
@@ -52,17 +60,10 @@ export default function PropertyDetail() {
   }, []);
 
   // Function to handle date selection from the calendar popup
-  const handleDateSelect = (startDate: Date, endDate: Date) => {
-    // Store the selected dates in localStorage for the booking form to use
-    const bookingDetails = {
-      propertyId: property.id,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-    };
-    localStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
-
-    // Scroll to the booking form section
-    document.getElementById('booking-form-section')?.scrollIntoView({ behavior: 'smooth' });
+  const handleDateSelect = (_startDate: Date, _endDate: Date) => {
+    // The dates are already stored in localStorage by the AvailabilityCalendar component
+    // Just scroll to the booking form section
+    scrollToBookingSection();
   };
 
   if (!PropertyGallery || !BookingForm || !AvailabilityCalendar) {
@@ -78,13 +79,37 @@ export default function PropertyDetail() {
       </div>
 
       {/* Property Title Section */}
-      <div className="w-full h-[310px] flex items-center justify-center bg-off-white pb-10">
+      <div className="w-full h-[380px] flex items-center justify-center bg-off-white pb-10">
         <div className="text-center" data-aos="fade-up" data-aos-duration="800">
           <h1 className="text-6xl md:text-1xl font-calluna text-deep-green mb-4 mt-0">{property.name}</h1>
           <div className="flex items-center justify-center text-deep-green border-b border-black pb-8">
             <FaMapMarkerAlt className="mr-2 text-terracotta" />
             <span>{property.location}</span>
           </div>
+
+          <div className="flex justify-center  pt-2 grid grid-cols-2  md:grid-cols-2 gap-8">
+
+     {/* Check Availability Button */}
+     <div className="bg-off-white w-full pb-16 flex flex-col justify-center items-center relative absolute top-10 left-15">
+        <button
+          onClick={() => setShowAvailabilityCalendar(true)}
+          className="flex items-center justify-center gap-2 px-0 py-0 bg-deep-green text-white hover:bg-terracotta transition-colors duration-1000 font-calluna text-sm w-[200px] h-[50px]"
+        >
+          <FaCalendarAlt className="text-xl " />
+          <span>CHECK AVAILABILITY</span>
+        </button>
+      </div>
+          {/* Book Now Button */}
+        <div  className="bg-off-white w-full pb-16 flex flex-col justify-center items-center relative absolute top-10 left-15">
+          <button
+            onClick={scrollToBookingSection}
+            className="flex items-center justify-center gap-2 px-0 py-0 bg-deep-green text-white hover:bg-terracotta transition-colors duration-1000 font-calluna text-sm w-[200px] h-[50px]"
+          >
+            <FaCalendarAlt className="text-xl" />
+            <span>BOOK NOW</span>
+          </button>
+        </div>
+        </div>
         </div>
       </div>
 
@@ -222,26 +247,16 @@ export default function PropertyDetail() {
             </div>
 
           </div>
-          <div className="flex justify-center  pt-14 grid grid-cols-2  md:grid-cols-2 gap-8">
-            
+          <div className="flex flex-col justify-center items-center pr-2 pt-14 gap-8">
+
             <button
               onClick={() => setShowLocationMap(true)}
-              className="flex items-center justify-center gap-2 px-0 py-0 relative absolute top-10 left-10 bg-deep-green text-white hover:bg-terracotta transition-colors duration-1000 font-calluna text-sm w-[200px] h-[50px]"
+              className="flex items-center justify-center gap-2 px-0 py-0 relative bg-deep-green text-white hover:bg-terracotta transition-colors duration-1000 font-calluna text-sm w-[200px] h-[50px]"
             >
-              
+
               <FaMapPin />
               <span>VIEW LOCATION</span>
             </button>
-            {/* Check Availability Button */}
-      <div className="bg-off-white w-full pb-16 flex flex-col justify-center items-center relative absolute top-10 left-15">
-        <button
-          onClick={() => setShowAvailabilityCalendar(true)}
-          className="flex items-center justify-center gap-2 px-0 py-0 bg-deep-green text-white hover:bg-terracotta transition-colors duration-1000 font-calluna text-sm w-[200px] h-[50px]"
-        >
-          <FaCalendarAlt className="text-xl" />
-          <span>CHECK AVAILABILITY</span>
-        </button>
-      </div>
           </div>
         </div>
       </div>

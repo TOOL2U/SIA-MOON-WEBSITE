@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
-import { addDays, differenceInDays } from "date-fns";
-import { FaCalendarAlt, FaUsers, FaGlobe, FaCheck } from "react-icons/fa";
+import { addDays, differenceInDays, format, isSameDay, isWithinInterval } from "date-fns";
+import { FaCalendarAlt, FaUsers, FaGlobe, FaCheck, FaTimes, FaCopy } from "react-icons/fa";
 import { Link } from "@remix-run/react";
 import type { Property } from "~/models/property";
 import { getCountries } from "~/data/countries";
-import { createBooking } from "~/data/bookings";
+import { createBooking, isPropertyAvailable } from "~/data/bookings";
+import { blockDatesForBooking, getBlockedDatesByPropertyId, isDateRangeBlocked } from "~/data/blockedDates";
 import { sendBookingToMakeWebhook } from "~/utils/webhooks";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -26,13 +27,17 @@ export default function BookingForm({ property }: BookingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [bookingNumber, setBookingNumber] = useState<string | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Calendar popup state
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   // State to track if booking details were auto-filled
   const [detailsAutoFilled, setDetailsAutoFilled] = useState(false);
 
-  // Load booking details from localStorage when component mounts
-  useEffect(() => {
+  // Function to check for and load booking details from localStorage
+  const loadBookingDetailsFromStorage = () => {
     // Only run on client-side
     if (typeof window !== 'undefined') {
       try {
@@ -61,6 +66,10 @@ export default function BookingForm({ property }: BookingFormProps) {
             if (bookingDetails.adults && bookingDetails.adults <= property.maxGuests) {
               setGuests(bookingDetails.adults);
               wasAutoFilled = true;
+            } else if (bookingDetails.guests && bookingDetails.guests <= property.maxGuests) {
+              // For backward compatibility with existing code that might use 'guests' instead of 'adults'
+              setGuests(bookingDetails.guests);
+              wasAutoFilled = true;
             }
 
             // Set the auto-filled flag if any data was applied
@@ -73,32 +82,98 @@ export default function BookingForm({ property }: BookingFormProps) {
               }, 5000);
             }
 
-            // Clear localStorage after using the data
-            localStorage.removeItem('bookingDetails');
+            // Don't clear localStorage immediately, as other components might need this data
+            // We'll clear it after a short delay to ensure all components have had a chance to read it
+            setTimeout(() => {
+              localStorage.removeItem('bookingDetails');
+            }, 2000);
           }
         }
       } catch (error) {
         console.error('Error loading booking details:', error);
       }
     }
+  };
+
+  // Load booking details from localStorage when component mounts
+  useEffect(() => {
+    loadBookingDetailsFromStorage();
   }, [property.id, property.maxGuests]);
 
-  const handleStartDateChange = (date: Date | null) => {
-    setStartDate(date);
-    if (date && endDate && date > endDate) {
-      setEndDate(addDays(date, 1));
-    }
+  // Set up event listeners to detect changes to booking details
+  useEffect(() => {
+    // Function to handle storage events
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'bookingDetails') {
+        // If bookingDetails was changed in localStorage, load the new data
+        loadBookingDetailsFromStorage();
+      }
+    };
+
+    // Function to handle custom event
+    const handleCustomEvent = (event: Event) => {
+      console.log('Received bookingDetailsUpdated event', event);
+      // Load the booking details when the custom event is fired
+      loadBookingDetailsFromStorage();
+    };
+
+    // Add event listeners
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('bookingDetailsUpdated', handleCustomEvent);
+
+    // Also check for changes every second (as a fallback)
+    const intervalId = setInterval(() => {
+      loadBookingDetailsFromStorage();
+    }, 1000);
+
+    // Immediately try to load booking details when the component mounts
+    loadBookingDetailsFromStorage();
+
+    // Clean up
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('bookingDetailsUpdated', handleCustomEvent);
+      clearInterval(intervalId);
+    };
+  }, [property.id, property.maxGuests]);
+
+  // These handlers are used by the calendar popup
+  // They're kept here for reference but are now handled in the CalendarPopup component
+
+  // Open calendar popup
+  const openCalendar = () => {
+    setIsCalendarOpen(true);
   };
 
-  const handleEndDateChange = (date: Date | null) => {
-    setEndDate(date);
+  // Close calendar popup
+  const onClose = () => {
+    setIsCalendarOpen(false);
   };
+
+  // This function is no longer needed as we're using the new approach
+  // with temporary dates in the calendar popup
 
   const calculateTotal = () => {
     if (!startDate || !endDate) return 0;
 
     const nights = differenceInDays(endDate, startDate);
     return nights * property.price;
+  };
+
+  // Check if a date is blocked (either by a booking or manually)
+  const isDateBlocked = (date: Date) => {
+    // Format date to ISO string for checking
+    const dateStr = date.toISOString();
+    const nextDayStr = addDays(date, 1).toISOString();
+
+    // Check if the property is available for a one-night stay on this date
+    const isAvailableForBooking = isPropertyAvailable(property.id, dateStr, nextDayStr);
+
+    // Check if there are any manually blocked dates that overlap with this date
+    const isBlocked = isDateRangeBlocked(property.id, dateStr, nextDayStr);
+
+    // The date is blocked if it's either not available for booking OR manually blocked
+    return !isAvailableForBooking || isBlocked;
   };
 
   const validateForm = () => {
@@ -124,6 +199,23 @@ export default function BookingForm({ property }: BookingFormProps) {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  // Function to copy booking number to clipboard
+  const copyBookingNumber = () => {
+    if (bookingNumber) {
+      navigator.clipboard.writeText(bookingNumber)
+        .then(() => {
+          setIsCopied(true);
+          // Reset the copied state after 2 seconds
+          setTimeout(() => {
+            setIsCopied(false);
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Failed to copy booking number: ', err);
+        });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -157,21 +249,46 @@ export default function BookingForm({ property }: BookingFormProps) {
         // Store booking in localStorage for persistence between page refreshes
         // In a real app, this would be stored in a database
         try {
+          // 1. Store in the main bookings collection
           const savedBookings = localStorage.getItem('userBookings') || '[]';
           const bookings = JSON.parse(savedBookings);
           bookings.push(newBooking);
           localStorage.setItem('userBookings', JSON.stringify(bookings));
 
-          // Also store the individual booking by its booking number for easy lookup
+          // 2. Store the individual booking by its booking number for easy lookup
+          // This is the primary storage method for individual bookings
           localStorage.setItem(`booking_${newBooking.bookingNumber}`, JSON.stringify(newBooking));
 
-          // Store a mapping of email to booking numbers for this user
+          // 3. Store a mapping of email to booking numbers for this user
+          // This allows users to look up all their bookings by email
           const userBookingsKey = `user_${email.toLowerCase()}`;
           const userBookings = JSON.parse(localStorage.getItem(userBookingsKey) || '[]');
           userBookings.push(newBooking.bookingNumber);
           localStorage.setItem(userBookingsKey, JSON.stringify(userBookings));
 
+          // 4. Store a backup copy with a timestamp to ensure data isn't lost
+          // This provides redundancy in case other storage methods fail
+          const timestamp = new Date().getTime();
+          localStorage.setItem(`booking_backup_${newBooking.bookingNumber}_${timestamp}`, JSON.stringify(newBooking));
+
           console.log('Booking stored successfully:', newBooking.bookingNumber);
+
+          // 5. Verify storage was successful by reading back the data
+          const verifyBooking = localStorage.getItem(`booking_${newBooking.bookingNumber}`);
+          if (!verifyBooking) {
+            console.error('Booking verification failed - attempting backup storage');
+            // Try one more time with a different key if the first attempt failed
+            localStorage.setItem(`booking_emergency_${newBooking.bookingNumber}`, JSON.stringify(newBooking));
+          }
+
+          // 6. Block the dates in the availability calendar
+          // This ensures the dates are shown as unavailable in the calendar
+          blockDatesForBooking(
+            newBooking.propertyId,
+            newBooking.checkIn,
+            newBooking.checkOut,
+            newBooking.bookingNumber
+          );
 
           // Send booking data to Make.com webhook
           try {
@@ -185,7 +302,8 @@ export default function BookingForm({ property }: BookingFormProps) {
               guestCount: newBooking.guests,
               totalPrice: newBooking.total,
               customerEmail: newBooking.email,
-              customerPhone: newBooking.phone
+              customerPhone: newBooking.phone,
+              specialRequests: newBooking.specialRequests
             });
             console.log('Booking data sent to webhook successfully');
           } catch (webhookError) {
@@ -204,12 +322,141 @@ export default function BookingForm({ property }: BookingFormProps) {
     }, 1500);
   };
 
+  // Calendar popup component
+  const CalendarPopup = () => {
+    // For check-in/check-out calendar, we need to track both dates
+    const [tempStartDate, setTempStartDate] = useState<Date | null>(startDate);
+    const [tempEndDate, setTempEndDate] = useState<Date | null>(endDate);
+
+    // Reset temp dates when popup opens
+    useEffect(() => {
+      if (isCalendarOpen) {
+        setTempStartDate(startDate);
+        setTempEndDate(endDate);
+      }
+    }, [isCalendarOpen, startDate, endDate]);
+
+    const handleStartDateChange = (date: Date | null) => {
+      setTempStartDate(date);
+      if (date && tempEndDate && date > tempEndDate) {
+        setTempEndDate(null);
+      }
+    };
+
+    const handleEndDateChange = (date: Date | null) => {
+      setTempEndDate(date);
+    };
+
+    const handleApply = () => {
+      if (tempStartDate) {
+        setStartDate(tempStartDate);
+      }
+      if (tempEndDate) {
+        setEndDate(tempEndDate);
+      }
+      onClose();
+    };
+
+    if (!isCalendarOpen) return null;
+
+    return (
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center">
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          onClick={onClose}
+        ></div>
+
+        {/* Calendar container */}
+        <div className="availability-calendar-popup relative rounded-lg shadow-xl p-6 max-w-3xl w-full mx-4 z-10">
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-gray-500 hover:text-deep-green transition-colors"
+            aria-label="Close calendar"
+          >
+            <FaTimes size={20} />
+          </button>
+
+          <h2 className="text-2xl font-calluna text-deep-green mb-4 text-center">
+            Select Dates
+          </h2>
+
+          <p className="text-gray-600 mb-6 text-center">
+            Select your check-in and check-out dates for {property.name}
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label className="block text-gray-700 font-calluna mb-2">Check-in Date</label>
+              <div className="relative">
+                <DatePicker
+                  selected={tempStartDate}
+                  onChange={handleStartDateChange}
+                  selectsStart
+                  startDate={tempStartDate}
+                  endDate={tempEndDate}
+                  minDate={new Date()}
+                  placeholderText="Select check-in date"
+                  className="w-full p-3 border border-gray-300 rounded-md"
+                  monthsShown={1}
+                  inline
+                  filterDate={date => !isDateBlocked(date)}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-calluna mb-2">Check-out Date</label>
+              <div className="relative">
+                <DatePicker
+                  selected={tempEndDate}
+                  onChange={handleEndDateChange}
+                  selectsEnd
+                  startDate={tempStartDate}
+                  endDate={tempEndDate}
+                  minDate={tempStartDate ? addDays(tempStartDate, 1) : new Date()}
+                  placeholderText="Select check-out date"
+                  className="w-full p-3 border border-gray-300 rounded-md"
+                  monthsShown={1}
+                  inline
+                  disabled={!tempStartDate}
+                  filterDate={date => !isDateBlocked(date)}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end space-x-3">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 border border-deep-green text-deep-green rounded-md hover:bg-terracotta/50 hover:text-white transition-colors duration-1000"
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={handleApply}
+              className="px-4 py-2 bg-deep-green text-white rounded-md hover:bg-terracotta transition-colors duration-1000"
+              disabled={!tempStartDate || !tempEndDate}
+            >
+              Apply Dates
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="pb-10 relative top-0 left-[-300px]  w-[1000px] h-[1200px]">
+    <div className="pb-10 relative top-0 left-[-320px]  w-[1000px] h-[1200px]">
       <h3 className="text-3xl font-calluna text-deep-green mb-14 text-center">Book Your Stay</h3>
 
+      {/* Calendar Popup */}
+      <CalendarPopup />
+
       {detailsAutoFilled && (
-        <div className="bg-off-white border border-deep-green text-deep-green p-4 mb-6 animate-fade-out text-center">
+        <div className="bg-off-white border border-deep-green text-deep-green p-4  animate-fade-out text-center">
           <p className="font-medium">Your booking details have been auto-filled!</p>
           <p className="text-sm mt-1">We've applied the dates and guest count you selected.</p>
         </div>
@@ -217,7 +464,7 @@ export default function BookingForm({ property }: BookingFormProps) {
 
       {isSuccess ? (
         <div className="bg-green-50 border border-green-200 text-green-700 p-8 rounded-md mb-6 text-center">
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center items-center mb-4">
             <div className="bg-green-100 rounded-full p-3">
               <FaCheck className="text-green-600 text-3xl" />
             </div>
@@ -227,17 +474,33 @@ export default function BookingForm({ property }: BookingFormProps) {
           <p className="text-sm text-gray-600 mb-4">A confirmation email has been sent to your email address.</p>
 
           {bookingNumber && (
-            <div className="mb-4 p-4 bg-white border border-green-200 rounded-md">
+            <div className="mb-4 p-4 bg-white border flex flex-col justify-center items-center border-green-200 rounded-md">
               <p className="text-sm text-gray-600 mb-1">Your Booking Number</p>
-              <p className="text-xl font-bold font-calluna text-deep-green">{bookingNumber}</p>
+              <div className="flex items-center relative right-[-40px]">
+                <p className="text-xl font-bold font-calluna text-deep-green">{bookingNumber}</p>
+                <div className="relative top-0 right-[-200px]">
+                <button
+                  type="button"
+                  onClick={copyBookingNumber}
+                  className="flex items-center gap-1 text-deep-green hover:text-terracotta transition-colors duration-300 px-3 py-1 border border-deep-green rounded-md"
+                  title="Copy booking number to clipboard"
+                >
+                  <FaCopy />
+                  <span>{isCopied ? 'Copied!' : 'Copy'}</span>
+                </button>
+                </div>
+              </div>
               <p className="text-sm mt-2 text-gray-600">Please save this number for your records.</p>
+              <p className="text-sm mt-3 text-deep-green font-medium">
+                You can access your booking details at any time by visiting the "My Bookings" page and entering your booking number and email address.
+              </p>
             </div>
           )}
 
           <div className="flex flex-col space-y-3 mt-6">
             <Link
               to="/my-bookings"
-              className="bg-deep-green text-white py-2 px-4 rounded hover:bg-terracotta transition-colors duration-1000"
+              className="bg-deep-green text-white py-2 px-4 rounded hover:bg-terracotta transition-colors duration-300"
             >
               View My Booking
             </Link>
@@ -254,7 +517,7 @@ export default function BookingForm({ property }: BookingFormProps) {
                 setSpecialRequests("");
                 setBookingNumber(null);
               }}
-              className="text-deep-green underline hover:text-terracotta transition-colors duration-1000"
+              className="text-deep-green underline hover:text-terracotta transition-colors duration-300"
             >
               Make Another Booking
             </button>
@@ -273,18 +536,16 @@ export default function BookingForm({ property }: BookingFormProps) {
             <div>
               <label htmlFor="check-in" className="block text-deep-green font-calluna mb-1">Check-in</label>
               <div className="relative">
-                <DatePicker
-                  id="check-in"
-                  selected={startDate}
-                  onChange={handleStartDateChange}
-                  selectsStart
-                  startDate={startDate}
-                  endDate={endDate}
-                  minDate={new Date()}
-                  placeholderText="Select date"
-                  className={`w-[430px] h-full p-2 border ${errors.startDate ? 'border-red-500' : 'border-gray-300'}`}
-                />
-                <FaCalendarAlt className="absolute right-16 top-3 text-deep-green" />
+                <button
+                  type="button"
+                  onClick={openCalendar}
+                  className={`w-[430px] h-full p-2 border flex items-center justify-between ${errors.startDate ? 'border-red-500' : 'border-gray-300'} bg-white`}
+                >
+                  <span className={`${!startDate ? 'text-gray-400' : 'text-deep-green'}`}>
+                    {startDate ? format(startDate, 'MMM dd, yyyy') : 'Select date'}
+                  </span>
+                  <FaCalendarAlt className="text-deep-green" />
+                </button>
               </div>
               {errors.startDate && <p className="text-red-500 text-sm mt-1">{errors.startDate}</p>}
             </div>
@@ -292,18 +553,17 @@ export default function BookingForm({ property }: BookingFormProps) {
             <div>
               <label htmlFor="check-out" className="block text-deep-green font-calluna mb-1">Check-out</label>
               <div className="relative">
-                <DatePicker
-                  id="check-out"
-                  selected={endDate}
-                  onChange={handleEndDateChange}
-                  selectsEnd
-                  startDate={startDate}
-                  endDate={endDate}
-                  minDate={startDate ? addDays(startDate, 1) : new Date()}
-                  placeholderText="Select date"
-                  className={`w-[430px] h-full p-2 border ${errors.endDate ? 'border-red-500' : 'border-gray-300'}`}
-                />
-                <FaCalendarAlt className="absolute right-16 top-3 text-deep-green" />
+                <button
+                  type="button"
+                  onClick={openCalendar}
+                  className={`w-[470px] h-full p-2 border flex items-center justify-between ${errors.endDate ? 'border-red-500' : 'border-gray-300'} bg-white ${!startDate ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={!startDate}
+                >
+                  <span className={`${!endDate ? 'text-gray-400' : 'text-deep-green'}`}>
+                    {endDate ? format(endDate, 'MMM dd, yyyy') : 'Select date'}
+                  </span>
+                  <FaCalendarAlt className="text-deep-green" />
+                </button>
               </div>
               {errors.endDate && <p className="text-red-500 text-sm mt-1">{errors.endDate}</p>}
             </div>

@@ -29,8 +29,9 @@ export default function CloudinaryFullscreenGallery() {
       {/* Fullscreen Overlay */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center overflow-auto"
           onClick={() => setSelectedImage(null)}
+          style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', height: '100%' }}
         >
           <img
             src={selectedImage}
