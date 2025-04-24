@@ -20,7 +20,7 @@ export default function Hero() {
     overlayReady: false
   });
   const imageRef = useRef<HTMLImageElement>(null);
-  
+
   const imageUrl = getCloudinaryUrl('8453f772-29b5-45bd-9292-f8e20501f735_ewzhvd',);
 
   // Booking navigation bar states
@@ -179,8 +179,8 @@ export default function Hero() {
             {/* Book Now Button */}
             <Link
               to={selectedProperty ? `/properties/${selectedProperty}` : "/properties/alesia-house"}
-              className="w-[170px] h-[90px] bg-off-white hover:bg-terracotta/80 text-black text-lg hover:text-black hover:animate-fade-in border-2 border-off-white font-berling-nova  transition-colors duration-300 uppercase text-center uppercase flex items-center justify-center"
-            
+              className="w-[170px] h-[90px] bg-off-white hover:bg-terracotta/80 text-black text-lg hover:text-black hover:animate-fade-in border-2 border-off-white font-berling-nova  transition-colors duration-1000 uppercase text-center uppercase flex items-center justify-center"
+
               onClick={() => {
                 // Save booking details to localStorage
                 const bookingDetails = {
@@ -199,13 +199,13 @@ export default function Hero() {
       </div>
       {/* Destination Popup */}
       {isDestinationOpen && (
-  <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-center transition-opacity duration-500 animate-fade-in">        
+  <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-center transition-opacity duration-500 animate-fade-in">
     <div className="bg-black border-2 border-off-white/50 rounded-lg shadow-xl p-10 w-[600px] h-[600px] overflow-y-auto animate-fadeIn hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform">
             <div className="flex flex-wrap justify-center items-center p-8 border-b border-white/50">
               <h3 className="text-xl font-berling-nova text-off-white">SELECT YOUR DESTINATION</h3>
               <button
                 onClick={() => setIsDestinationOpen(false)}
-                className=" absolute top-8 right-8 text-off-white hover:text-terracotta transition-colors"
+                className=" absolute top-8 right-8 text-off-white hover:text-terracotta transition-colors duration-1000"
               >
                 <FaTimes size={24} />
               </button>
@@ -215,7 +215,7 @@ export default function Hero() {
               {properties.map((property) => (
                 <button
                   key={property.id}
-                  className="w-[400px] h-[100px] text-center px-8 py-8  border-2  rounded-lg text-off-white hover:bg-terracotta hover:text-off-white hover:scale-110 font-berling-nova text-2xl transition-colors duration-200 border-b border-transparent hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform"
+                  className="w-[400px] h-[100px] text-center px-8 py-8  border-2  rounded-lg text-off-white hover:bg-terracotta hover:text-off-white hover:scale-110 font-berling-nova text-2xl transition-colors duration-1000 border-b border-transparent hover:border-terracotta/20 transition-all duration-1000 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform"
                   onClick={() => {
                     setSelectedProperty(property.id);
                     setIsDestinationOpen(false);
@@ -238,7 +238,7 @@ export default function Hero() {
               <h3 className="text-xl font-berling-nova text-off-white">SELECT DATES</h3>
               <button
                 onClick={() => setIsCalendarOpen(false)}
-                className=" absolute top-8 right-8 text-off-white hover:text-terracotta transition-colors"
+                className=" absolute top-8 right-8 text-off-white hover:text-terracotta transition-colors duration-1000"
               >
                 <FaTimes size={24} />
               </button>
@@ -274,7 +274,7 @@ export default function Hero() {
               <div className="mb-0 flex flex-col items-center justify-center p-8">
 
               <button
-                className="w-[300px] text-center h-[50px] bg-deep-green text-white hover:scale-102 font-berling-nova py-3 hover:bg-terracotta hover:text-black transition-colors duration-300"
+                className="w-[300px] text-center h-[50px] bg-deep-green text-white hover:scale-102 font-berling-nova py-3 hover:bg-terracotta hover:text-black transition-colors duration-1000"
                 onClick={() => setIsCalendarOpen(false)}
               >
                 CONFIRM DATES
@@ -289,12 +289,12 @@ export default function Hero() {
       {isAdultsOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center transition-opacity duration-500 animate-fade-in">
                 <div className="bg-black border-2 border-off-white/50 rounded-lg shadow-xl p-4 w-[600px] h-[600px] overflow-y-auto animate-fadeIn hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform">
-            
+
             <div className="flex justify-center items-center p-4 mb-4 border-b border-white/50">
               <h3 className="text-xl font-berling-nova text-off-white">SELECT NUMBER OF ADULTS</h3>
               <button
                 onClick={() => setIsAdultsOpen(false)}
-                className=" absolute top-8 right-8 text-off-white hover:text-terracotta transition-colors"
+                className=" absolute top-8 right-8 text-off-white hover:text-terracotta transition-colors duration-1000"
               >
                 <FaTimes size={24} />
               </button>
@@ -303,7 +303,7 @@ export default function Hero() {
               {[1, 2, 3, 4, 5, 6, 7, 8,].map((num) => (
                 <button
                   key={num}
-                  className="w-full text-center px-6 py-4 hover:bg-terracotta hover:text-white font-berling-nova text-xl text-off-white transition-colors duration-200  border-off-white/50"
+                  className="w-full text-center px-6 py-4 hover:bg-terracotta hover:text-white font-berling-nova text-xl text-off-white transition-colors duration-1000  border-off-white/50"
                   onClick={() => {
                     setAdults(num);
                     setIsAdultsOpen(false);

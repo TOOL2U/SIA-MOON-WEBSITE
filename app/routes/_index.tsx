@@ -162,7 +162,7 @@ export default function Index() {
         to="/about"
         target="_blank"
         rel="noopener noreferrer"
-        className="min-w-[20px] px-6 py-3 flex font-berling-nova items-centre justify-center text-sm bg-black border 2 hover:text-custom-black border-custom-black text-white hover:bg-off-white transition "
+        className="min-w-[20px] px-6 py-3 flex font-berling-nova items-centre justify-center text-sm bg-black border 2 hover:text-custom-black border-custom-black text-white hover:bg-off-white transition transition-colors duration-1000"
         data-aos="fade-up"
         data-aos-delay="700"
       >
@@ -210,14 +210,14 @@ export default function Index() {
        data-aos-anchor-placement="left-right">
       <Link
       to="/contact"
-      className="inline-flex items-center gap-2 z-50 text-black hover:bg-deep-green border-2 border-deep-green hover:text-white font-berling-nova px-8 py-4 transition-colors duration-300 text-base"
+      className="inline-flex items-center gap-2 z-50 text-black hover:bg-deep-green border-2 border-deep-green hover:text-white font-berling-nova px-8 py-4 transition-colors duration-1000 text-base"
     >
       ENQUIRE NOW
     </Link>
 
     <Link
       to="/properties/alesia-house"
-      className="inline-flex items-center gap-2 z-50 bg-deep-green font-berling-nova font-bold text-white border-2 border-deep-green hover:bg-terracotta hover:text-custom-black px-8 py-4 transition-colors duration-300 text-base"
+      className="inline-flex items-center gap-2 z-50 bg-deep-green font-berling-nova font-bold text-white border-2 border-deep-green hover:bg-terracotta hover:text-custom-black px-8 py-4 transition-colors duration-1000 text-base"
     >
       BOOK NOW
     </Link>
@@ -285,14 +285,14 @@ export default function Index() {
        data-aos-anchor-placement="left-right">
       <Link
       to="/contact"
-      className="inline-flex items-center gap-2 z-50 text-black hover:bg-deep-green border-2 border-deep-green hover:text-white font-berling-nova px-8 py-4 transition-colors duration-300 text-base"
+      className="inline-flex items-center gap-2 z-50 text-black hover:bg-deep-green border-2 border-deep-green hover:text-white font-berling-nova px-8 py-4 transition-colors duration-1000 text-base"
     >
       ENQUIRE NOW
     </Link>
 
     <Link
       to="/properties/alesia-house"
-      className="inline-flex items-center gap-2 z-50 bg-deep-green font-berling-nova font-bold text-white border-2 border-deep-green hover:bg-terracotta hover:text-custom-black px-8 py-4 transition-colors duration-300 text-base"
+      className="inline-flex items-center gap-2 z-50 bg-deep-green font-berling-nova font-bold text-white border-2 border-deep-green hover:bg-terracotta hover:text-custom-black px-8 py-4 transition-colors duration-1000 text-base"
     >
       BOOK NOW
     </Link>
@@ -412,7 +412,7 @@ export default function Index() {
             </p>
             <Link
               to="/properties"
-              className="inline-block bg-black text-sm text-white hover:bg-off-white border-2 hover:border-black hover:text-black hover:border-white border-2 font-berling-nova px-6 py-3  transition-colors duration-300"
+              className="inline-block bg-black text-sm text-white hover:bg-off-white border-2 hover:border-black hover:text-black hover:border-black border-2 font-berling-nova px-6 py-3  transition-colors duration-1000"
             >
               BROWSE PROPERTIES
             </Link>

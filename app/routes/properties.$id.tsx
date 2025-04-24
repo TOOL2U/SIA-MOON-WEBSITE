@@ -222,14 +222,26 @@ export default function PropertyDetail() {
             </div>
 
           </div>
-          <div className="flex justify-center pt-14">
+          <div className="flex justify-center  pt-14 grid grid-cols-2  md:grid-cols-2 gap-8">
+            
             <button
               onClick={() => setShowLocationMap(true)}
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-deep-green text-white hover:bg-terracotta transition-colors duration-300 font-calluna text-sm w-[200px] h-[50px]"
+              className="flex items-center justify-center gap-2 px-0 py-0 relative absolute top-10 left-10 bg-deep-green text-white hover:bg-terracotta transition-colors duration-1000 font-calluna text-sm w-[200px] h-[50px]"
             >
+              
               <FaMapPin />
               <span>VIEW LOCATION</span>
             </button>
+            {/* Check Availability Button */}
+      <div className="bg-off-white w-full pb-16 flex flex-col justify-center items-center relative absolute top-10 left-15">
+        <button
+          onClick={() => setShowAvailabilityCalendar(true)}
+          className="flex items-center justify-center gap-2 px-0 py-0 bg-deep-green text-white hover:bg-terracotta transition-colors duration-1000 font-calluna text-sm w-[200px] h-[50px]"
+        >
+          <FaCalendarAlt className="text-xl" />
+          <span>CHECK AVAILABILITY</span>
+        </button>
+      </div>
           </div>
         </div>
       </div>
@@ -243,17 +255,6 @@ export default function PropertyDetail() {
         onClose={() => setShowAvailabilityCalendar(false)}
         onDateSelect={handleDateSelect}
       />
-
-      {/* Check Availability Button */}
-      <div className="bg-off-white w-full py-10 flex justify-center">
-        <button
-          onClick={() => setShowAvailabilityCalendar(true)}
-          className="flex items-center justify-center gap-2 px-6 py-3 bg-deep-green text-white hover:bg-terracotta transition-colors duration-300 font-calluna text-sm w-[200px] h-[50px]"
-        >
-          <FaCalendarAlt className="text-xl" />
-          <span>CHECK AVAILABILITY</span>
-        </button>
-      </div>
 
       {/* Booking Form Section */}
       <div id="booking-form-section" className="bg-off-white w-full h-[1090px]">

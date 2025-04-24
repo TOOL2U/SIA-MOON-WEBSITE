@@ -103,7 +103,7 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
           {/* Close button */}
           <button
             onClick={toggleDropdown}
-            className="absolute top-4 right-4 text-off-white hover:text-terracotta transition-colors duration-300"
+            className="absolute top-4 right-4 text-off-white hover:text-terracotta transition-colors duration-1000"
             aria-label="Close menu"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
@@ -111,7 +111,7 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
             </svg>
           </button>
           <div className="text-center">
-            <span className="font-berling-nova text-off-white text-2xl group-hover:text-terracotta transition-colors duration-300 block mb-12">
+            <span className="font-berling-nova text-off-white text-2xl group-hover:text-terracotta transition-colors duration-1000 block mb-12">
             THE SIA MOON COLLECTION
             </span>
             <ul className="space-y-12">
@@ -139,9 +139,9 @@ const logo = getCloudinaryUrl(  "logo-white-vector-3svg_dmz2pf",);
                 <Link
                   to="/properties/tropical-haven"
                   onClick={toggleDropdown}
-                  className="text-off-white text-2xl hover:text-terracotta transition-colors duration-300 flex items-center justify-center font-berling-nova"
+                  className="text-off-white text-2xl hover:text-terracotta transition-colors duration-1000 flex items-center justify-center font-berling-nova"
                 >
-                  <span className="inline-block w-0 h-0.5 bg-terracotta mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></span>
+                  <span className="inline-block w-0 h-0.5 bg-terracotta mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-1000"></span>
                   LANNA HOUSE
                 </Link>
               </li>
@@ -196,7 +196,7 @@ function NavLink({
   return (
     <Link
       to={to}
-      className="relative text-white hover:text-terracotta transition-colors duration-200 font-berling-nova group overflow-hidden"
+      className="relative text-white hover:text-terracotta transition-colors duration-1000 font-berling-nova group overflow-hidden"
       style={{
         transform: loaded ? 'translateY(0)' : 'translateY(100%)',
         opacity: loaded ? 1 : 0,
@@ -205,7 +205,7 @@ function NavLink({
       }}
     >
       {children}
-      <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-terracotta transition-all duration-300 group-hover:w-full"></span>
+      <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-terracotta transition-all duration-1000 group-hover:w-full"></span>
     </Link>
   );
 }
@@ -222,7 +222,7 @@ function MobileNavLink({
   return (
     <Link
       to={to}
-      className="text-off-white text-2xl font-berling-nova hover:text-terracotta transition-colors duration-200"
+      className="text-off-white text-2xl font-berling-nova hover:text-terracotta transition-colors duration-1000"
       onClick={onClick}
     >
       {children}

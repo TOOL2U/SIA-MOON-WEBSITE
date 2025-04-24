@@ -237,7 +237,7 @@ export default function BookingForm({ property }: BookingFormProps) {
           <div className="flex flex-col space-y-3 mt-6">
             <Link
               to="/my-bookings"
-              className="bg-deep-green text-white py-2 px-4 rounded hover:bg-terracotta transition-colors duration-300"
+              className="bg-deep-green text-white py-2 px-4 rounded hover:bg-terracotta transition-colors duration-1000"
             >
               View My Booking
             </Link>
@@ -254,7 +254,7 @@ export default function BookingForm({ property }: BookingFormProps) {
                 setSpecialRequests("");
                 setBookingNumber(null);
               }}
-              className="text-deep-green underline hover:text-terracotta transition-colors duration-300"
+              className="text-deep-green underline hover:text-terracotta transition-colors duration-1000"
             >
               Make Another Booking
             </button>
@@ -417,7 +417,7 @@ export default function BookingForm({ property }: BookingFormProps) {
 
           <button
             type="submit"
-            className="w-full bg-deep-green hover:bg-terracotta text-white font-calluna py-4 px-6 transition-colors duration-300 flex justify-center items-center text-xl"
+            className="w-full bg-deep-green hover:bg-terracotta text-white font-calluna py-4 px-6 transition-colors duration-1000 flex justify-center items-center text-xl"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
