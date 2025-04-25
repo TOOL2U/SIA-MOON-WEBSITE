@@ -13,4 +13,10 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  optimizeDeps: {
+    exclude: ["react-icons"]
+  },
+  ssr: {
+    noExternal: ["react-icons"]
+  }
 });
