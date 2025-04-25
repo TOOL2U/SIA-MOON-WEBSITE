@@ -8,6 +8,7 @@ import {
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import { useEffect } from "react";
+import { ClientOnly } from "./components/ClientOnly";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import "./styles/global.css";
@@ -61,46 +62,61 @@ export const links: LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
-  // Initialize AOS
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-      offset: 100,
-      easing: 'ease-in-out'
-    });
-  }, []);
+  // Initialize AOS - only on client side
+  const ClientAOS = () => {
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        AOS.init({
+          duration: 1000,
+          once: true,
+          offset: 100,
+          easing: 'ease-in-out'
+        });
+      }
+    }, []);
+    return null;
+  };
 
-  // Initialize Lenis for smooth scrolling
-  useEffect(() => {
-    // Using type assertion to handle newer Lenis options that might not be in the type definitions
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      touchMultiplier: 2,
-      autoResize: true, // Automatically resize on window resize
-      syncTouch: false, // Better performance on touch devices
-    } as any);
+  // Initialize Lenis for smooth scrolling - only on client side
+  const ClientLenis = () => {
+    useEffect(() => {
+      if (typeof window === 'undefined') return;
 
-    function raf(time: number) {
-      lenis.raf(time);
+      // Using type assertion to handle newer Lenis options that might not be in the type definitions
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        touchMultiplier: 2,
+        autoResize: true, // Automatically resize on window resize
+        syncTouch: false, // Better performance on touch devices
+      } as any);
+
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
       requestAnimationFrame(raf);
-    }
 
-    requestAnimationFrame(raf);
+      return () => {
+        lenis.destroy();
+      };
+    }, []);
+    return null;
+  };
 
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
-
-  // Scroll to top on route change
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+  // Scroll to top on route change - only on client side
+  const ScrollToTop = () => {
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo(0, 0);
+      }
+    }, [location.pathname]);
+    return null;
+  };
 
   return (
     <html lang="en">
@@ -116,6 +132,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
           {children}
         </main>
         <Footer />
+        <ClientOnly>
+          <ClientAOS />
+          <ClientLenis />
+          <ScrollToTop />
+        </ClientOnly>
         <ScrollRestoration />
         <Scripts />
       </body>

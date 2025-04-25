@@ -11,6 +11,20 @@ export interface BlockedDate {
 // In a real application, this would be stored in a database
 export const blockedDates: BlockedDate[] = [];
 
+// Helper function to safely access localStorage
+function safeLocalStorage() {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    return window.localStorage;
+  }
+
+  // Return a mock localStorage for server-side rendering
+  return {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+  };
+}
+
 /**
  * Generate a unique ID for a blocked date
  */
@@ -35,10 +49,11 @@ export function addBlockedDate(blockedDate: Omit<BlockedDate, 'id' | 'createdAt'
 
   // Also store in localStorage for persistence
   try {
-    const savedBlockedDates = localStorage.getItem('blockedDates') || '[]';
+    const storage = safeLocalStorage();
+    const savedBlockedDates = storage.getItem('blockedDates') || '[]';
     const storedBlockedDates = JSON.parse(savedBlockedDates);
     storedBlockedDates.push(newBlockedDate);
-    localStorage.setItem('blockedDates', JSON.stringify(storedBlockedDates));
+    storage.setItem('blockedDates', JSON.stringify(storedBlockedDates));
   } catch (error) {
     console.error('Error storing blocked date in localStorage:', error);
   }
@@ -58,10 +73,11 @@ export function removeBlockedDate(id: string): boolean {
 
   // Also remove from localStorage
   try {
-    const savedBlockedDates = localStorage.getItem('blockedDates') || '[]';
+    const storage = safeLocalStorage();
+    const savedBlockedDates = storage.getItem('blockedDates') || '[]';
     const storedBlockedDates = JSON.parse(savedBlockedDates);
     const updatedBlockedDates = storedBlockedDates.filter((date: BlockedDate) => date.id !== id);
-    localStorage.setItem('blockedDates', JSON.stringify(updatedBlockedDates));
+    storage.setItem('blockedDates', JSON.stringify(updatedBlockedDates));
   } catch (error) {
     console.error('Error removing blocked date from localStorage:', error);
   }
@@ -75,9 +91,10 @@ export function removeBlockedDate(id: string): boolean {
 export function getBlockedDatesByPropertyId(propertyId: string): BlockedDate[] {
   // First check localStorage for any stored blocked dates
   try {
-    const savedBlockedDates = localStorage.getItem('blockedDates') || '[]';
+    const storage = safeLocalStorage();
+    const savedBlockedDates = storage.getItem('blockedDates') || '[]';
     const storedBlockedDates = JSON.parse(savedBlockedDates);
-    
+
     // Update the in-memory array with any dates from localStorage
     storedBlockedDates.forEach((date: BlockedDate) => {
       if (!blockedDates.some(d => d.id === date.id)) {
@@ -100,15 +117,15 @@ export function isDateRangeBlocked(
   endDate: string
 ): boolean {
   const propertyBlockedDates = getBlockedDatesByPropertyId(propertyId);
-  
+
   const checkStartDate = new Date(startDate);
   const checkEndDate = new Date(endDate);
-  
+
   // Check if there's any overlap with existing blocked dates
   return propertyBlockedDates.some(blockedDate => {
     const blockedStartDate = new Date(blockedDate.startDate);
     const blockedEndDate = new Date(blockedDate.endDate);
-    
+
     // Check if the dates overlap
     return (
       (checkStartDate >= blockedStartDate && checkStartDate < blockedEndDate) ||
@@ -124,9 +141,10 @@ export function isDateRangeBlocked(
 export function getAllBlockedDates(): BlockedDate[] {
   // First check localStorage for any stored blocked dates
   try {
-    const savedBlockedDates = localStorage.getItem('blockedDates') || '[]';
+    const storage = safeLocalStorage();
+    const savedBlockedDates = storage.getItem('blockedDates') || '[]';
     const storedBlockedDates = JSON.parse(savedBlockedDates);
-    
+
     // Update the in-memory array with any dates from localStorage
     storedBlockedDates.forEach((date: BlockedDate) => {
       if (!blockedDates.some(d => d.id === date.id)) {
