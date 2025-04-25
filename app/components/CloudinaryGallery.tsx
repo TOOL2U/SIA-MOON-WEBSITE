@@ -28,7 +28,7 @@ const publicIds = [
 //Hero Image
 const bed1 = getCloudinaryUrl('bedroom1_mtpspt');
 //Phangan Image
-const phangan = getCloudinaryUrl('best-island-in-Thailand_yknta2');
+const phangan = getCloudinaryUrl('best-island-in-Thailand_yknta2_c_crop_w_2650_h_1050_uag884');
 const phangansun = getCloudinaryUrl('Phangan_sunset_zxawtu');
 const about = getCloudinaryUrl('IMG_2039_-_Edited_kcklsd');
 //Index Images

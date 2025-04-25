@@ -1,0 +1,262 @@
+/* Mobile Calendar Dropdown Styles */
+
+/* Hide desktop calendar popups on mobile */
+@media (max-width: 767px) {
+  .calendar-popup,
+  .availability-calendar-popup {
+    display: none !important;
+  }
+}
+
+/* Mobile-specific calendar dropdown styles */
+.mobile-availability-calendar-dropdown {
+  display: none; /* Hidden by default */
+}
+
+/* Base styles for both calendar types */
+@media (max-width: 767px) {
+.mobile-availability-calendar-dropdown {
+  display: block;
+  position: fixed;
+  top: 15%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+
+  .mobile-availability-calendar-dropdown.open {
+    transform: translateY(0);
+  }
+
+  /* Availability Calendar specific styles */
+  .mobile-calendar {
+    background-color: #fff;
+    max-height: 85vh;
+  }
+
+  /* Booking Form Calendar specific styles */
+  .mobile-availability-calendar {
+    background-color: #fff;
+    max-height: 80vh;
+  }
+
+  .mobile-availability-calendar-dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  /* Default header styles (will be overridden by specific calendar types) */
+  .mobile-availability-calendar-dropdown-header {
+    background-color: #5B6E5F; /* default color */
+  }
+
+  .mobile-availability-calendar-dropdown-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    font-family: 'Calluna', serif;
+  }
+
+  /* Availability Calendar specific header styles */
+  .mobile-availability-calendar-dropdown-header {
+    background-color: #5B6E5F; /* deep-green */
+  }
+
+  .mobile-availability-calendar-dropdown-title {
+    font-size: 20px;
+  }
+
+  /* Booking Calendar specific header styles */
+  .mobile-booking-calendar-dropdown-header {
+    background-color: #FFA07A; /* terracotta */
+  }
+
+  .mobile-booking-calendar-dropdown-title {
+    font-size: 18px;
+  }
+
+  .mobile-availability-calendar-dropdown-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .mobile-availability-calendar-dropdown-content {
+    padding: 16px;
+    padding-bottom: 80px; /* Extra padding at the bottom to ensure content isn't hidden behind sticky buttons */
+  }
+
+  /* Calendar styles for mobile */
+  .mobile-availability-calendar-dropdown .react-datepicker {
+    width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-family: 'Calluna', serif !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__month-container {
+    width: 100% !important;
+    float: none !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__header {
+    background-color: #fff !important;
+    border-bottom: 1px solid #eee !important;
+    padding: 10px 0 !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__current-month {
+    font-size: 16px !important;
+    color: #264241 !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__day-names {
+    display: flex !important;
+    justify-content: space-around !important;
+    margin-top: 8px !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__day-name {
+    width: 36px !important;
+    margin: 0 !important;
+    font-size: 12px !important;
+    color: #666 !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__month {
+    margin: 0 !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__week {
+    display: flex !important;
+    justify-content: space-around !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__day {
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    margin: 2px 0 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__day--selected {
+    background-color: #FFA07A !important;
+    color: white !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__day--in-selecting-range,
+  .mobile-availability-calendar-dropdown .react-datepicker__day--in-range {
+    background-color: #FFA07A !important;
+    color: #ffffff !important;
+  }
+
+  .mobile-availability-calendar-dropdown .react-datepicker__day--disabled {
+    color: #848484 !important;
+    text-decoration: line-through !important;
+  }
+
+  /* Button styles */
+  .mobile-availability-calendar-dropdown-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    border-top: 1px solid #eee;
+    background-color: #fff;
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+  }
+
+  .mobile-availability-calendar-dropdown-button {
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .mobile-availability-calendar-dropdown-button-cancel {
+    background-color: #f5f5f5;
+    color: #264241;
+    border: 1px solid #264241;
+    flex: 1;
+    margin-right: 8px;
+  }
+
+  /* Default apply button styles (will be overridden by specific calendar types) */
+  .mobile-availability-calendar-dropdown-button-apply {
+    background-color: #5B6E5F; /* default deep-green */
+    color: white;
+    border: none;
+    flex: 1;
+    margin-left: 8px;
+  }
+
+  .mobile-availability-calendar-dropdown-button-cancel:hover {
+    background-color: #e5e5e5;
+  }
+
+  /* Availability Calendar specific button styles */
+  .mobile-availability-calendar-dropdown-button-apply {
+    background-color: #5B6E5F; /* deep-green */
+  }
+
+  .mobile-availability-calendar-dropdown-button-apply:hover {
+    background-color: #5B6E5F; /* darker deep-green */
+  }
+
+  /* Booking Calendar specific button styles */
+  .mobile-booking-calendar-dropdown-button-apply {
+    background-color: #FFA07A; /* terracotta */
+  }
+
+  .mobile-booking-calendar-dropdown-button-apply:hover {
+    background-color: #a85c4a; /* darker terracotta */
+  }
+
+  .mobile-availability-calendar-dropdown-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Backdrop */
+  .mobile-availability-calendar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .mobile-availability-calendar-backdrop.open {
+    display: block;
+  }
+}

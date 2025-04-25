@@ -222,24 +222,24 @@ export default function MyBookings() {
   };
 
   return (
-    <div className="bg-off-white min-h-screen py-24 pt-24 mt-32 my-bookings-page">
-      <div className="container mx-auto px-4">
+    <div className="bg-off-white min-h-screen py-16 sm:py-20 md:py-24 pt-16 sm:pt-20 md:pt-24 mt-24 sm:mt-28 md:mt-32 my-bookings-page">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl font-calluna text-deep-green text-center mb-8" data-aos="fade-up" data-aos-duration="800">My Bookings</h1>
+          <h1 className="text-3xl sm:text-4xl font-calluna text-deep-green text-center mb-6 sm:mb-8" data-aos="fade-up" data-aos-duration="800">My Bookings</h1>
 
           {!booking ? (
-            <div className="bg-white rounded-lg shadow-md p-8" data-aos="fade-up" data-aos-delay="200">
-              <h2 className="text-2xl font-calluna text-deep-green mb-4 text-center">Find Your Booking</h2>
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8" data-aos="fade-up" data-aos-delay="200">
+              <h2 className="text-xl sm:text-2xl font-calluna text-deep-green mb-3 sm:mb-4 text-center">Find Your Booking</h2>
 
-              <p className="text-gray-600 mb-6 text-center">
+              <p className="text-gray-600 mb-4 sm:mb-6 text-center text-sm sm:text-base">
                 Enter your booking number and email address to access your booking details at any time.
-                <br />
+                <br className="hidden sm:block" />
                 All bookings are securely stored and will remain accessible for future reference.
               </p>
 
               <form onSubmit={handleSubmit}>
-                <div className="mb-6">
-                  <label htmlFor="bookingNumber" className="block text-gray-700 font-medium mb-2 flex items-center">
+                <div className="mb-4 sm:mb-6">
+                  <label htmlFor="bookingNumber" className="block text-gray-700 text-sm sm:text-base font-medium mb-1 sm:mb-2 flex items-center">
                     <FaTicketAlt className="mr-2 text-deep-green" />
                     Booking Number
                   </label>
@@ -248,14 +248,14 @@ export default function MyBookings() {
                     id="bookingNumber"
                     value={bookingNumber}
                     onChange={(e) => setBookingNumber(e.target.value)}
-                    className={`w-full p-3 border ${errors.bookingNumber ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+                    className={`w-full p-2 sm:p-3 border text-sm sm:text-base ${errors.bookingNumber ? 'border-red-500' : 'border-gray-300'} rounded-md`}
                     placeholder="e.g. SIA-12345"
                   />
-                  {errors.bookingNumber && <p className="text-red-500 text-sm mt-1">{errors.bookingNumber}</p>}
+                  {errors.bookingNumber && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.bookingNumber}</p>}
                 </div>
 
-                <div className="mb-6">
-                  <label htmlFor="email" className="block text-gray-700 font-medium mb-2 flex items-center">
+                <div className="mb-4 sm:mb-6">
+                  <label htmlFor="email" className="block text-gray-700 text-sm sm:text-base font-medium mb-1 sm:mb-2 flex items-center">
                     <FaEnvelope className="mr-2 text-deep-green" />
                     Email Address
                   </label>
@@ -264,20 +264,20 @@ export default function MyBookings() {
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={`w-full p-3 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+                    className={`w-full p-2 sm:p-3 border text-sm sm:text-base ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md`}
                     placeholder="Enter the email used for booking"
                   />
-                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                  {errors.email && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.email}</p>}
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-deep-green hover:bg-terracotta text-white font-medium py-3 px-6 rounded-md transition-colors duration-300 flex justify-center items-center"
+                  className="w-full bg-deep-green hover:bg-terracotta text-white font-medium py-2 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-md transition-colors duration-300 flex justify-center items-center"
                   disabled={isSearching}
                 >
                   {isSearching ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
@@ -293,15 +293,15 @@ export default function MyBookings() {
               </form>
 
               {notFound && (
-                <div className="mt-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md text-center">
-                  <p className="font-medium">Booking not found</p>
-                  <p className="text-sm mt-1">Please check your booking number and email address and try again.</p>
+                <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 border border-red-200 text-red-700 rounded-md text-center">
+                  <p className="font-medium text-sm sm:text-base">Booking not found</p>
+                  <p className="text-xs sm:text-sm mt-1">Please check your booking number and email address and try again.</p>
                 </div>
               )}
             </div>
           ) : (
             <div
-              className="bg-white rounded-lg shadow-md p-8"
+              className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8"
               data-aos="fade-up"
               data-aos-delay="200"
               data-print-date={new Date().toLocaleDateString('en-US', {
@@ -310,22 +310,22 @@ export default function MyBookings() {
                 day: 'numeric'
               })}
             >
-              <div className="flex justify-between items-center mb-6 border-b border-gray-200 pb-4">
-                <h2 className="text-2xl font-calluna text-deep-green">Booking Details</h2>
-                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 border-b border-gray-200 pb-3 sm:pb-4">
+                <h2 className="text-xl sm:text-2xl font-calluna text-deep-green mb-2 sm:mb-0">Booking Details</h2>
+                <span className="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
                   {booking.status === 'confirmed' ? 'Confirmed' : booking.status === 'pending' ? 'Pending' : 'Cancelled'}
                 </span>
               </div>
 
-              <div className="mb-6">
-                <div className="bg-gray-50 p-4 rounded-md mb-4">
-                  <p className="text-sm text-gray-600 mb-1">Booking Number</p>
+              <div className="mb-4 sm:mb-6">
+                <div className="bg-gray-50 p-3 sm:p-4 rounded-md mb-3 sm:mb-4">
+                  <p className="text-xs sm:text-sm text-gray-600 mb-1">Booking Number</p>
                   <div className="flex items-center justify-between">
-                    <p className="text-xl font-bold font-calluna text-deep-green">{booking.bookingNumber}</p>
+                    <p className="text-base sm:text-xl font-bold font-calluna text-deep-green">{booking.bookingNumber}</p>
                     <button
                       type="button"
                       onClick={() => copyBookingNumber(booking.bookingNumber)}
-                      className="flex items-center gap-1 text-deep-green hover:text-terracotta transition-colors duration-300 px-3 py-1 border border-deep-green rounded-md"
+                      className="flex items-center gap-1 text-deep-green hover:text-terracotta transition-colors duration-300 px-2 sm:px-3 py-1 border border-deep-green rounded-md text-xs sm:text-sm"
                       title="Copy booking number to clipboard"
                     >
                       <FaCopy />
@@ -334,53 +334,53 @@ export default function MyBookings() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <h3 className="text-lg font-medium text-deep-green mb-3">Property</h3>
-                    <p className="text-gray-700">{getProperty(booking.propertyId)?.name || booking.propertyId}</p>
-                    <p className="text-gray-500 text-sm mt-1">{getProperty(booking.propertyId)?.location}</p>
+                    <h3 className="text-base sm:text-lg font-medium text-deep-green mb-2 sm:mb-3">Property</h3>
+                    <p className="text-gray-700 text-sm sm:text-base">{getProperty(booking.propertyId)?.name || booking.propertyId}</p>
+                    <p className="text-gray-500 text-xs sm:text-sm mt-1">{getProperty(booking.propertyId)?.location}</p>
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-medium text-deep-green mb-3">Dates</h3>
-                    <p className="text-gray-700">
+                    <h3 className="text-base sm:text-lg font-medium text-deep-green mb-2 sm:mb-3">Dates</h3>
+                    <p className="text-gray-700 text-sm sm:text-base">
                       {format(new Date(booking.checkIn), "MMM d, yyyy")} - {format(new Date(booking.checkOut), "MMM d, yyyy")}
                     </p>
-                    <p className="text-gray-500 text-sm mt-1">
+                    <p className="text-gray-500 text-xs sm:text-sm mt-1">
                       {Math.ceil((new Date(booking.checkOut).getTime() - new Date(booking.checkIn).getTime()) / (1000 * 60 * 60 * 24))} nights
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-medium text-deep-green mb-3">Guest Information</h3>
-                    <p className="text-gray-700">{booking.name}</p>
-                    <p className="text-gray-500 text-sm mt-1">{booking.email}</p>
-                    <p className="text-gray-500 text-sm">{booking.phone}</p>
+                    <h3 className="text-base sm:text-lg font-medium text-deep-green mb-2 sm:mb-3">Guest Information</h3>
+                    <p className="text-gray-700 text-sm sm:text-base">{booking.name}</p>
+                    <p className="text-gray-500 text-xs sm:text-sm mt-1">{booking.email}</p>
+                    <p className="text-gray-500 text-xs sm:text-sm">{booking.phone}</p>
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-medium text-deep-green mb-3">Payment</h3>
-                    <p className="text-gray-700 font-bold">${booking.total.toLocaleString()}</p>
-                    <p className="text-gray-500 text-sm mt-1">Paid in full</p>
+                    <h3 className="text-base sm:text-lg font-medium text-deep-green mb-2 sm:mb-3">Payment</h3>
+                    <p className="text-gray-700 font-bold text-sm sm:text-base">${booking.total.toLocaleString()}</p>
+                    <p className="text-gray-500 text-xs sm:text-sm mt-1">Paid in full</p>
                   </div>
                 </div>
 
                 {booking.specialRequests && (
-                  <div className="mt-6">
-                    <h3 className="text-lg font-medium text-deep-green mb-3">Special Requests</h3>
-                    <p className="text-gray-700">{booking.specialRequests}</p>
+                  <div className="mt-4 sm:mt-6">
+                    <h3 className="text-base sm:text-lg font-medium text-deep-green mb-2 sm:mb-3">Special Requests</h3>
+                    <p className="text-gray-700 text-sm sm:text-base">{booking.specialRequests}</p>
                   </div>
                 )}
               </div>
 
-              <div className="border-t border-gray-200 pt-6 mt-6 flex justify-between">
+              <div className="border-t border-gray-200 pt-4 sm:pt-6 mt-4 sm:mt-6 flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
                 <button
                   onClick={() => {
                     setBooking(null);
                     setBookingNumber("");
                     setEmail("");
                   }}
-                  className="text-deep-green hover:text-terracotta transition-colors duration-300"
+                  className="text-deep-green hover:text-terracotta transition-colors duration-300 text-sm sm:text-base"
                 >
                   ← Back to search
                 </button>
@@ -399,7 +399,7 @@ export default function MyBookings() {
                       document.title = originalTitle;
                     }, 100);
                   }}
-                  className="bg-deep-green hover:bg-terracotta text-white font-medium py-2 px-4 rounded transition-colors duration-300"
+                  className="bg-deep-green hover:bg-terracotta text-white font-medium py-1.5 sm:py-2 px-3 sm:px-4 rounded text-sm sm:text-base transition-colors duration-300 w-full sm:w-auto"
                 >
                   Print Details
                 </button>

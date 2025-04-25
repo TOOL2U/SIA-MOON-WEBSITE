@@ -15,6 +15,11 @@ import "react-datepicker/dist/react-datepicker.css";
 // Make sure this comes BEFORE your custom styles
 import "./tailwind.css";
 import "./styles/fonts.css";
+// Import responsive adjustments
+import "./styles/responsive.css";
+// Import mobile calendar dropdown styles
+import "./styles/mobile-calendar-dropdown.css";
+import "./styles/mobile-availability-calendar-dropdown.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Lenis from '@studio-freight/lenis';

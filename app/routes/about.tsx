@@ -21,7 +21,7 @@ export default function About() {
     <div className="bg-off-white">
 
         {/* Hero Section */}
-        <div className="relative h-[100vh] overflow-hidden bg-deep-green">
+        <div className="relative h-[100vh] object-contain overflow-hidden bg-deep-green">
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <h1 className="text-8xl font-calluna text-off-white/80 z-50 text-center pb-16"
                data-aos="fade-up"
@@ -33,7 +33,7 @@ export default function About() {
           <img
             src={fam}
             alt="Luxury Estate Contact"
-            className="w-full h-full object-contain bg-contain"
+            className="w-full h-full object-contain bg-contain mt-2"
             data-aos="fade-in"
             data-aos-duration="1500"
           />

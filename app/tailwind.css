@@ -53,17 +53,17 @@
 
 /* React Datepicker custom styles */
 .react-datepicker {
-  @apply font-elaSans border-deep-green;
+  @apply font-calluna border-deep-green;
 }
 
 .react-datepicker__header {
-  @apply bg-deep-green text-black;
+  @apply bg-deep-green text-black text-lg;
 }
 
 .react-datepicker__current-month,
 .react-datepicker-time__header,
 .react-datepicker-year-header {
-  @apply text-black;
+  @apply text-black ;
 }
 
 .react-datepicker__day--selected,
@@ -173,7 +173,7 @@
 .calendar-popup .react-datepicker__month {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 1rem;
 }
 
@@ -186,14 +186,14 @@
   justify-content: center !important;
   margin: 0.2rem !important;
   border-radius: 50%;
-  font-size: 1rem;
+  font-size: 1.7rem;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
 /* Custom color scheme */
 .calendar-popup .react-datepicker__day--selected {
-  background-color: #264241; /* deep-green */
+  background-color: #848584; /* deep-green */
   color: white;
 }
 
@@ -209,12 +209,12 @@
 .calendar-popup .react-datepicker__day:hover:not(.react-datepicker__day--selected) {
   background-color: #FFA07A; /* terracotta */
   color: white;
-  transform: scale(1.1);
+  transform: scale(1.0);
 }
 
 /* Today's date highlight */
 .calendar-popup .react-datepicker__day--today {
-  border: 2px solid #264241;
+  border: 2px solid #000000;
   font-weight: bold;
 }
 
@@ -243,8 +243,8 @@
   
   .calendar-popup .react-datepicker__day {
     height: 35px;
-    width: 35px;
-    font-size: 0.9rem;
+    width: 50px;
+    font-size: 5rem;
   }
 }
 
@@ -277,7 +277,7 @@
 .availability-calendar-popup {
    position: fixed !important;
   top: 50% !important;
-  left: 40% !important;
+  left: 45% !important;
   transform: translate(-50%, -50%) !important;
   z-index: 9999 !important;
   max-height: 90vh;
@@ -368,7 +368,7 @@
   justify-content: center !important;
   margin: 0.2rem !important;
   border-radius: 50%;
-  font-size: 1rem;
+  font-size: 1.7rem;
   font-weight: 500;
   transition: all 0.2s ease;
 }
@@ -402,7 +402,7 @@
 
 /* Disabled dates */
 .availability-calendar-popup .react-datepicker__day--disabled {
-  color: black;
+  color: rgba(0, 0, 0, 0.792);
   cursor: not-allowed;
   text-decoration: line-through;
 }

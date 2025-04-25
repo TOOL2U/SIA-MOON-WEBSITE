@@ -5,23 +5,22 @@ import { addMonths, eachDayOfInterval, isSameDay, format } from "date-fns";
 import { isPropertyAvailable } from "~/data/bookings";
 import { isDateRangeBlocked } from "~/data/blockedDates";
 import type { Property } from "~/models/property";
-import MobileAvailabilityCalendar from "./MobileAvailabilityCalendar";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-interface AvailabilityCalendarProps {
+interface MobileAvailabilityCalendarProps {
   property: Property;
   isOpen: boolean;
   onClose: () => void;
   onDateSelect?: (startDate: Date, endDate: Date) => void;
 }
 
-export default function AvailabilityCalendar({
+export default function MobileAvailabilityCalendar({
   property,
   isOpen,
   onClose,
   onDateSelect
-}: AvailabilityCalendarProps) {
+}: MobileAvailabilityCalendarProps) {
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [unavailableDates, setUnavailableDates] = useState<Date[]>([]);
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -146,121 +145,103 @@ export default function AvailabilityCalendar({
 
   return (
     <>
-      {/* Desktop version */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center desktop-calendar-container">
-        {/* Backdrop */}
-        <div
-          className="absolute inset-0 bg-black/90 backdrop-blur-sm"
-          onClick={onClose}
-        ></div>
+      {/* Backdrop */}
+      <div
+        className={`mobile-availability-calendar-backdrop ${isOpen ? 'open' : ''}`}
+        onClick={onClose}
+      ></div>
 
-        {/* Calendar container */}
-        <div className="calendar-popup relative bg-black/90 rounded-lg shadow-xl p-6 max-w-3xl w-full mx-4 z-10">
-          {/* Close button */}
+      {/* Mobile Calendar Dropdown */}
+      <div className={`mobile-availability-calendar-dropdown mobile-availability-calendar ${isOpen ? 'open' : ''}`}>
+        <div className="mobile-availability-calendar-dropdown-header">
+          <div className="mobile-availability-calendar-dropdown-title">Check Availability</div>
           <button
+            className="mobile-availability-calendar-dropdown-close"
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-500 hover:text-deep-green transition-colors"
             aria-label="Close calendar"
           >
-            <FaTimes size={20} />
+            <FaTimes />
           </button>
+        </div>
 
-          <h2 className="text-2xl font-calluna text-deep-green mb-4 text-center">
-            Check Availability
-          </h2>
-
-          <p className="text-gray-600 mb-6 text-center">
-            Select your check-in and check-out dates to see availability for {property.name}
-          </p>
-
+        <div className="mobile-availability-calendar-dropdown-content">
           {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-deep-green"></div>
+            <div className="flex justify-center items-center h-32">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-deep-green"></div>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 text-center">
-                <div>
-                  <label className="block text-black text-xl font-calluna mb-2">Check-in Date</label>
-                  <div className="relative">
-                    <DatePicker
-                      selected={startDate}
-                      onChange={handleStartDateChange}
-                      selectsStart
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={new Date()}
-                      filterDate={filterDate}
-                      renderDayContents={renderDayContents}
-                      placeholderText="Select check-in date"
-                      className="w-full p-3 border-2 border-black rounded-md"
-                      monthsShown={1}
-                      inline
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  
-                  <label className="block text-black text-xl font-calluna mb-2">Check-out Date</label>
-                  <div className="relative">
-                    <DatePicker
-                      selected={endDate}
-                      onChange={handleEndDateChange}
-                      selectsEnd
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={startDate}
-                      filterDate={filterDate}
-                      renderDayContents={renderDayContents}
-                      placeholderText="Select check-out date"
-                      className="w-full p-3 border-2 border-black rounded-md"
-                      monthsShown={1}
-                      inline
-                      disabled={!startDate}
-                    />
-                  </div>
-                </div>
+              <div className="mb-4 text-center">
+                <div className="text-lg font-calluna text-black mb-1">Check-in Date</div>
+                <DatePicker
+                  selected={startDate}
+                  onChange={handleStartDateChange}
+                  selectsStart
+                  startDate={startDate}
+                  endDate={endDate}
+                  minDate={new Date()}
+                  filterDate={filterDate}
+                  renderDayContents={renderDayContents}
+                  placeholderText="Select check-in date"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  monthsShown={1}
+                  inline
+                />
               </div>
 
-              <div className="flex justify-between items-center mt-6">
-                <div className="flex items-center space-x-2">
-                  <div className="w-4 h-4 bg-deep-green rounded-full"></div>
-                  <span className="text-sm text-gray-600">Available</span>
+              {startDate && (
+                <div className="mb-4 text-center">
+                  <div className="text-lg font-calluna text-black mb-1">Check-out Date</div>
+                  <DatePicker
+                    selected={endDate}
+                    onChange={handleEndDateChange}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                    filterDate={filterDate}
+                    renderDayContents={renderDayContents}
+                    placeholderText="Select check-out date"
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                    monthsShown={1}
+                    inline
+                    disabled={!startDate}
+                  />
+                </div>
+              )}
 
-                  <div className="w-4 h-4 bg-gray-300 rounded-full ml-4"></div>
-                  <span className="text-sm text-gray-600">Unavailable</span>
+              <div className="flex items-center justify-center space-x-4 mb-2">
+                <div className="flex items-center">
+                  <div className="w-3 h-3 bg-deep-green rounded-full mr-1"></div>
+                  <span className="text-xs text-gray-600">Available</span>
                 </div>
 
-                <div className="flex space-x-3">
-                  <button
-                    onClick={onClose}
-                    className="px-4 py-2 border border-deep-green text-deep-green rounded-md hover:bg-terracotta/50 transition-colors duration-1000"
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    onClick={handleApply}
-                    className="px-4 py-2 bg-deep-green text-white rounded-md hover:bg-terracotta transition-colors duration-1000"
-                    disabled={!startDate || !endDate}
-                  >
-                    Apply Dates
-                  </button>
+                <div className="flex items-center">
+                  <div className="w-3 h-3 bg-gray-300 rounded-full mr-1"></div>
+                  <span className="text-xs text-gray-600">Unavailable</span>
                 </div>
               </div>
             </>
           )}
         </div>
-      </div>
 
-      {/* Mobile version */}
-      <MobileAvailabilityCalendar
-        property={property}
-        isOpen={isOpen}
-        onClose={onClose}
-        onDateSelect={onDateSelect}
-      />
+        <div className="mobile-availability-calendar-dropdown-buttons">
+          <button
+            onClick={onClose}
+            className="mobile-availability-calendar-dropdown-button mobile-availability-calendar-dropdown-button-cancel"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={handleApply}
+            className="mobile-availability-calendar-dropdown-button mobile-availability-calendar-dropdown-button-apply"
+            disabled={!startDate || !endDate}
+          >
+            Apply Dates
+          </button>
+        </div>
+      </div>
     </>
   );
 }

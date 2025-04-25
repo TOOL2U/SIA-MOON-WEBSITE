@@ -8,6 +8,7 @@ import { getCountries } from "~/data/countries";
 import { createBooking, isPropertyAvailable } from "~/data/bookings";
 import { blockDatesForBooking, getBlockedDatesByPropertyId, isDateRangeBlocked } from "~/data/blockedDates";
 import { sendBookingToMakeWebhook } from "~/utils/webhooks";
+import MobileBookingCalendar from "./MobileBookingCalendar";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -360,19 +361,19 @@ export default function BookingForm({ property }: BookingFormProps) {
     if (!isCalendarOpen) return null;
 
     return (
-      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center">
+      <div className=" absolute left-[-110%] fixed w-[190vh] h-full inset-0 z-50 flex flex-col items-center justify-center">
         {/* Backdrop */}
         <div
           className="absolute inset-0 bg-black/70 backdrop-blur-sm"
           onClick={onClose}
-        ></div>
+    ></div>
 
         {/* Calendar container */}
-        <div className="availability-calendar-popup relative rounded-lg shadow-xl p-6 max-w-3xl w-full mx-4 z-10">
+        <div className="availability-calendar-popup relative border-2 border-black rounded-lg shadow-xl p-4 sm:p-6 max-w-3xl w-[90%] sm:w-full mx-4 z-10 popup-container-mobile">
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-500 hover:text-deep-green transition-colors"
+            className="absolute top-4 right-4 text-black hover:text-deep-green transition-colors"
             aria-label="Close calendar"
           >
             <FaTimes size={20} />
@@ -386,9 +387,9 @@ export default function BookingForm({ property }: BookingFormProps) {
             Select your check-in and check-out dates for {property.name}
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 text-center">
             <div>
-              <label className="block text-gray-700 font-calluna mb-2">Check-in Date</label>
+              <label className="block text-black text-xl font-calluna mb-2">Check-in Date</label>
               <div className="relative">
                 <DatePicker
                   selected={tempStartDate}
@@ -398,7 +399,7 @@ export default function BookingForm({ property }: BookingFormProps) {
                   endDate={tempEndDate}
                   minDate={new Date()}
                   placeholderText="Select check-in date"
-                  className="w-full p-3 border border-gray-300 rounded-md"
+                  className="w-full p-3 border border-black rounded-md"
                   monthsShown={1}
                   inline
                   filterDate={date => !isDateBlocked(date)}
@@ -407,7 +408,7 @@ export default function BookingForm({ property }: BookingFormProps) {
             </div>
 
             <div>
-              <label className="block text-gray-700 font-calluna mb-2">Check-out Date</label>
+              <label className="block text-black text-xl font-calluna mb-2">Check-out Date</label>
               <div className="relative">
                 <DatePicker
                   selected={tempEndDate}
@@ -417,7 +418,7 @@ export default function BookingForm({ property }: BookingFormProps) {
                   endDate={tempEndDate}
                   minDate={tempStartDate ? addDays(tempStartDate, 1) : new Date()}
                   placeholderText="Select check-out date"
-                  className="w-full p-3 border border-gray-300 rounded-md"
+                  className="w-full p-3 border border-black rounded-md"
                   monthsShown={1}
                   inline
                   disabled={!tempStartDate}
@@ -449,11 +450,24 @@ export default function BookingForm({ property }: BookingFormProps) {
   };
 
   return (
-    <div className="pb-10 relative top-0 left-[-320px]  w-[1000px] h-[1200px]">
+    <div className="pb-10 relative top-0 md:left-[-20px] left-0 w-full md:w-[1000px] h-auto md:h-[1200px] booking-form-container">
       <h3 className="text-3xl font-calluna text-deep-green mb-14 text-center">Book Your Stay</h3>
 
-      {/* Calendar Popup */}
+      {/* Calendar Popup - Desktop */}
       <CalendarPopup />
+
+      {/* Calendar Popup - Mobile */}
+      <MobileBookingCalendar
+        property={property}
+        isOpen={isCalendarOpen}
+        onClose={onClose}
+        onDateSelect={(start, end) => {
+          setStartDate(start);
+          setEndDate(end);
+        }}
+        initialStartDate={startDate}
+        initialEndDate={endDate}
+      />
 
       {detailsAutoFilled && (
         <div className="bg-off-white border border-deep-green text-deep-green p-4  animate-fade-out text-center">
@@ -463,7 +477,7 @@ export default function BookingForm({ property }: BookingFormProps) {
       )}
 
       {isSuccess ? (
-        <div className="bg-green-50 border border-green-200 text-green-700 p-8 rounded-md mb-6 text-center">
+        <div className="bg-green-50 border border-green-200 text-green-700 p-4 md:p-8 rounded-md mb-6 text-center booking-confirmation-container">
           <div className="flex justify-center items-center mb-4">
             <div className="bg-green-100 rounded-full p-3">
               <FaCheck className="text-green-600 text-3xl" />
@@ -476,9 +490,9 @@ export default function BookingForm({ property }: BookingFormProps) {
           {bookingNumber && (
             <div className="mb-4 p-4 bg-white border flex flex-col justify-center items-center border-green-200 rounded-md">
               <p className="text-sm text-gray-600 mb-1">Your Booking Number</p>
-              <div className="flex items-center relative right-[-40px]">
-                <p className="text-xl font-bold font-calluna text-deep-green">{bookingNumber}</p>
-                <div className="relative top-0 right-[-200px]">
+              <div className="flex flex-col md:flex-row items-center md:relative md:right-[-40px] booking-number-container">
+                <p className="text-xl font-bold font-calluna text-deep-green mb-2 md:mb-0">{bookingNumber}</p>
+                <div className="md:relative md:top-0 md:right-[-200px] mt-2 md:mt-0">
                 <button
                   type="button"
                   onClick={copyBookingNumber}
@@ -532,14 +546,14 @@ export default function BookingForm({ property }: BookingFormProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-0 mb-4 w-[1050px] h-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-0 mb-4 w-full md:w-[1050px] h-full booking-form-grid">
             <div>
               <label htmlFor="check-in" className="block text-deep-green font-calluna mb-1">Check-in</label>
               <div className="relative">
                 <button
                   type="button"
                   onClick={openCalendar}
-                  className={`w-[430px] h-full p-2 border flex items-center justify-between ${errors.startDate ? 'border-red-500' : 'border-gray-300'} bg-white`}
+                  className={`w-full md:w-[430px] h-full p-2 border flex items-center justify-between ${errors.startDate ? 'border-red-500' : 'border-gray-300'} bg-white booking-date-button`}
                 >
                   <span className={`${!startDate ? 'text-gray-400' : 'text-deep-green'}`}>
                     {startDate ? format(startDate, 'MMM dd, yyyy') : 'Select date'}
@@ -556,7 +570,7 @@ export default function BookingForm({ property }: BookingFormProps) {
                 <button
                   type="button"
                   onClick={openCalendar}
-                  className={`w-[470px] h-full p-2 border flex items-center justify-between ${errors.endDate ? 'border-red-500' : 'border-gray-300'} bg-white ${!startDate ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`w-full md:w-[470px] h-full p-2 border flex items-center justify-between ${errors.endDate ? 'border-red-500' : 'border-gray-300'} bg-white ${!startDate ? 'opacity-50 cursor-not-allowed' : ''} booking-date-button`}
                   disabled={!startDate}
                 >
                   <span className={`${!endDate ? 'text-gray-400' : 'text-deep-green'}`}>
@@ -677,7 +691,7 @@ export default function BookingForm({ property }: BookingFormProps) {
 
           <button
             type="submit"
-            className="w-full bg-deep-green hover:bg-terracotta text-white font-calluna py-4 px-6 transition-colors duration-1000 flex justify-center items-center text-xl"
+            className="w-full bg-deep-green hover:bg-terracotta text-white font-calluna py-3 sm:py-4 px-4 sm:px-6 transition-colors duration-1000 flex justify-center items-center text-base sm:text-lg md:text-xl booking-form-button"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -694,6 +708,8 @@ export default function BookingForm({ property }: BookingFormProps) {
           </button>
         </form>
       )}
+
     </div>
+
   );
 }

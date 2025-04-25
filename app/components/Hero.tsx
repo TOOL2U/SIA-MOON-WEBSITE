@@ -171,7 +171,7 @@ export default function Hero() {
   }, [isDestinationOpen, isCalendarOpen, isAdultsOpen]);
 
   return (
-    <div className="relative h-screen w-full flex justify-center overflow-hidden" style={{ marginTop: 0 }}>
+    <div className="relative h-screen w-full flex justify-center overflow-hidden hero-image-container" style={{ marginTop: 0, marginBottom: 0 }}>
       {/* Background mask removed to allow for clean fade-in */}
       <div
         className={`absolute inset-0 bg-deep-green z-10 transition-opacity duration-[2000ms] ${
@@ -180,13 +180,13 @@ export default function Hero() {
       />
 
       {/* Main hero image with slow fade-in */}
-      <div className="flex items-center justify-center w-[2500px] h-max-screen">
+      <div className="flex items-center justify-center w-[2500px] md:w-full h-max-screen hero-image">
         <img
           ref={imageRef}
           src={imageUrl}
           alt="Hero background"
           loading="lazy"
-          className={`w-full h-full object-cover transition-opacity mt-[10px] duration-[5000ms] ease-in ${
+          className={`w-full h-full object-scale-down transition-opacity mt-0 duration-[5000ms] ease-in ${
             animationState.imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
         />
@@ -201,13 +201,13 @@ export default function Hero() {
 
       </div>
 
-      {/* Booking Navigation Bar */}
+      {/* Booking Navigation Bar - Hidden on mobile */}
       <div
-        className={`absolute bottom-0 left-0 right-0 bg-deep-green z-20 transition-all duration-1000 ease-out ${
+        className={`absolute bottom-0 left-0 right-0 bg-deep-green z-20 transition-all duration-1000 ease-out hidden sm:block ${
           animationState.overlayReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
-        <div className="container mx-auto ">
+        <div className="container mx-auto px-2 sm:px-4">
           <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
             {/* Destination Button */}
             <div className="w-full md:w-1/4">
@@ -277,7 +277,7 @@ export default function Hero() {
             {startDate && endDate && selectedProperty ? (
               <Link
                 to={`/properties/${selectedProperty}`}
-                className="w-[170px] h-[90px] bg-off-white hover:bg-terracotta/80 text-black text-lg hover:text-black animate-fade-in border-2 border-off-white font-berling-nova transition-colors duration-300 uppercase text-center flex items-center justify-center"
+                className="w-full md:w-[170px] h-[60px] md:h-[90px] bg-off-white hover:bg-terracotta/80 text-black text-lg hover:text-black animate-fade-in border-2 border-off-white font-berling-nova transition-colors duration-300 uppercase text-center flex items-center justify-center w-fixed-adjust"
                 onClick={() => {
                   // Save booking details to localStorage
                   const bookingDetails = {
@@ -308,7 +308,7 @@ export default function Hero() {
             ) : (
               <div className="relative">
                 <div
-                  className="w-[170px] h-[90px] bg-gray-300 text-gray-600 text-lg border-2 border-gray-300 font-berling-nova uppercase text-center flex flex-col items-center justify-center cursor-not-allowed"
+                  className="w-full md:w-[170px] h-[60px] md:h-[90px] bg-gray-300 text-gray-600 text-lg border-2 border-gray-300 font-berling-nova uppercase text-center flex flex-col items-center justify-center cursor-not-allowed w-fixed-adjust"
                   title={!selectedProperty ? "Please select a property" : !startDate || !endDate ? "Please select check-in and check-out dates" : ""}
                 >
                   <span>BOOK NOW</span>
@@ -329,8 +329,8 @@ export default function Hero() {
       </div>
       {/* Destination Popup */}
       {isDestinationOpen && (
-  <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-start pt-[400px] transition-opacity duration-500 animate-fade-in">
-    <div className="bg-black border-2 border-off-white/50 rounded-lg shadow-xl p-10 w-[600px] h-[600px] overflow-y-auto animate-fadeIn hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform">
+  <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-start pt-[400px] sm:pt-[200px] md:pt-[400px] transition-opacity duration-500 animate-fade-in popup-pt-adjust">
+    <div className="bg-black border-2 border-off-white/50 rounded-lg shadow-xl p-4 sm:p-6 md:p-10 w-[90%] sm:w-[80%] md:w-[600px] h-auto md:h-[600px] max-h-[80vh] md:max-h-[600px] overflow-y-auto animate-fadeIn hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform popup-container-mobile">
             <div className="flex flex-wrap justify-center items-center p-8 border-b border-white/50">
               <h3 className="text-xl font-berling-nova text-off-white">SELECT YOUR DESTINATION</h3>
               <button
@@ -345,7 +345,7 @@ export default function Hero() {
               {properties.map((property) => (
                 <button
                   key={property.id}
-                  className="w-[400px] h-[100px] text-center px-8 py-8  border-2  rounded-lg text-off-white hover:bg-terracotta hover:text-off-white hover:scale-110 font-berling-nova text-2xl transition-colors duration-200 border-b border-transparent hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform"
+                  className="w-full sm:w-[300px] md:w-[400px] h-[80px] md:h-[100px] text-center px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8 border-2 rounded-lg text-off-white hover:bg-terracotta hover:text-off-white hover:scale-105 md:hover:scale-110 font-berling-nova text-lg sm:text-xl md:text-2xl transition-colors duration-200 border-b border-transparent hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform w-fixed-adjust"
                   onClick={() => {
                     setSelectedProperty(property.id);
 
@@ -386,8 +386,8 @@ export default function Hero() {
 
       {/* Calendar Popup */}
       {isCalendarOpen && (
-         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-start pt-[400px] transition-opacity duration-500 animate-fade-in">
-    <div className="bg-black/20 border-2 border-off-white/50 rounded-lg shadow-xl p-4 w-[600px] h-[600px] overflow-y-auto animate-fadeIn hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform">
+         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-start pt-[200px] sm:pt-[300px] md:pt-[400px] transition-opacity duration-500 animate-fade-in popup-pt-adjust">
+    <div className="bg-black/20 border-2 border-off-white/50 rounded-lg shadow-xl p-4 w-[90%] sm:w-[80%] md:w-[600px] h-auto md:h-[600px] max-h-[80vh] md:max-h-[600px] overflow-y-auto animate-fadeIn hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform popup-container-mobile">
     <div className="flex justify-center items-center p-10 mb-2 border-b border-off-white">
               <h3 className="text-xl font-berling-nova text-off-white">SELECT DATES</h3>
               <button
@@ -403,7 +403,7 @@ export default function Hero() {
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6">
                   <div>
                     <label className="block text-xl font-berling-nova text-off-white mb-2">CHECK IN</label>
                     <div className="relative">
@@ -418,7 +418,7 @@ export default function Hero() {
                         endDate={endDate}
                         minDate={new Date()}
                         placeholderText="Select check-in date"
-                        className="w-[300px] text-center h-[50px] p-1 border-2 border-white text-xl font-berling-nova focus:outline-none focus:ring-2 focus:ring-terracotta"
+                        className="w-full sm:w-[250px] md:w-[300px] text-center h-[40px] sm:h-[45px] md:h-[50px] p-1 border-2 border-white text-base sm:text-lg md:text-xl font-berling-nova focus:outline-none focus:ring-2 focus:ring-terracotta w-fixed-adjust"
                         monthsShown={1}
                         inline
                         excludeDates={blockedDates}
@@ -452,7 +452,7 @@ export default function Hero() {
                         endDate={endDate}
                         minDate={startDate ? addDays(startDate, 1) : new Date()}
                         placeholderText="Select check-out date"
-                        className="w-[300px] text-center h-[50px] p-1 border-2 border-white text-xl font-berling-nova focus:outline-none focus:ring-2 focus:ring-terracotta"
+                        className="w-full sm:w-[250px] md:w-[300px] text-center h-[40px] sm:h-[45px] md:h-[50px] p-1 border-2 border-white text-base sm:text-lg md:text-xl font-berling-nova focus:outline-none focus:ring-2 focus:ring-terracotta w-fixed-adjust"
                         monthsShown={1}
                         inline
                         excludeDates={blockedDates}
@@ -499,7 +499,7 @@ export default function Hero() {
 
               <div className="mb-0 flex flex-col items-center justify-center p-1">
               <button
-                className="w-[300px] text-center h-[50px] bg-deep-green text-white hover:scale-102 font-berling-nova py-3 hover:bg-terracotta hover:text-black transition-colors duration-300"
+                className="w-full sm:w-[250px] md:w-[300px] text-center h-[45px] md:h-[50px] bg-deep-green text-white hover:scale-102 font-berling-nova py-2 md:py-3 hover:bg-terracotta hover:text-black transition-colors duration-300 w-fixed-adjust"
                 onClick={() => {
                   // Validate dates before confirming
                   if (!validateDates()) {
@@ -543,8 +543,8 @@ export default function Hero() {
 
       {/* Adults Popup */}
       {isAdultsOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-start pt-[400px] transition-opacity duration-500 animate-fade-in">
-                <div className="bg-black border-2 border-off-white/50 rounded-lg shadow-xl p-4 w-[600px] h-[600px] overflow-y-auto animate-fadeIn hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform">
+                <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-start pt-[200px] sm:pt-[300px] md:pt-[400px] transition-opacity duration-500 animate-fade-in popup-pt-adjust">
+                <div className="bg-black border-2 border-off-white/50 rounded-lg shadow-xl p-4 w-[90%] sm:w-[80%] md:w-[600px] h-auto md:h-[600px] max-h-[80vh] md:max-h-[600px] overflow-y-auto animate-fadeIn hover:border-terracotta/20 transition-all duration-500 hover:shadow-2xl hover:bg-terracotta/5 hover:border-terracotta/20 group transform popup-container-mobile">
 
             <div className="flex justify-center items-center p-4 mb-4 border-b border-white/50">
               <h3 className="text-xl font-berling-nova text-off-white">SELECT NUMBER OF ADULTS</h3>

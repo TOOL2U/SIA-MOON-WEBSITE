@@ -4,7 +4,7 @@ import { FaArrowLeft, FaArrowRight, FaTimes } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
 import { SlArrowLeft } from "react-icons/sl";
 import { getCloudinaryUrl } from "~/utils/cloudinary";
-import CloudinaryGallery from "~/components/CloudinaryGallery"; 
+import CloudinaryGallery from "~/components/CloudinaryGallery";
 
 interface PropertyGalleryProps {
   images: string[];
@@ -53,6 +53,7 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorSide, setCursorSide] = useState<"left" | "right">("left");
   const [showCursor, setShowCursor] = useState(false);
+  const [showSwipeIndicator, setShowSwipeIndicator] = useState(true);
 
   const galleryRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<Slider>(null);
@@ -62,8 +63,8 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
     infinite: true,
     fade: true,
     autoplay: true,
-    autoplaySpeed: 700,
-    speed: 700, // Slightly faster for better user experience
+    autoplaySpeed: 2000, // Slower for better mobile experience
+    speed: 1000, // Slower for better mobile experience
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
@@ -72,6 +73,10 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
     lazyLoad: 'ondemand' as const, // Changed to ondemand for better quality
     centerMode: false, // Disable center mode to prevent zooming
     centerPadding: '0', // No padding
+    swipe: true, // Enable swipe by default
+    swipeToSlide: true, // Allow swiping to slide
+    touchMove: true, // Enable touch move
+    pauseOnHover: true, // Pause autoplay on hover
   };
 
   // Update main settings when in lightbox mode
@@ -83,6 +88,24 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
     cssEase: 'ease-out', // Simpler easing function
     draggable: true, // Allow dragging for mobile users
     swipe: true, // Enable swipe for mobile users
+    swipeToSlide: true, // Allow swiping to slide
+    touchThreshold: 10, // Make swiping more responsive (lower = more sensitive)
+    touchMove: true, // Enable touch move
+    useCSS: true, // Enable CSS transitions
+    useTransform: true, // Use CSS3 transforms
+    waitForAnimate: false, // Don't wait for animation to complete before allowing another swipe
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          swipe: true,
+          swipeToSlide: true,
+          touchMove: true,
+          touchThreshold: 5, // Even more sensitive on mobile
+          arrows: false, // Hide arrows on mobile for cleaner look
+        }
+      }
+    ]
   };
 
   // Handle mouse movement to update cursor position and side
@@ -146,6 +169,59 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
     };
   }, [lightboxOpen]);
 
+  // Handle touch events for better swipe experience
+  const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
+  const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
+
+  // Hide swipe indicator after first swipe or after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSwipeIndicator(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchStart({
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY
+    });
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchEnd({
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY
+    });
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (!sliderRef.current) return;
+
+    const horizontalDistance = touchStart.x - touchEnd.x;
+    const verticalDistance = touchStart.y - touchEnd.y;
+
+    // Only register as a swipe if the horizontal movement is greater than vertical
+    // and greater than a minimum threshold (20px)
+    if (Math.abs(horizontalDistance) > Math.abs(verticalDistance) && Math.abs(horizontalDistance) > 20) {
+      if (horizontalDistance > 0) {
+        // Swipe left, go to next slide
+        sliderRef.current.slickNext();
+      } else {
+        // Swipe right, go to previous slide
+        sliderRef.current.slickPrev();
+      }
+
+      // Hide swipe indicator after first successful swipe
+      setShowSwipeIndicator(false);
+    }
+
+    // Reset touch positions
+    setTouchStart({ x: 0, y: 0 });
+    setTouchEnd({ x: 0, y: 0 });
+  }, [touchStart, touchEnd]);
+
 
   return (
     <div className="property-gallery w-screen h-screen">
@@ -155,6 +231,15 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
         {currentSlide + 1} / {images.length}
       </div>
 
+      {/* Swipe indicator - only visible on mobile and fades out */}
+      {showSwipeIndicator && (
+        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-50 bg-white bg-opacity-50 px-4 py-2 rounded-full text-deep-green text-sm md:hidden flex items-center transition-opacity duration-500">
+          <SlArrowLeft size={16} className="mr-2" />
+          <span>Swipe</span>
+          <SlArrowRight size={16} className="ml-2" />
+        </div>
+      )}
+
       <div
         ref={galleryRef}
         className={`main-slider cursor-none relative ${lightboxOpen ? 'fixed inset-0 z-40 bg-black' : 'h-[90vh] w-full'}`}
@@ -163,6 +248,9 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         {/* Custom cursor */}
         {showCursor && (
@@ -203,7 +291,7 @@ export default function PropertyGallery({ images, propertyName }: PropertyGaller
         {/* 🖼️ Logo only on first image */}
         {index === 0 && (
           <img
-            src={alogo} 
+            src={alogo}
             alt="Logo"
             className="flex flex-col justify-center top-10 left-100 absolute w-[800px] z-50 opacity-90 hover:opacity-100 transition duration-300"
           />

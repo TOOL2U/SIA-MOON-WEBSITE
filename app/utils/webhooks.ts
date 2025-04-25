@@ -9,6 +9,7 @@ import { json } from "@remix-run/node";
 // Common webhook URL for all webhook functions
 const WEBHOOK_URL = 'https://hook.eu2.make.com/x3gt3n29eljc7eu4qgr3jdkv6xufmmd3';
 const WEBHOOK_URL2 = 'https://hook.eu2.make.com/1ekzc9dufiv9woseuf2vjxh1m3f4qegp';
+const WEBHOOK_URL3 = 'https://hook.eu2.make.com/ryxtla19ib8j71wiixi9hd32ea726k7v';
 
 /**
  * Sends contact form data to a Make.com webhook
@@ -55,7 +56,7 @@ ${contactData.message}`;
     console.log('Sending contact form data to webhook:', JSON.stringify(webhookData, null, 2));
 
     // Send the POST request to the webhook
-    const response = await fetch(WEBHOOK_URL, {
+    const response = await fetch(WEBHOOK_URL3, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
