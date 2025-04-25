@@ -1,8 +1,12 @@
 // This file provides a safe way to import icons from react-icons
 // It handles the CommonJS/ESM compatibility issues that can occur on the server
 
-// Import all FA icons in a single import statement
-import {
+// Import the whole modules and then destructure them
+import * as FaIcons from 'react-icons/fa';
+import * as SlIcons from 'react-icons/sl';
+
+// Destructure the icons we need
+const {
   FaTimes,
   FaBars,
   FaFacebook,
@@ -36,10 +40,10 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaArrowLeft
-} from 'react-icons/fa';
+} = FaIcons;
 
-// Import all SL icons in a single import statement
-import { SlArrowRight, SlArrowLeft } from 'react-icons/sl';
+// Destructure SL icons
+const { SlArrowRight, SlArrowLeft } = SlIcons;
 
 // Re-export all icons
 export {
