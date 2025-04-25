@@ -7,7 +7,7 @@
 Run the dev server:
 
 ```shellscript
-pnpm run dev
+npm run dev
 ```
 
 ## Deployment
@@ -15,13 +15,13 @@ pnpm run dev
 First, build your app for production:
 
 ```sh
-pnpm run build
+npm run build
 ```
 
 Then run the app in production mode:
 
 ```sh
-pnpm start
+npm start
 ```
 
 Now you'll need to pick a host to deploy it to.
@@ -30,7 +30,7 @@ Now you'll need to pick a host to deploy it to.
 
 If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
 
-Make sure to deploy the output of `pnpm run build`
+Make sure to deploy the output of `npm run build`
 
 - `build/server`
 - `build/client`
