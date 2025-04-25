@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { addDays, differenceInDays, format, isSameDay, isWithinInterval } from "date-fns";
-import { FaCalendarAlt, FaUsers, FaGlobe, FaCheck, FaTimes, FaCopy } from "react-icons/fa";
+import { FaCalendarAlt, FaUsers, FaGlobe, FaCheck, FaTimes, FaCopy } from "~/utils/icons";
 import { Link } from "@remix-run/react";
 import type { Property } from "~/models/property";
 import { getCountries } from "~/data/countries";

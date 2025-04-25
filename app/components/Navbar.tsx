@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "@remix-run/react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes } from "~/utils/icons";
 import clsx from "clsx";
 import CloudinaryGallery from "~/components/CloudinaryGallery";
 import { getCloudinaryUrl } from "~/utils/cloudinary";

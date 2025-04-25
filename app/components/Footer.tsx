@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import { FaFacebook, FaInstagram, FaPinterest, FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaPinterest, FaTwitter } from "~/utils/icons";
 
 export default function Footer() {
   return (

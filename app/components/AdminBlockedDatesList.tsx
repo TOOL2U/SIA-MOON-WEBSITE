@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaTrash, FaCalendarAlt } from "react-icons/fa";
+import { FaTrash, FaCalendarAlt } from "~/utils/icons";
 import { format } from "date-fns";
 import { getAllBlockedDates, removeBlockedDate } from "~/data/blockedDates";
 import type { BlockedDate } from "~/data/blockedDates";
@@ -38,7 +38,7 @@ export default function AdminBlockedDatesList({ onRefresh }: AdminBlockedDatesLi
     if (propertyFilter !== "all" && date.propertyId !== propertyFilter) {
       return false;
     }
-    
+
     // Apply type filter
     if (typeFilter === "manual" && !date.isManualBlock) {
       return false;
@@ -46,7 +46,7 @@ export default function AdminBlockedDatesList({ onRefresh }: AdminBlockedDatesLi
     if (typeFilter === "booking" && date.isManualBlock) {
       return false;
     }
-    
+
     return true;
   });
 
@@ -67,7 +67,7 @@ export default function AdminBlockedDatesList({ onRefresh }: AdminBlockedDatesLi
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-6 border-b border-gray-200">
         <h3 className="text-xl font-calluna text-deep-green mb-4">Blocked Dates</h3>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
             <label htmlFor="property-filter" className="block text-gray-700 font-medium mb-2">Filter by Property</label>
@@ -83,7 +83,7 @@ export default function AdminBlockedDatesList({ onRefresh }: AdminBlockedDatesLi
               <option value="tropical-haven">Tropical Haven</option>
             </select>
           </div>
-          
+
           <div>
             <label htmlFor="type-filter" className="block text-gray-700 font-medium mb-2">Filter by Type</label>
             <select
@@ -97,7 +97,7 @@ export default function AdminBlockedDatesList({ onRefresh }: AdminBlockedDatesLi
               <option value="booking">Booking Blocks</option>
             </select>
           </div>
-          
+
           <div className="flex items-end">
             <button
               onClick={() => {
@@ -111,7 +111,7 @@ export default function AdminBlockedDatesList({ onRefresh }: AdminBlockedDatesLi
           </div>
         </div>
       </div>
-      
+
       <div className="overflow-x-auto">
         {isLoading ? (
           <div className="flex justify-center items-center p-8">

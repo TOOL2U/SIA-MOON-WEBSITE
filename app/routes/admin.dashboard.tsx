@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
-import { FaEdit, FaTrash, FaCheck, FaTimes, FaCalendarAlt, FaUser, FaEnvelope, FaPhone, FaGlobe, FaSearch, FaPlus, FaSignOutAlt, FaBan } from "react-icons/fa";
+import { FaEdit, FaTrash, FaCheck, FaTimes, FaCalendarAlt, FaUser, FaEnvelope, FaPhone, FaGlobe, FaSearch, FaPlus, FaSignOutAlt, FaBan } from "~/utils/icons";
 import { isAdminLoggedIn, clearAdminSession } from "~/utils/auth";
 import type { Booking } from "~/data/bookings";
 import { getProperty } from "~/models/property";

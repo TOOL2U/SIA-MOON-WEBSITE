@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "@remix-run/react";
-import { FaCalendarAlt, FaUsers, FaMapMarkerAlt, FaTimes, FaExclamationTriangle } from "react-icons/fa";
+import { FaCalendarAlt, FaUsers, FaMapMarkerAlt, FaTimes, FaExclamationTriangle } from "~/utils/icons";
 import { addDays, format, isBefore, isAfter, isSameDay, eachDayOfInterval } from "date-fns";
 import { getProperties } from "~/models/property";
 import { ClientOnly } from "./ClientOnly";

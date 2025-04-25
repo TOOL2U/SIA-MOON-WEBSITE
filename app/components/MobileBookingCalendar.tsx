@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes } from "~/utils/icons";
 import { addDays, format } from "date-fns";
 import type { Property } from "~/models/property";
 import { isPropertyAvailable } from "~/data/bookings";

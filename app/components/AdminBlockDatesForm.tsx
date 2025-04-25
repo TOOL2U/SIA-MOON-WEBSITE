@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import { FaCalendarAlt, FaTimes } from "react-icons/fa";
+import { FaCalendarAlt, FaTimes } from "~/utils/icons";
 import { addDays } from "date-fns";
 import { addBlockedDate, removeBlockedDate, getAllBlockedDates } from "~/data/blockedDates";
 import { getProperties } from "~/models/property";

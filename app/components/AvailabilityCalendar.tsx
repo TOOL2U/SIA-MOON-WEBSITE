@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
-import { FaCalendarAlt, FaTimes } from "react-icons/fa";
+import { FaCalendarAlt, FaTimes } from "~/utils/icons";
 import { addMonths, eachDayOfInterval, isSameDay, format } from "date-fns";
 import { isPropertyAvailable } from "~/data/bookings";
 import { isDateRangeBlocked } from "~/data/blockedDates";
@@ -201,7 +201,7 @@ export default function AvailabilityCalendar({
                 </div>
 
                 <div>
-                  
+
                   <label className="block text-black text-xl font-calluna mb-2">Check-out Date</label>
                   <div className="relative">
                     <DatePicker

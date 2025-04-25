@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/node";
-import { FaSearch, FaTicketAlt, FaEnvelope, FaCopy } from "react-icons/fa";
+import { FaSearch, FaTicketAlt, FaEnvelope, FaCopy } from "~/utils/icons";
 import { getBookingByNumberAndEmail } from "~/data/bookings";
 import type { Booking } from "~/data/bookings";
 import { getProperty } from "~/models/property";
