@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import { FaBed, FaBath, FaRulerCombined, FaUsers } from "react-icons/fa";
+import { FaBed, FaBath, FaRulerCombined, FaUsers } from "~/utils/icons";
 import type { Property } from "~/models/property";
 
 interface PropertyCardProps {

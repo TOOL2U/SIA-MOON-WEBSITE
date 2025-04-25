@@ -308,7 +308,7 @@ export default function Hero() {
             ) : (
               <div className="relative">
                 <div
-                  className="w-full md:w-[170px] h-[60px] md:h-[90px] bg-gray-300 text-gray-600 text-lg border-2 border-gray-300 font-berling-nova uppercase text-center flex flex-col items-center justify-center cursor-not-allowed w-fixed-adjust"
+                  className="w-full md:w-[170px] h-[60px] md:h-[90px] bg-off-white text-black text-lg border-2 border-off-white font-berling-nova uppercase text-center flex flex-col items-center justify-center cursor-not-allowed w-fixed-adjust"
                   title={!selectedProperty ? "Please select a property" : !startDate || !endDate ? "Please select check-in and check-out dates" : ""}
                 >
                   <span>BOOK NOW</span>

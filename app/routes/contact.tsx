@@ -1,9 +1,9 @@
 import { useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "~/utils/icons";
 import { sendContactFormToWebhook } from "~/utils/webhooks";
 import { getCloudinaryUrl } from "~/utils/cloudinary";
-import CloudinaryGallery from "~/components/CloudinaryGallery"; 
+import CloudinaryGallery from "~/components/CloudinaryGallery";
 export const meta: MetaFunction = () => {
   return [
     { title: "Contact Us | Luxury Estates" },

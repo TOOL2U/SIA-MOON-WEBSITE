@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { getCloudinaryUrl } from "~/utils/cloudinary";
 import CloudinaryGallery from "~/components/CloudinaryGallery";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "~/utils/icons";
 import { Link } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {

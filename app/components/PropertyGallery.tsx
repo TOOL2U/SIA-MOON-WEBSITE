@@ -1,10 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import Slider from "react-slick";
-import { FaArrowLeft, FaArrowRight, FaTimes } from "react-icons/fa";
-import { SlArrowRight } from "react-icons/sl";
-import { SlArrowLeft } from "react-icons/sl";
+import { SlArrowRight, SlArrowLeft } from "~/utils/icons";
 import { getCloudinaryUrl } from "~/utils/cloudinary";
-import CloudinaryGallery from "~/components/CloudinaryGallery";
 
 interface PropertyGalleryProps {
   images: string[];

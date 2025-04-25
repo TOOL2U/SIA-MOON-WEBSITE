@@ -1,7 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { FaBed, FaBath, FaRulerCombined, FaUsers, FaMapMarkerAlt, FaMapPin, FaTimes, FaDirections, FaCalendarAlt } from "react-icons/fa";
+import { FaBed, FaBath, FaRulerCombined, FaUsers, FaMapMarkerAlt, FaMapPin, FaTimes, FaDirections, FaCalendarAlt } from "~/utils/icons";
 import { useEffect, useState } from "react";
 
 import { getProperty } from "~/models/property";

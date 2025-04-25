@@ -40,5 +40,10 @@
         }
       ]
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--experimental-modules"
+    }
+  }
 }

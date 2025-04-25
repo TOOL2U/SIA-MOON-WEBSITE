@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight } from "~/utils/icons";
 
 import Hero from "~/components/Hero";
 import PropertyCard from "~/components/PropertyCard";

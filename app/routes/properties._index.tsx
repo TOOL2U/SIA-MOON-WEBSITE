@@ -4,7 +4,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { useEffect, useRef, useState } from "react";
 import PropertyCard from "~/components/PropertyCard";
 import { getProperties } from "~/models/property";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight } from "~/utils/icons";
 import { getCloudinaryUrl } from "~/utils/cloudinary";
 import CloudinaryGallery from "~/components/CloudinaryGallery";
 import '~/styles/animations.css';

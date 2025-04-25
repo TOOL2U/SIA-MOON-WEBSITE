@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
-import { FaLock, FaUser } from "react-icons/fa";
+import { FaLock, FaUser } from "~/utils/icons";
 import { validateAdminCredentials, createAdminSession, isAdminLoggedIn } from "~/utils/auth";
 
 export const meta: MetaFunction = () => {
