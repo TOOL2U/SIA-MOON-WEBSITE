@@ -26,37 +26,24 @@ import Footer from "./components/Footer";
 import Lenis from '@studio-freight/lenis';
 
 export const links: LinksFunction = () => [
-
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://db.onlinewebfonts.com/c/d414e85093c9a428dbde5f2b4c39f187?family=Berling+Nova+Sans+W04+Regular",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://db.onlinewebfonts.com/c/21b2809e6e69b9e96ed194863cd472a5?family=Calluna",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://db.onlinewebfonts.com/c/f4ccc6647d1ac4e3f399f420fcfe93dd?family=Ela+Sans+W01+Regular",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://db.onlinewebfonts.com/c/baff705f6501235566092e28f1be0afc?family=Arioso",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css",
-  },
+  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+
+  // ✅ Favicon and App Icons
+  { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+  { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
+  { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
+  { rel: "manifest", href: "/site.webmanifest" },
+
+  // ✅ Your Fonts
+  { rel: "stylesheet", href: "https://db.onlinewebfonts.com/c/d414e85093c9a428dbde5f2b4c39f187?family=Berling+Nova+Sans+W04+Regular" },
+  { rel: "stylesheet", href: "https://db.onlinewebfonts.com/c/21b2809e6e69b9e96ed194863cd472a5?family=Calluna" },
+  { rel: "stylesheet", href: "https://db.onlinewebfonts.com/c/f4ccc6647d1ac4e3f399f420fcfe93dd?family=Ela+Sans+W01+Regular" },
+  { rel: "stylesheet", href: "https://db.onlinewebfonts.com/c/baff705f6501235566092e28f1be0afc?family=Arioso" },
+
+  // ✅ Slick Carousel
+  { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" },
+  { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
