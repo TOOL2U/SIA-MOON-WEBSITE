@@ -23,6 +23,9 @@ importers:
       '@remix-run/serve':
         specifier: ^2.4.1
         version: 2.16.5(typescript@5.8.3)
+      '@studio-freight/lenis':
+        specifier: ^1.0.42
+        version: 1.0.42
       aos:
         specifier: ^2.3.4
         version: 2.3.4
@@ -878,6 +881,10 @@ packages:
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
+
+  '@studio-freight/lenis@1.0.42':
+    resolution: {integrity: sha512-HJAGf2DeM+BTvKzHv752z6Z7zy6bA643nZM7W88Ft9tnw2GsJSp6iJ+3cekjyMIWH+cloL2U9X82dKXgdU8kPg==}
+    deprecated: 'The ''@studio-freight/lenis'' package has been renamed to ''lenis''. Please update your dependencies: npm install lenis and visit the documentation: https://www.npmjs.com/package/lenis'
 
   '@tybys/wasm-util@0.9.0':
     resolution: {integrity: sha512-6+7nlbMVX/PVDCwaIQ8nTOPveOcFLSt8GcXdx8hD0bt39uWxYT88uXzqTd4fTvqta7oeUJqudepapKNt2DYJFw==}
@@ -4652,6 +4659,8 @@ snapshots:
     optional: true
 
   '@rtsao/scc@1.1.0': {}
+
+  '@studio-freight/lenis@1.0.42': {}
 
   '@tybys/wasm-util@0.9.0':
     dependencies:
