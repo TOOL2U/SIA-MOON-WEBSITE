@@ -13,13 +13,13 @@ export const fonts = {
   elaSans: "/fonts/Ela Sans Regular.ttf",
   arioso: "/fonts/Arioso Regular.ttf"
 };
-const con1 = getCloudinaryUrl(  "9b5fe0cc-ae65-4225-b90b-a7d563e925db_2_ts54t8",);
-const con2 = getCloudinaryUrl('2f31ecd7-f736-4473-9b74-0293ed14faa6_lxs0gm');
+const con1 = getCloudinaryUrl(  "_DSF2784_1_vlxfnu",);
+const con2 = getCloudinaryUrl('DSCF2261_lnxtqk');
 const phangan = getCloudinaryUrl('best-island-in-Thailand_yknta2_c_crop_w_2650_h_1050_uag884');
-const box1 = getCloudinaryUrl('68adbec2-1e8f-41e6-b888-e0520a80bf64_2_ycca8m');
-const box2 = getCloudinaryUrl('7fa422a4-a5a2-49b5-9cde-6b1fe91c7d2e_2_ysfvar');
-const box3 = getCloudinaryUrl('e1261b8a-4301-40b2-85ca-36ab3b670059_1_zbxee1');
-const box4 = getCloudinaryUrl('174f6ab9-d902-462a-b7c1-b2513a3e3781_1_b4otgj');
+const box1 = getCloudinaryUrl('_DSF2809_zkrc5u');
+const box2 = getCloudinaryUrl('_DSF2791_kzbwuy');
+const box3 = getCloudinaryUrl('_DSF2770_ngsiug');
+const box4 = getCloudinaryUrl('DSCF2518_igv9h9');
 const plogo = getCloudinaryUrl('Parents_logo_oycq6z');
 const llogo = getCloudinaryUrl('df4fcfd7-0fc7-4ac8-bd34-5a80255ce3af_zer8c7');
 const alogo = getCloudinaryUrl('5_smrtgn');

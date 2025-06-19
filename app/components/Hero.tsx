@@ -26,7 +26,7 @@ export default function Hero() {
   });
   const imageRef = useRef<HTMLImageElement>(null);
 
-  const imageUrl = getCloudinaryUrl('8453f772-29b5-45bd-9292-f8e20501f735_ewzhvd',);
+  const imageUrl = getCloudinaryUrl('_DSF2751_howmzr',);
 
   // Booking navigation bar states
   const [selectedProperty, setSelectedProperty] = useState("");
