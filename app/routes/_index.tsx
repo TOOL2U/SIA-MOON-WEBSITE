@@ -31,7 +31,7 @@ const sialogo = getCloudinaryUrl('Logo-black-vector_n9te6g');
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Luxury Estates - Exceptional Vacation Rentals" },
+    { title: "Sia Moon Sanctuary - Exceptional Vacation Rentals" },
     { name: "description", content: "Discover our curated collection of luxury vacation rentals in the world's most coveted destinations." },
   ];
 };
@@ -143,7 +143,7 @@ export default function Index() {
       <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 py-12 sm:py-16 md:relative md:top-[-90px]">
       <img
           src={sialogo}
-          alt="Luxury Estate Alesia House"
+          alt="Alesia House"
           className="w-[120px] sm:w-[150px] md:w-[200px]"
           data-aos="fade-down"
           data-aos-delay="100"

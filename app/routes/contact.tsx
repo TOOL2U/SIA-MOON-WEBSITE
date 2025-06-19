@@ -6,7 +6,7 @@ import { getCloudinaryUrl } from "~/utils/cloudinary";
 import CloudinaryGallery from "~/components/CloudinaryGallery";
 export const meta: MetaFunction = () => {
   return [
-    { title: "Contact Us | Luxury Estates" },
+    { title: "Contact Us | Sia Moon Sanctuary" },
     { name: "description", content: "Get in touch with our team to inquire about our luxury vacation rentals or to book your next stay." },
   ];
 };

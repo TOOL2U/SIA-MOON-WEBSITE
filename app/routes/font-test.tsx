@@ -3,7 +3,7 @@ import FontTest from "~/components/FontTest";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Font Test | Luxury Estates" },
+    { title: "Font Test | Sia Moon Sanctuary" },
     { name: "description", content: "Testing the Berling Nova Sans W04 Regular font." },
   ];
 };

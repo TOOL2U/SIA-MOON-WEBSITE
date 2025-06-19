@@ -25,13 +25,13 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data || !data.property) {
     return [
-      { title: "Property Not Found | Luxury Estates" },
+      { title: "Property Not Found | Sia Moon Sanctuary" },
       { name: "description", content: "The requested property could not be found." },
     ];
   }
 
   return [
-    { title: `${data.property.name} | Luxury Estates` },
+    { title: `${data.property.name} | Sia Moon Sanctuary` },
     { name: "description", content: data.property.shortDescription },
   ];
 };

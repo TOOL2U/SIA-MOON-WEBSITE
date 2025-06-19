@@ -1,4 +1,3 @@
-
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
@@ -218,7 +217,7 @@ If you have any questions or need to make changes to your reservation, please co
 
 We look forward to welcoming you!
 
-Sia Moon Luxury Estates Team`;
+Sia Moon Sanctuary Team`;
 
     // Create the webhook data object for customer confirmation
     const webhookData = {

@@ -72,7 +72,7 @@ export default function Navbar() {
           <Link to="/" className="flex items-center">
             <img
               src={logo}
-              alt="Luxury Estates Logo"
+              alt="Sia Moon Sanctuary Logo"
               className={`absolute top-[-1.5rem] sm:top-[-1rem] md:top-[-3rem] left-4 sm:left-[2rem] md:left-[5rem] w-[8rem] sm:w-[10rem] md:w-[12rem] h-auto object-contain z-50 transition-opacity duration-3000 ease-in ${loaded ? 'opacity-100' : 'opacity-0'}`}
             />
           </Link>

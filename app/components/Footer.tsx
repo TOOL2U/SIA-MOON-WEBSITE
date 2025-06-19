@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start">
             <img
               src="https://i.imgur.com/ElKTTQt.png"
-              alt="Luxury Estates Logo"
+              alt="Sia Moon Sanctuary Logo"
               className="h-24 sm:h-28 md:h-32 w-32 sm:w-36 md:w-40 invert mb-6 sm:mb-8 md:mb-10"
             />
             <p className="text-sm max-w-xs text-center md:text-left">

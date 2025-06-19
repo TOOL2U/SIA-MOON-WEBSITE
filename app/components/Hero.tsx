@@ -171,7 +171,7 @@ export default function Hero() {
   }, [isDestinationOpen, isCalendarOpen, isAdultsOpen]);
 
   return (
-    <div className="relative h-screen w-full flex justify-center overflow-hidden hero-image-container" style={{ marginTop: 0, marginBottom: 0 }}>
+    <div className="relative h-screen w-full flex justify-center overflow-hidden " style={{ marginTop: 0, marginBottom: 0 }}>
       {/* Background mask removed to allow for clean fade-in */}
       <div
         className={`absolute inset-0 bg-deep-green z-10 transition-opacity duration-[2000ms] ${
@@ -180,13 +180,13 @@ export default function Hero() {
       />
 
       {/* Main hero image with slow fade-in */}
-      <div className="flex items-center justify-center w-[2500px] md:w-full h-max-screen hero-image">
+      <div className="flex items-center justify-center w-[2500px] object-contain  ">
         <img
           ref={imageRef}
           src={imageUrl}
           alt="Hero background"
           loading="lazy"
-          className={`w-full h-full object-scale-down transition-opacity mt-0 duration-[5000ms] ease-in ${
+          className={`w-full h-full object-cover transition-opacity mt-0 duration-[5000ms] ease-in opacity-90 ${
             animationState.imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
         />

@@ -16,7 +16,7 @@ export const loader = async () => {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Our Properties | Luxury Estates" },
+    { title: "Our Properties | Sia Moon Sanctuary" },
     { name: "description", content: "Browse our collection of luxury vacation rentals in the world's most coveted destinations." },
   ];
 };
