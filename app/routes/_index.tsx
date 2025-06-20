@@ -214,7 +214,7 @@ export default function Index() {
               From private chefs and spa treatments to exclusive excursions and personal guides, we transform ordinary vacations into extraordinary journeys.
             </p>
             {/* Buttons container with flex column on mobile, row on larger screens */}
-            <div className="flex flex-col sm:flex-row gap-4"
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                 data-aos="top-bottom"
                 data-aos-delay="800"
                 data-aos-anchor-placement="left-right">
@@ -297,7 +297,7 @@ export default function Index() {
               From private chefs and spa treatments to exclusive excursions and personal guides, we transform ordinary vacations into extraordinary journeys.
             </p>
             {/* Buttons container with flex column on mobile, row on larger screens */}
-            <div className="flex flex-col sm:flex-row gap-4"
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                 data-aos="top-bottom"
                 data-aos-delay="800"
                 data-aos-anchor-placement="left-right">
